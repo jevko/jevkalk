@@ -16,8 +16,6 @@ export const interpretSubjevko = ({prefix, jevko}, context) => {
     else throw Error(`Unknown operator: ${operator}`)
   }
 
-  // if (context.has(operator) === false) throw Error(`Unknown operator: ${operator}`)
-
   const operation = ctx.get(operator)
 
   return operation(jevko, context)
@@ -59,6 +57,8 @@ const topContext = new Map([
   ['fun', (jevko, defineContext) => {
     const {subjevkos, suffix} = jevko
     // assert suffix empty or treat as extra [subjevko]
+
+    if (subjevkos.length < 2) throw Error('params and body required')
 
     const params = subjevkos[0]
     if (params.prefix.trim() !== '') throw Error('params prefix nonempty')
