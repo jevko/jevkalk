@@ -69,12 +69,8 @@ const topContext = new Map([
       const {jevko} = params
       const {subjevkos, suffix} = jevko
       // assert suffix empty or [sub]
-      for (const {prefix, jevko} of subjevkos) {
-        // todo: use interpretName here
-        if (prefix.trim() !== '') throw Error('(1) for now only simple params allowed')
-        if (jevko.subjevkos.length > 0) throw Error('(2) for now only simple params allowed')
-        const name = jevko.suffix.trim()
-        if (name === '') throw Error('name cannot be empty')
+      for (const subjevko of subjevkos) {
+        const name = interpretName(subjevko)
         if (names.includes(name)) throw Error('duplicate param name')
         names.push(name)
       }
