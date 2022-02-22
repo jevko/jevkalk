@@ -8,9 +8,15 @@ export const interpret = (jevko, context = topContext) => {
 export const interpretSubjevko = ({prefix, jevko}, context) => {
   const operator = prefix.trim()
 
-  if (context.has(operator) === false) throw Error(`Unknown operator: ${operator}`)
+  let ctx = context
 
-  const operation = context.get(operator)
+  while (true) {
+    if (ctx.has(operator)) break
+    if (ctx.has(parentSym)) ctx = context.get(parentSym)
+    else throw Error(`Unknown operator: ${operator}`)
+  }
+
+  const operation = ctx.get(operator)
 
   return operation(jevko, context)
 }
@@ -25,6 +31,19 @@ const interpretName = (subjevko) => {
   return name
 }
 
+const _let = (jevko, context) => {
+  const {subjevkos, suffix} = jevko
+  if (suffix.trim() !== '') throw Error(`Unexpected suffix: ${suffix}`)
+  if (subjevkos.length !== 2) throw Error(`Expected 2, got ${subjevkos.length}`)
+  const [nameSub, valueSub] = subjevkos
+  const name = interpretName(nameSub, context)
+  const value = interpretSubjevko(valueSub, context)
+  if (context.has(name)) throw Error(`Name ${name} already defined!`)
+  context.set(name, value)
+  return value
+}
+
+const parentSym = Symbol.for('parent')
 const topContext = new Map([
   ['', (jevko, context) => {
     const {suffix} = jevko
@@ -34,16 +53,42 @@ const topContext = new Map([
     if (context.has(name)) return context.get(name)
     throw Error(`unknown name: ${name}`)
   }],
-  ['let', (jevko, context) => {
+  ['let', _let],
+  ['fun', (jevko, defineContext) => {
     const {subjevkos, suffix} = jevko
-    if (suffix.trim() !== '') throw Error(`Unexpected suffix: ${suffix}`)
-    if (subjevkos.length !== 2) throw Error(`Expected 2, got ${subjevkos.length}`)
-    const [nameSub, valueSub] = subjevkos
-    const name = interpretName(nameSub, context)
-    const value = interpretSubjevko(valueSub, context)
-    if (context.has(name)) throw Error(`Name ${name} already defined!`)
-    context.set(name, value)
-    return value
+    // assert suffix empty or treat as extra [subjevko]
+
+    if (subjevkos.length < 2) throw Error('params and body required')
+
+    const params = subjevkos[0]
+    if (params.prefix.trim() !== '') throw Error('params prefix nonempty')
+
+    // todo: only support named params, no positional?
+    const names = []
+    {
+      const {jevko} = params
+      const {subjevkos, suffix} = jevko
+      // assert suffix empty or [sub]
+      for (const subjevko of subjevkos) {
+        const name = interpretName(subjevko)
+        if (names.includes(name)) throw Error('duplicate param name')
+        names.push(name)
+      }
+    }
+
+    const body = {subjevkos: subjevkos.slice(1), suffix: ''}
+
+    return (jevko, callContext) => {
+      const localContext = new Map([[parentSym, defineContext]])
+
+      const values = interpret(jevko, callContext)
+      if (values.length !== names.length) throw Error('arity error')
+      for (let i = 0; i < names.length; ++i) {
+        localContext.set(names[i], values[i])
+      }
+
+      return interpret(body, localContext).at(-1)
+    }
   }],
   ['?', (jevko, context) => {
     const {subjevkos, suffix} = jevko
