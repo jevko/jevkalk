@@ -2,48 +2,25 @@ import { interpret } from "./interpret.js";
 import {parseJevko} from 'https://cdn.jsdelivr.net/gh/jevko/parsejevko.js@0.1.3/mod.js'
 
 console.log(interpret(parseJevko(`
-let [
-  [a]
-  [10]
+let [[a][10]]
+fun: [incr [n]
+  +[[n][1]]
 ]
-let [
-  [incr]
-  fun [
-    [[n]]
-    +[[n][1]]
+fun: [fact [n]
+  ? [
+    < [[n][2]] [1]
+    * [[n] fact[-[[n][1]]]]
   ]
 ]
-let [
-  [fact]
-  fun [
-    [[n]]
-    ? [
-      < [
-        [n]
-        [2]
+fun: [fib [n]
+  ? [
+    < [[n][3]] [1]
+    + [
+      fib [
+        - [[n][1]]
       ]
-      [1]
-      * [[n] fact[-[[n][1]]]]
-    ]
-  ]
-]
-let [
-  [fib]
-  fun [
-    [[n]]
-    ? [
-      < [
-        [n]
-        [3]
-      ]
-      [1]
-      + [
-        fib [
-          - [[n][1]]
-        ]
-        fib [
-          - [[n][2]]
-        ]
+      fib [
+        - [[n][2]]
       ]
     ]
   ]
@@ -76,6 +53,6 @@ incr [
     [3]
   ]
 ]
-fact [[9]]
-fib [[9]]
+fact [9]
+fib [9]
 `)))

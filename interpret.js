@@ -1,5 +1,11 @@
 export const interpret = (jevko, context = topContext) => {
   const {subjevkos, suffix} = jevko
+
+  // sugar for 1-arg fns
+  if (subjevkos.length === 0) {
+    return [_(jevko, context)]
+  }
+
   if (suffix.trim() !== '') throw Error(`Unexpected suffix: ${suffix}`)
 
   return subjevkos.map(s => interpretSubjevko(s, context))
@@ -26,6 +32,10 @@ const interpretName = (subjevko) => {
   if (prefix.trim() !== '') throw Error('name prefix')
   const {subjevkos, suffix} = jevko
   if (subjevkos.length > 0) throw Error('complex name')
+  return suffixToNonEmptyName(suffix)
+}
+
+const suffixToNonEmptyName = (suffix) => {
   const name = suffix.trim()
   if (name === '') throw Error('empty name')
   return name
@@ -43,17 +53,42 @@ const _let = (jevko, context) => {
   return value
 }
 
+const _ = (jevko, context) => {
+  const {suffix} = jevko
+  const num = +suffix
+  if (Number.isNaN(num) === false) return num
+  const name = suffix.trim()
+  if (context.has(name)) return context.get(name)
+  throw Error(`unknown name: ${name}`)
+}
+
 const parentSym = Symbol.for('parent')
 const topContext = new Map([
-  ['', (jevko, context) => {
-    const {suffix} = jevko
-    const num = +suffix
-    if (Number.isNaN(num) === false) return num
-    const name = suffix.trim()
-    if (context.has(name)) return context.get(name)
-    throw Error(`unknown name: ${name}`)
-  }],
+  ['', _],
   ['let', _let],
+  ['fun:', (jevko, context) => {
+    const {subjevkos, suffix} = jevko
+    console.assert(suffix.trim() === '', 'suffix must be empty')
+    console.assert(subjevkos.length >= 2, 'params and body required')
+    {
+      const {prefix, jevko} = subjevkos[0]
+
+      const namej = {subjevkos: [], suffix: prefix}
+
+      const firstsub = {prefix: '', jevko}
+
+      const nsubjevkos = [firstsub, ...subjevkos.slice(1)]
+
+      const wrapj = {suffix: '', subjevkos: [
+        {prefix: '', jevko: namej},
+        {prefix: 'fun', jevko: {
+          suffix: '', subjevkos: nsubjevkos,
+        }}
+      ]}
+
+      return _let(wrapj, context)
+    }
+  }],
   ['fun', (jevko, defineContext) => {
     const {subjevkos, suffix} = jevko
     // assert suffix empty or treat as extra [subjevko]
@@ -68,11 +103,17 @@ const topContext = new Map([
     {
       const {jevko} = params
       const {subjevkos, suffix} = jevko
-      // assert suffix empty or [sub]
-      for (const subjevko of subjevkos) {
-        const name = interpretName(subjevko)
-        if (names.includes(name)) throw Error('duplicate param name')
-        names.push(name)
+
+      // sugar for 1-arg functions
+      if (subjevkos.length === 0) {
+        names.push(suffixToNonEmptyName(suffix))
+      } else {
+        // assert suffix empty or [sub]
+        for (const subjevko of subjevkos) {
+          const name = interpretName(subjevko)
+          if (names.includes(name)) throw Error('duplicate param name')
+          names.push(name)
+        }
       }
     }
 
