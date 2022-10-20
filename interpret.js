@@ -14,6 +14,30 @@ export const interpret = (jevko, context = topContext) => {
 export const interpretSubjevko = ({prefix, jevko}, context) => {
   const operator = prefix.trim()
 
+  const [name, ...rest] = operator.split(':')
+
+  if (rest.length === 0) return interpretOperation(name, jevko, context)
+
+  if (rest.length === 1) return interpretDefinition(name, rest[0].trim(), jevko, context)
+  
+  
+  throw Error('Unable to interpret subjevko')
+}
+
+const interpretDefinition = (name, type, jevko, context) => {
+  if (name === '') throw Error('empty name')
+  const letJevko = {
+    subjevkos: [
+      {prefix: '', jevko: {suffix: name, subjevkos: []}},
+      {prefix: type, jevko}
+    ],
+    suffix: ''
+  }
+
+  return _let(letJevko, context)
+}
+
+const interpretOperation = (operator, jevko, context) => {
   let ctx = context
 
   while (true) {
@@ -58,6 +82,7 @@ const _ = (jevko, context) => {
   const num = +suffix
   if (Number.isNaN(num) === false) return num
   const name = suffix.trim()
+  // todo: go up the context chain
   if (context.has(name)) return context.get(name)
   throw Error(`unknown name: ${name}`)
 }
@@ -66,29 +91,6 @@ const parentSym = Symbol.for('parent')
 const topContext = new Map([
   ['', _],
   ['let', _let],
-  ['fun:', (jevko, context) => {
-    const {subjevkos, suffix} = jevko
-    console.assert(suffix.trim() === '', 'suffix must be empty')
-    console.assert(subjevkos.length >= 2, 'params and body required')
-    {
-      const {prefix, jevko} = subjevkos[0]
-
-      const namej = {subjevkos: [], suffix: prefix}
-
-      const firstsub = {prefix: '', jevko}
-
-      const nsubjevkos = [firstsub, ...subjevkos.slice(1)]
-
-      const wrapj = {suffix: '', subjevkos: [
-        {prefix: '', jevko: namej},
-        {prefix: 'fun', jevko: {
-          suffix: '', subjevkos: nsubjevkos,
-        }}
-      ]}
-
-      return _let(wrapj, context)
-    }
-  }],
   ['fun', (jevko, defineContext) => {
     const {subjevkos, suffix} = jevko
     // assert suffix empty or treat as extra [subjevko]

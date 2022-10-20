@@ -10,6 +10,6 @@ Features:
 
 * Extremely minimal
 * [Jevko](https://jevko.org)-based syntax, i.e. you program by writing jevkos
-* Jevko is the one and only native data type
+* Jevko is a native data type
 * Evaluation order depends on the operation
 * Native identifiers with spaces!
