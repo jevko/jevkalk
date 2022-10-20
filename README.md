@@ -13,3 +13,27 @@ Features:
 * Jevko is a native data type
 * Evaluation order depends on the operation
 * Native identifiers with spaces!
+
+# Example
+
+The following program:
+* defines `fib` to be a one-argument function which computes the `n`-th Fibonacci number,
+* computes the 10th Fibonacci number using `fib`
+
+```clj
+fib: fun [[n]
+  ? [
+    < [[n][3]] [1]
+    + [
+      fib [
+        - [[n][1]]
+      ]
+      fib [
+        - [[n][2]]
+      ]
+    ]
+  ]
+]
+
+fib [10]
+```
