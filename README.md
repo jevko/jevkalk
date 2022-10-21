@@ -22,6 +22,8 @@ It is made for fun and to inspire other designers.
 
 # Examples
 
+To better understand the examples, see [Explanation of syntax](#explanation-of-syntax) and [Operators](#operators).
+
 ## Fibonacci sequence
 
 The following program:
@@ -90,6 +92,42 @@ from [SICP 3.5.1](https://mitp-content-server.mit.edu/books/content/sectbyfn/boo
 
 Here `sum primes` and `enumerate interval` are two double-word identifiers.
 
+# Explanation of syntax
+
+An application of a procedure or a special form looks like this:
+
+```
+operator [...operands]
+```
+
+Where each operand has the same shape.
+
+For example:
+
+```
+factorial [1]
+```
+
+Would apply `factorial` to `1`.
+
+`operator` can be empty:
+
+```
+[5]
+```
+
+The [empty operator](#empty-operator) simply returns the value of its argument. In this case it's the number `5`.
+
+Whether operands are evaluated at all, depends on the operator. For example:
+
+```
++ [[a][b]]
+```
+
+Here we have the operator `+` called on 2 operands. `+` happens to evaluate its operands. In this case the operands are `[a]` and `[b]`. Both of these have empty operators. The empty operator called on an identifier returns the value assigned to that identifier. So if `a` and `b` were defined to be `1` and `2`, these values will be returned.
+
+After evaluating its operands, `+` adds them together and returns the result. Which in this example would be `3`.
+
 # Caveats
 
 ## Calling functions returned from functions
@@ -121,3 +159,33 @@ ap [make adder[][[1][2]]]
 ```
 
 i.e. the syntax is as above, but wrapped in `ap` to make it explicit what's going on as well as simple to implement (see [Goals](#goals)).
+
+# Operators
+
+## The empty operator
+
+The empty operator evaluates its argument and returns the result.
+
+The rules it uses for evaluation are as follows.
+
+1. Whatever looks like a number evaluates to a number. E.g.:
+
+```
+[1]
+```
+
+evaluates to the number `1`.
+
+2. Anything else is treated as an identifier. An identifier is evaluated by looking up its value in the current context and returning it. E.g. suppose we have defined `a` to be:
+
+```
+a: [5]
+```
+
+then evaluating:
+
+```
+[a]
+```
+
+will return `5`.
