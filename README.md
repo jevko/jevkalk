@@ -12,7 +12,7 @@ It is made for fun and to inspire other designers.
 * [Jevko](https://jevko.org)-based syntax, i.e. you program by writing jevkos
 * Jevko is a native data type
 * Evaluation order depends on the operation
-* Native identifiers with spaces!
+* [Native identifiers with spaces!](#native-identifiers-with-spaces)
 
 # Goals
 
