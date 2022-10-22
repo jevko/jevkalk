@@ -17,7 +17,7 @@ for [
   < [[i][10]]
   set! [[i] +[[i][1]]]
 
-  let [
+  bind [
     [fn] pop! [j]
   ]
 

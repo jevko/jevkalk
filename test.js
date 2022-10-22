@@ -2,7 +2,7 @@ import { interpret } from "./interpret.js";
 import {parseJevko} from 'https://cdn.jsdelivr.net/gh/jevko/parsejevko.js@0.1.3/mod.js'
 
 console.assert(interpret(parseJevko(`
-let [
+bind [
   [a] [10]
   [incr] fun [[n]
     + [[n][1]]

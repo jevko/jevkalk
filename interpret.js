@@ -64,7 +64,7 @@ const suffixToNonEmptyName = (suffix) => {
   return name
 }
 
-const _let = (jevko, context, type = 'let') => {
+const _let = (jevko, context, type = 'bind') => {
   const {subjevkos, suffix} = jevko
   if (suffix.trim() !== '') throw Error(`Unexpected suffix: ${suffix}`)
   
@@ -159,7 +159,7 @@ const topContext = new Map([
   ['true', true],
   ['false', false],
   ['', _],
-  ['let', _let],
+  ['bind', _let],
   ['plop', plop],
   ['set!', set],
   ['fun', (jevko, defineContext) => {

@@ -26,7 +26,7 @@ spouse []
 `.replace(/(\[|\]|`)/g, '`$1')
 
 const code = `
-let [
+bind [
   [escaper] '[\`\`]
   [opener] '[\`[]
   [closer] '[\`]]
@@ -48,7 +48,7 @@ let [
       < [[i] str length [str]] 
       set! [[i] +[[i][1]]]
 
-      let [
+      bind [
         [c] char at [[str][i]]
       ]
 
