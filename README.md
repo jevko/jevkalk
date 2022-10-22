@@ -31,7 +31,7 @@ The following program:
 * computes the 10th Fibonacci number using `fib`
 
 ```clj
-let [
+bind [
   [fib] fun [[n]
     ? [
       < [[n][2]] [n]
@@ -55,7 +55,7 @@ fib [10]
 The following:
 
 ```
-let [[sum primes] fun [[[a][b]]
+bind [[sum primes] fun [[[a][b]]
   accumulate [
     [+]
     [0]
