@@ -31,15 +31,17 @@ The following program:
 * computes the 10th Fibonacci number using `fib`
 
 ```clj
-fib: fun [[n]
-  ? [
-    < [[n][2]] [n]
-    + [
-      fib [
-        - [[n][1]]
-      ]
-      fib [
-        - [[n][2]]
+let [
+  [fib] fun [[n]
+    ? [
+      < [[n][2]] [n]
+      + [
+        fib [
+          - [[n][1]]
+        ]
+        fib [
+          - [[n][2]]
+        ]
       ]
     ]
   ]
@@ -48,26 +50,12 @@ fib: fun [[n]
 fib [10]
 ```
 
-Note:
-
-```clj
-fib: fun [...]
-```
-
-is syntax sugar for:
-
-```
-let [[fib] fun [...]]
-```
-
-For now.
-
 ## Native identifiers with spaces
 
 The following:
 
 ```
-sum primes: fun [[[a][b]]
+let [[sum primes] fun [[[a][b]]
   accumulate [
     [+]
     [0]
@@ -76,7 +64,7 @@ sum primes: fun [[[a][b]]
       enumerate interval [[a][b]]
     ]
   ]
-]
+]]
 ```
 
 is a translation of this Scheme fragment:
