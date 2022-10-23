@@ -120,7 +120,8 @@ const _ = (jevko, context) => {
 
   const name = suffix.trim()
 
-  if (name === '') return suffix
+  // todo: hm
+  if (name === '') return ''
 
   const num = +name
   if (Number.isNaN(num) === false) return num
@@ -162,6 +163,20 @@ const topContext = new Map([
   ['bind', _let],
   ['plop', plop],
   ['set!', set],
+  ['ap', (jevko, context) => {
+    const {subjevkos, suffix} = jevko
+
+    console.assert(suffix.trim() === '', 'expected empty suffix')
+
+    console.assert(subjevkos.length > 0, 'expected at least one subjevko')
+
+    let fn = interpretSubjevko(subjevkos[0], context)
+    for (const {prefix, jevko} of subjevkos.slice(1)) {
+      console.assert(prefix.trim() === '', 'ap expected empty prefix')
+      fn = fn(jevko, context)
+    }
+    return fn
+  }],
   ['fun', (jevko, defineContext) => {
     const {subjevkos, suffix} = jevko
     // assert suffix empty or treat as extra [subjevko]
@@ -177,9 +192,10 @@ const topContext = new Map([
       const {jevko} = params
       const {subjevkos, suffix} = jevko
 
-      // sugar for 1-arg functions
+      // sugar for 0 and 1-arg functions
       if (subjevkos.length === 0) {
-        names.push(suffixToNonEmptyName(suffix))
+        const name = suffix.trim()
+        if (name !== '') names.push(name)
       } else {
         // assert suffix empty or [sub]
         for (const subjevko of subjevkos) {
@@ -195,10 +211,22 @@ const topContext = new Map([
     return (jevko, callContext) => {
       const localContext = makeContext(defineContext)
 
-      const values = interpretToArray(jevko, callContext)
-      if (values.length !== names.length) throw Error('arity error')
-      for (let i = 0; i < names.length; ++i) {
-        localContext.set(names[i], values[i])
+      const {subjevkos, suffix} = jevko
+      const {length} = subjevkos
+      if (names.length === 0) {
+        if (length > 0 || suffix.trim() !== '') throw Error(`expected no arguments, got ${length}`)
+      } else {
+        if (names.length === 1) {
+          if (length === 0 && suffix.trim() === '') throw Error(`expected 1 argument arguments, got 0`)
+        }
+
+        const values = interpretToArray(jevko, callContext)
+        
+        if (values.length !== names.length) throw Error('arity error')
+
+        for (let i = 0; i < names.length; ++i) {
+          localContext.set(names[i], values[i])
+        }
       }
 
       return interpretToArray(body, localContext).at(-1)

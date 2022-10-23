@@ -10,18 +10,14 @@ for [
   < [[i][10]]
   set! [[i] +[[i][1]]]
 
-  push! [[j] fun [[_] log [i]]]
+  push! [[j] fun [[] log [i]]]
 ]
 for [
   plop [[i][0]]
   < [[i][10]]
   set! [[i] +[[i][1]]]
 
-  bind [
-    [fn] pop! [j]
-  ]
-
-  fn[]
+  ap [pop! [j][]]
 ]
 `
 
