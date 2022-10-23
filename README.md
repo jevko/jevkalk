@@ -1,5 +1,7 @@
 # Jevkalk
 
+![a little hedgehog in his natural habitat](top.jpg)
+
 An experimental interpreter for a crazy little language called Jevkalk.
 
 The language is similar in spirit to Lisps in that the written syntax mirrors abstract syntax, providing homoiconicity, and it is very minimal and flexible. Otherwise Jevkalk is peculiar and not compatible in any way with any Lisp or other language. It's an experiment to test some exciting (to me) programming language design ideas.

@@ -84,6 +84,7 @@ const _let = (jevko, context, type = 'bind') => {
     if (type === 'set!') {
       setHelp(context, name, value)
     } else {
+      // todo: perhaps refuse to shadow things in topContext: check is topContext.has(name) OR have a list of unshadowable identifiers
       // note: this will shadow same name in parent contexts
       if (context.has(name)) throw Error(`Name ${name} already defined!`)
       context.set(name, value)
@@ -113,7 +114,7 @@ const set = (jevko, context) => {
   return _let(jevko, context, 'set!')
 }
 
-// note: true, false, etc. could be built into here
+// note: true, false, etc. could be built into here OR refuse to shadow topContext
 // note2: for subjevkos.length > 0 this could behave like interpretToArray (i.e. perhaps integrate the two)
 const _ = (jevko, context) => {
   const {suffix, subjevkos} = jevko
