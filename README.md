@@ -167,7 +167,7 @@ evaluates to the number `1`.
 2. Anything else is treated as an identifier. An identifier is evaluated by looking up its value in the current context and returning it. E.g. suppose we have defined `a` to be:
 
 ```
-a: [5]
+bind [[a] [5]]
 ```
 
 then evaluating:
