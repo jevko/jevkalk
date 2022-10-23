@@ -140,7 +140,7 @@ make adder[][[1][2]]
 
 However implementing this is unnecessarily complicated and it may seem a bit confusing to use.
 
-Therefore it shall be implemented like this instead^[`ap` is a placeholder name, actual name TBD]:
+Therefore it is implemented like this instead (`ap` stands for `apply partial`):
 
 ```
 ap [make adder[][[1][2]]]
