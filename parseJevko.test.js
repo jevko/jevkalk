@@ -1,7 +1,7 @@
 import { interpret } from "./interpret.js";
-import {parseJevko} from 'https://cdn.jsdelivr.net/gh/jevko/parsejevko.js@0.1.3/mod.js'
+import {assertEquals, parseJevko} from './devDeps.js'
 
-const j = `first name [John]
+const i = `first name [John]
 last name [Smith]
 is alive [true]
 age [27]
@@ -23,7 +23,9 @@ phone numbers [
 ]
 children []
 spouse []
-`.replace(/(\[|\]|`)/g, '`$1')
+`
+
+const j = i.replace(/(\[|\]|`)/g, '`$1')
 
 const code = `
 bind [
@@ -33,8 +35,8 @@ bind [
 
   [parse jevko] fun [[str]
     plop [
-      [parents] ;[]
-      [parent] ;[]
+      [parents] li []
+      [parent] je []
       [prefix] '[]
       [h] [0]
       [escaped?] [false]
@@ -72,15 +74,15 @@ bind [
           ]
         ]
         =[[c][opener]] do [
-          plop [[jevko] ;[]]
-          push! [[parent]
+          plop [[jevko] je []]
+          je push! [[parent]
             str concat [
               [prefix]
               str slice [[str][h][i]]
             ]
             [jevko]
           ]
-          push! [[parents][parent]]
+          li push! [[parents][parent]]
           set! [
             [prefix] '[]
             [h] +[[i][1]]
@@ -88,7 +90,7 @@ bind [
           ]
         ]
         =[[c][closer]] do [
-          suffix! [
+          je suffix! [
             [parent]
             str concat [
               [prefix] 
@@ -100,9 +102,9 @@ bind [
             [h] +[[i][1]]
           ]
           ? [
-            < [length [parents] [1]] error[2]
+            < [li length [parents] [1]] error[2]
           ]
-          set! [[parent] pop! [parents]]
+          set! [[parent] li pop! [parents]]
         ]
       ]
 
@@ -119,13 +121,13 @@ bind [
 
     ? [
       [escaped?] error[3]
-      >[length [parents] [0]] do [
-        log [length [parents]]
+      >[li length [parents] [0]] do [
+        log [li length [parents]]
         error[4]
       ]
     ]
 
-    suffix! [
+    je suffix! [
       [parent] 
       str concat [
         [prefix] 
@@ -140,6 +142,13 @@ bind [
 parse jevko ['[${j}]]
 `
 
-const ret = interpret(parseJevko(code))
-console.log(ret, ret.subjevkos[4])
-console.log(JSON.stringify(ret, null, 2))
+Deno.test('parseJevko', () => {
+  const actual = interpret(parseJevko(code))
+  
+  const expected = parseJevko(i)
+  delete expected.opener
+  delete expected.closer
+  delete expected.escaper
+
+  assertEquals(actual, expected)
+})

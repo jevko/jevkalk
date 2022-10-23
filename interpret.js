@@ -113,6 +113,8 @@ const set = (jevko, context) => {
   return _let(jevko, context, 'set!')
 }
 
+// note: true, false, etc. could be built into here
+// note2: for subjevkos.length > 0 this could behave like interpretToArray (i.e. perhaps integrate the two)
 const _ = (jevko, context) => {
   const {suffix, subjevkos} = jevko
 
@@ -121,7 +123,9 @@ const _ = (jevko, context) => {
   const name = suffix.trim()
 
   // todo: hm
-  if (name === '') return ''
+  // perhaps return emptiness?
+  if (name === '') throw Error(`Can
+  t evaluate an empty name!`)
 
   const num = +name
   if (Number.isNaN(num) === false) return num
@@ -217,7 +221,7 @@ const topContext = new Map([
         if (length > 0 || suffix.trim() !== '') throw Error(`expected no arguments, got ${length}`)
       } else {
         if (names.length === 1) {
-          if (length === 0 && suffix.trim() === '') throw Error(`expected 1 argument arguments, got 0`)
+          if (length === 0 && suffix.trim() === '') throw Error(`expected 1 argument, got 0`)
         }
 
         const values = interpretToArray(jevko, callContext)
@@ -299,7 +303,7 @@ const topContext = new Map([
 
     return str.length
   }],
-  ['length', (jevko, context) => {
+  ['je length', (jevko, context) => {
     const {subjevkos, suffix} = jevko
     
     let j
@@ -321,7 +325,7 @@ const topContext = new Map([
 
     return ''
   }],
-  ['suffix!', (jevko, context) => {
+  ['je suffix!', (jevko, context) => {
     const {subjevkos, suffix} = jevko
 
     if (subjevkos.length !== 2) throw Error(`Expected 2 subjevkos, got ${subjevkos.length}`)
@@ -355,7 +359,7 @@ const topContext = new Map([
     
     return value
   }],
-  ['push!', (jevko, context) => {
+  ['je push!', (jevko, context) => {
     const {subjevkos, suffix} = jevko
 
     const {length} = subjevkos
@@ -396,7 +400,7 @@ const topContext = new Map([
     // todo: maybe return sth else
     return ''
   }],
-  ['pop!', (jevko, context) => {
+  ['je pop!', (jevko, context) => {
     const {subjevkos, suffix} = jevko
 
     const {length} = subjevkos
@@ -437,8 +441,58 @@ const topContext = new Map([
   }],
   // todo: elaborate
   // right now this creates an empty jevko
-  [';', (jevko, context) => {
+  ['je', (jevko, context) => {
     return {subjevkos: [], suffix: ''}
+  }],
+  // todo: elaborate
+  // right now this creates an empty list
+  ['li', (jevko, context) => {
+    return []
+  }],
+  ['li length', (jevko, context) => {
+    const {subjevkos, suffix} = jevko
+    
+    let arr
+    if (subjevkos.length === 0) {
+      arr = _(jevko, context)
+    } else {
+      console.assert(suffix.trim() === '', 'expected empty suffix')
+      console.assert(subjevkos.length === 1, 'expected 1 subjevko')
+  
+      arr = interpretToArray(jevko, context)
+    }
+
+    console.assert(Array.isArray(arr), 'list pop! expected a list')
+
+    return arr.length
+  }],
+  ['li push!', (jevko, context) => {
+    const {subjevkos, suffix} = jevko
+    console.assert(suffix.trim() === '', 'expected empty suffix')
+    console.assert(subjevkos.length === 2, 'expected 2 subjevkos')
+
+    const [arr, val] = interpretToArray(jevko, context)
+
+    console.assert(Array.isArray(arr), 'list push! expected a list')
+
+    return arr.push(val)
+  }],
+  ['li pop!', (jevko, context) => {
+    const {subjevkos, suffix} = jevko
+    
+    let arr
+    if (subjevkos.length === 0) {
+      arr = _(jevko, context)
+    } else {
+      console.assert(suffix.trim() === '', 'expected empty suffix')
+      console.assert(subjevkos.length === 1, 'expected 1 subjevko')
+  
+      arr = interpretToArray(jevko, context)
+    }
+
+    console.assert(Array.isArray(arr), 'list pop! expected a list')
+
+    return arr.pop()
   }],
   ['do', (jevko, context) => {
     // create local block context -- bindings created within it will be invisible outside

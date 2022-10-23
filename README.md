@@ -20,6 +20,16 @@ It is made for fun and to inspire other designers.
 * Explore original programming language design ideas
 * Fun
 
+# Installation
+
+Maybe later.
+
+# Running tests
+
+[Deno](https://deno.land/) required.
+
+To run tests use `deno test`.
+
 # Examples
 
 To better understand the examples, see [Explanation of syntax](#explanation-of-syntax) and [Operators](#operators).
