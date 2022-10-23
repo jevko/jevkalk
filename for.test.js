@@ -3,15 +3,15 @@ import {parseJevko, assertEquals} from './devDeps.js'
 
 const code = `
 plop [
-  [j] li []
-  [coll] li []
+  [funs] li []
+  [nums] li []
 ]
 for [
   plop [[i][0]]
   < [[i][10]]
   set! [[i] +[[i][1]]]
 
-  li push! [[j] fun [[] [i]]]
+  li push! [[funs] fun [[] [i]]]
 ]
 for [
   plop [
@@ -20,9 +20,9 @@ for [
   < [[i][10]]
   set! [[i] +[[i][1]]]
 
-  li push! [[coll] ap [li pop! [j][]]]
+  li push! [[nums] ap [li pop! [funs][]]]
 ]
-[coll]
+[nums]
 `
 
 Deno.test('for', () => {
