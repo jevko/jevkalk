@@ -3,16 +3,44 @@
  * assumption: interpretToArray returns at least one value
  */
 export const interpret = (jevko, context = topContext) => {
-  return interpretToArray(jevko, context).at(-1)
+  return interpretBlock(jevko, context).at(-1)
 }
 
+// todo: make it return only the last value
 /**
  * evaluates all subjevkos in a Jevko and returns an array of values;
  * @param {*} jevko 
  * @param {*} context 
  * @returns 
  */
-const interpretToArray = (jevko, context = topContext) => {
+const interpretBlock = (jevko, context = topContext) => {
+  const {subjevkos, suffix} = jevko
+
+  // todo: perhaps this should make its own local context rather than the callers; problem will be w/ function body
+  // const localContext = makeContext(context)
+  const localContext = context
+
+  // sugar for 1-arg fn invocations
+  if (subjevkos.length === 0) {
+    return [_(jevko, context)]
+  }
+
+  if (suffix.trim() !== '') throw Error(`Unexpected suffix: ${suffix}`)
+
+  const ret = []
+  localContext.set('.prev', '')
+  localContext.set('.', '')
+  for (const s of subjevkos) {
+    const $prev = interpretSubjevko(s, context)
+    ret.push($prev)
+    localContext.set('.prev', $prev)
+    localContext.set('.', $prev)
+  }
+
+  return ret
+}
+
+const interpretArgs = (jevko, context = topContext) => {
   const {subjevkos, suffix} = jevko
 
   // sugar for 1-arg fn invocations
@@ -22,7 +50,43 @@ const interpretToArray = (jevko, context = topContext) => {
 
   if (suffix.trim() !== '') throw Error(`Unexpected suffix: ${suffix}`)
 
-  return subjevkos.map(s => interpretSubjevko(s, context))
+  const ret = []
+  for (const s of subjevkos) {
+    ret.push(interpretSubjevko(s, context))
+  }
+
+  return ret
+}
+
+// note: true, false, etc. could be built into here OR refuse to shadow topContext
+// note2: for subjevkos.length > 0 this could behave like interpretToArray (i.e. perhaps integrate the two)
+/**
+ * helper for interpretToArray
+ * assumes subjevkos.length === 0
+ * @param {*} jevko 
+ * @param {*} context 
+ * @returns 
+ */
+const _ = (jevko, context) => {
+  const {suffix, subjevkos} = jevko
+  
+  // soft assert -- can be removed when stable
+  console.assert(subjevkos.length === 0, '_ subs length > 0!')
+
+  const name = suffix.trim()
+
+  // todo: hm
+  // perhaps return emptiness?
+  if (name === '') throw Error(`Can
+  t evaluate an empty name!`)
+
+  const num = +name
+  if (Number.isNaN(num) === false) return num
+  // const name = suffix.trim()
+
+  const value = findValueInContext(context, name)
+  if (value !== undefined) return value
+  throw Error(`unknown name: ${name}`)
 }
 
 export const interpretSubjevko = ({prefix, jevko}, context) => {
@@ -81,6 +145,8 @@ const _let = (jevko, context, type = 'bind') => {
     const name = interpretName(nameSub, context)
     value = interpretSubjevko(valueSub, context)
 
+    if (keywords.has(name) || name.startsWith('.')) throw Error(`Name ${name} is reserved and can't be used with ${type}!`)
+
     if (type === 'set!') {
       setHelp(context, name, value)
     } else {
@@ -114,29 +180,6 @@ const set = (jevko, context) => {
   return _let(jevko, context, 'set!')
 }
 
-// note: true, false, etc. could be built into here OR refuse to shadow topContext
-// note2: for subjevkos.length > 0 this could behave like interpretToArray (i.e. perhaps integrate the two)
-const _ = (jevko, context) => {
-  const {suffix, subjevkos} = jevko
-
-  if (subjevkos.length > 0) throw Error('Complex _ evaluation not supported!')
-
-  const name = suffix.trim()
-
-  // todo: hm
-  // perhaps return emptiness?
-  if (name === '') throw Error(`Can
-  t evaluate an empty name!`)
-
-  const num = +name
-  if (Number.isNaN(num) === false) return num
-  // const name = suffix.trim()
-
-  const value = findValueInContext(context, name)
-  if (value !== undefined) return value
-  throw Error(`unknown name: ${name}`)
-}
-
 // each context except top has a parent context under [parentSym]
 const parentSym = Symbol.for('parent')
 
@@ -164,7 +207,12 @@ const topContext = new Map([
   [plopSym, new Set()],
   ['true', true],
   ['false', false],
-  ['', _],
+  ['', (jevko, context) => {
+    const {subjevkos} = jevko
+    if (subjevkos.length === 0) return _(jevko, context)
+
+    throw Error(`Empty op can't handle complex jevkos for now!`)
+  }],
   ['bind', _let],
   ['plop', plop],
   ['set!', set],
@@ -225,7 +273,7 @@ const topContext = new Map([
           if (length === 0 && suffix.trim() === '') throw Error(`expected 1 argument, got 0`)
         }
 
-        const values = interpretToArray(jevko, callContext)
+        const values = interpretArgs(jevko, callContext)
         
         if (values.length !== names.length) throw Error('arity error')
 
@@ -234,7 +282,7 @@ const topContext = new Map([
         }
       }
 
-      return interpretToArray(body, localContext).at(-1)
+      return interpretBlock(body, localContext).at(-1)
     }
   }],
   ['error', (jevko, context) => {
@@ -259,7 +307,7 @@ const topContext = new Map([
     const {subjevkos, suffix} = jevko
     if (subjevkos.length !== 2) throw Error(`Expected 2 subjevkos, got ${subjevkos.length}`)
 
-    const [str, i] = interpretToArray(jevko, context)
+    const [str, i] = interpretArgs(jevko, context)
 
     if (typeof str !== 'string') throw Error('expected string as first arg')
     if (typeof i !== 'number') throw Error('expected number as second arg')
@@ -270,7 +318,7 @@ const topContext = new Map([
     const {subjevkos, suffix} = jevko
     if (subjevkos.length !== 3) throw Error(`Expected 3 subjevkos, got ${subjevkos.length}`)
 
-    const [str, i, j] = interpretToArray(jevko, context)
+    const [str, i, j] = interpretArgs(jevko, context)
 
     if (typeof str !== 'string') throw Error('expected string as first arg')
     if (typeof i !== 'number') throw Error(`expected number as second arg, got ${typeof i}`)
@@ -282,7 +330,7 @@ const topContext = new Map([
     const {subjevkos, suffix} = jevko
     if (subjevkos.length < 2) throw Error(`Expected at least 2 subjevkos, got ${subjevkos.length}`)
 
-    const strs = interpretToArray(jevko, context)
+    const strs = interpretArgs(jevko, context)
 
     for (const [i, str] of strs.entries()) {
       if (typeof str !== 'string') throw Error(`expected string as arg #${i}, got ${typeof str}`)
@@ -297,7 +345,7 @@ const topContext = new Map([
     if (subjevkos.length === 0) {
       str = _(jevko, context)
     } else if (subjevkos.length === 1) {
-      ;[str] = interpretToArray(jevko, context)
+      ;[str] = interpretArgs(jevko, context)
     } else throw Error(`Expected 1 subjevko, got ${subjevkos.length}`)
 
     if (typeof str !== 'string') throw Error('expected string as arg')
@@ -311,7 +359,7 @@ const topContext = new Map([
     if (subjevkos.length === 0) {
       j = _(jevko, context)
     } else if (subjevkos.length === 1) {
-      ;[j] = interpretToArray(jevko, context)
+      ;[j] = interpretArgs(jevko, context)
     } else throw Error(`Expected 1 subjevko, got ${subjevkos.length}`)
 
     if (isJevko(j) === false) throw Error('expected a jevko')
@@ -320,11 +368,12 @@ const topContext = new Map([
   }],
   // todo: elaborate
   ['log', (jevko, context) => {
-    const values = interpretToArray(jevko, context)
+    const values = interpretArgs(jevko, context)
     
     console.log(...values)
 
-    return ''
+    // note returns prev
+    return context.get('.prev')
   }],
   ['je suffix!', (jevko, context) => {
     const {subjevkos, suffix} = jevko
@@ -460,7 +509,7 @@ const topContext = new Map([
       console.assert(suffix.trim() === '', 'expected empty suffix')
       console.assert(subjevkos.length === 1, 'expected 1 subjevko')
   
-      arr = interpretToArray(jevko, context)
+      arr = interpretArgs(jevko, context)
     }
 
     console.assert(Array.isArray(arr), 'list pop! expected a list')
@@ -472,7 +521,7 @@ const topContext = new Map([
     console.assert(suffix.trim() === '', 'expected empty suffix')
     console.assert(subjevkos.length === 2, 'expected 2 subjevkos')
 
-    const [arr, val] = interpretToArray(jevko, context)
+    const [arr, val] = interpretArgs(jevko, context)
 
     console.assert(Array.isArray(arr), 'list push! expected a list')
 
@@ -488,7 +537,7 @@ const topContext = new Map([
       console.assert(suffix.trim() === '', 'expected empty suffix')
       console.assert(subjevkos.length === 1, 'expected 1 subjevko')
   
-      arr = interpretToArray(jevko, context)
+      arr = interpretArgs(jevko, context)
     }
 
     console.assert(Array.isArray(arr), 'list pop! expected a list')
@@ -498,7 +547,7 @@ const topContext = new Map([
   ['do', (jevko, context) => {
     // create local block context -- bindings created within it will be invisible outside
     const blockContext = makeContext(context)
-    const values = interpretToArray(jevko, blockContext)
+    const values = interpretBlock(jevko, blockContext)
     return values.at(-1)
   }],
   ['for', (jevko, context) => {
@@ -524,7 +573,14 @@ const topContext = new Map([
       const iterContext = makeContext(declContextCopy)
 
       // evaluate the body of the loop in the iteration context
-      body.map(s => interpretSubjevko(s, iterContext))
+      iterContext.set('.prev', '')
+      iterContext.set('.', '')
+      for (const s of body) {
+        // todo: use interpretBlock OR split it into interpretBlockJevko and interpretBlockSubjevkos
+        const $prev = interpretSubjevko(s, iterContext)
+        iterContext.set('.prev', $prev)
+        iterContext.set('.', $prev)
+      }
 
       // the new declaration context becomes the copy the current declaration context
       declContextCopy = copyContext(declContextCopy)
@@ -568,35 +624,35 @@ const topContext = new Map([
     return ''
   }],
   ['+', (jevko, context) => {
-    const values = interpretToArray(jevko, context)
+    const values = interpretArgs(jevko, context)
     if (values.some(v => typeof v !== 'number')) throw Error('only numbers allowed')
     let sum = values[0]
     for (let i = 1; i < values.length; ++i) sum += values[i]
     return sum
   }],
   ['-', (jevko, context) => {
-    const values = interpretToArray(jevko, context)
+    const values = interpretArgs(jevko, context)
     if (values.some(v => typeof v !== 'number')) throw Error('only numbers allowed')
     let diff = values[0]
     for (let i = 1; i < values.length; ++i) diff -= values[i]
     return diff
   }],
   ['*', (jevko, context) => {
-    const values = interpretToArray(jevko, context)
+    const values = interpretArgs(jevko, context)
     if (values.some(v => typeof v !== 'number')) throw Error('only numbers allowed')
     let prod = values[0]
     for (let i = 1; i < values.length; ++i) prod *= values[i]
     return prod
   }],
   ['/', (jevko, context) => {
-    const values = interpretToArray(jevko, context)
+    const values = interpretArgs(jevko, context)
     if (values.some(v => typeof v !== 'number')) throw Error('only numbers allowed')
     let quot = values[0]
     for (let i = 1; i < values.length; ++i) quot /= values[i]
     return quot
   }],
   ['<', (jevko, context) => {
-    const values = interpretToArray(jevko, context)
+    const values = interpretArgs(jevko, context)
     if (values.some(v => typeof v !== 'number')) throw Error('only numbers allowed')
     let val = values[0]
     for (let i = 1; i < values.length; ++i) {
@@ -606,7 +662,7 @@ const topContext = new Map([
     return true
   }],
   ['>', (jevko, context) => {
-    const values = interpretToArray(jevko, context)
+    const values = interpretArgs(jevko, context)
     if (values.some(v => typeof v !== 'number')) throw Error('only numbers allowed')
     let val = values[0]
     for (let i = 1; i < values.length; ++i) {
@@ -616,7 +672,7 @@ const topContext = new Map([
     return true
   }],
   ['=', (jevko, context) => {
-    const values = interpretToArray(jevko, context)
+    const values = interpretArgs(jevko, context)
     let val = values[0]
     for (let i = 1; i < values.length; ++i) {
       if (val !== values[i]) return false
@@ -625,3 +681,5 @@ const topContext = new Map([
     return true
   }],
 ])
+
+const keywords = new Set(topContext.keys())

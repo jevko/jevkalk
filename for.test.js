@@ -20,7 +20,8 @@ for [
   < [[i][10]]
   set! [[i] +[[i][1]]]
 
-  li push! [[nums] ap [li pop! [funs][]]]
+  li pop! [funs].[]
+  li push! [[nums] [.]]
 ]
 [nums]
 `
