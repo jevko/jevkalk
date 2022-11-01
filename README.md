@@ -1,6 +1,6 @@
 # Jevkalk
 
-![a little hedgehog in his natural habitat](top.jpg)
+![a little hedgehog aka yezhyk in his natural habitat](top.jpg)
 
 An experimental interpreter for a crazy little language called Jevkalk.
 
@@ -30,7 +30,7 @@ Maybe later.
 
 [Deno](https://deno.land/) required.
 
-To run tests use `deno test`.
+To run tests use `deno test --allow-read`.
 
 # Examples
 

@@ -31,6 +31,12 @@ const interpretBlock = (jevko, context = topContext) => {
   localContext.set('.prev', '')
   localContext.set('.', '')
   for (const s of subjevkos) {
+    // note: inefficiently handling comments
+    // todo: implement a more general way of handling this
+    const {prefix} = s
+    const trimmed = prefix.trim()
+    if (trimmed == '--') continue
+
     const $prev = interpretSubjevko(s, context)
     ret.push($prev)
     localContext.set('.prev', $prev)
@@ -56,6 +62,31 @@ const interpretArgs = (jevko, context = topContext) => {
   }
 
   return ret
+}
+
+// todo: finish and use everywhere
+const interpretArgsWithArity = (jevko, context, num) => {
+  const {subjevkos, suffix} = jevko
+  const {length} = subjevkos
+  if (length !== num) throw Error(`Arity error! Expected ${num}, got ${length}.`)
+
+  // todo: if arity = 1 then allow [x] ~ [[x]]
+  // otherwise require suffix blank
+
+  return interpretArgs(jevko, context)
+}
+
+// todo: (dis)integrate with interpretArgsWithArity
+const interpretArgsWithArity1 = (jevko, context) => {
+  const {subjevkos, suffix} = jevko
+  const {length} = subjevkos
+  if (length === 0) return _(jevko, context)
+
+  if (suffix.trim() !== '') throw Error('nonempty suffix while > 0 subjevkos')
+
+  if (length !== 1) throw Error(`Arity error! Expected 1, got ${length}.`)
+
+  return interpretArgs(jevko, context)
 }
 
 // note: true, false, etc. could be built into here OR refuse to shadow topContext
@@ -352,6 +383,31 @@ const topContext = new Map([
 
     return str.length
   }],
+  ['str split', (jevko, context) => {
+    const {subjevkos, suffix} = jevko
+
+    if (subjevkos.length !== 2) throw Error('arity error: 2 != ' + subjevkos.length)
+
+    const [str, sep] = interpretArgs(jevko, context)
+
+    if (typeof str !== 'string') throw Error('expected string as first arg')
+
+    if (typeof sep !== 'string') throw Error('expected string as second arg')
+
+    return str.split(sep)
+  }],
+  ['str to num', (jevko, context) => {
+    const [str] = interpretArgsWithArity1(jevko, context)
+
+    if (typeof str !== 'string') throw Error('expected a string')
+
+    const trimmed = str.trim()
+    if (trimmed === 'NaN') return NaN
+    const num = Number(trimmed)
+    if (Number.isNaN(num) || trimmed === '') throw Error('nan')
+
+    return num
+  }],
   ['je length', (jevko, context) => {
     const {subjevkos, suffix} = jevko
     
@@ -544,6 +600,14 @@ const topContext = new Map([
 
     return arr.pop()
   }],
+  ['li at', (jevko, context) => {
+    const [arr, index] = interpretArgsWithArity(jevko, context, 2)
+    
+    if (Array.isArray(arr) === false) throw Error('Expected array as first arg')
+    if (typeof index !== 'number') throw Error('Expected number as second arg')
+
+    return arr.at(index)
+  }],
   ['do', (jevko, context) => {
     // create local block context -- bindings created within it will be invisible outside
     const blockContext = makeContext(context)
@@ -679,6 +743,14 @@ const topContext = new Map([
       val = values[i]
     }
     return true
+  }],
+  // depends on Deno
+  ['read text file', (jevko, context) => {
+    const values = interpretArgs(jevko, context)
+    if (values.length !== 1) throw Error('arity error: 1 != ' + values.length)
+    const [path] = values
+    if (typeof path !== 'string') throw Error('file path must be a string')
+    return Deno.readTextFileSync(path)
   }],
 ])
 
