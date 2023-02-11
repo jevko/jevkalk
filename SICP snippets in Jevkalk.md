@@ -37,7 +37,7 @@
 bind [[size][2]]
 ```
 
-# page 8
+## page 8
 
 ```
 [size]
@@ -55,11 +55,41 @@ bind [[circumference] * [[2][pi][radius]]]
 [circumference]
 ```
 
-# page 9
+## page 9
 
 ```
 * [
   + [[2] * [[4][6]]]
   + [[3][5][7]]
 ]
+```
+
+## page 12
+
+```
+bind [[square] fun [[x] * [[x][x]]]]
+```
+
+## page 13
+
+```
+square [21]
+
+square [+ [[2][5]]]
+
+square [square [3]]
+
++ [square [x] square [y]]
+
+bind [[sum of squares] fun [[[x][y]]
+  + [square [x] square [y]]
+]]
+
+sum of squares [[3][4]]
+
+bind [[f] fun [[a]
+  sum of squares [+ [[a][1]] * [[a][2]]]
+]]
+
+f [5]
 ```
