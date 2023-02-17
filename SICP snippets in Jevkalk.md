@@ -258,3 +258,22 @@ bind [[test] fun [[[x][y]]
 
 test [[0] p []]
 ```
+
+## page 23
+
+```
+bind [[sqrt iter] fun [[[guess][x]]
+  ? [
+    good enough? [[guess][x]] [guess]
+    sqrt iter [improve [[guess][x]] [x]]
+  ]
+]]
+
+bind [[improve] fun [[[guess][x]]
+  average [[guess] / [[x][guess]]]
+]]
+
+bind [[average] fun [[[x][y]]
+  / [+ [[x][y]] [2]]
+]]
+```
