@@ -151,7 +151,7 @@ bind [[abs] fun [[x]
 ]
 ```
 
-# page 18
+## page 18
 
 ```
 bind [[abs] fun [[x]
@@ -296,4 +296,30 @@ sqrt [+ [[100][37]]]
 sqrt [+ [sqrt [2] sqrt [3]]]
 
 square [sqrt [1000]]
+```
+
+## page 25
+
+```
+bind [[new if] fun [[
+  [predicate]
+  [then clause]
+  [else clause]
+]
+  ? [
+    [predicate] [then clause]
+    [else clause]
+  ]
+]]
+
+new if [= [[2][3]] [0] [5]]
+
+new if [= [[1][1]] [0] [5]]
+
+bind [[sqrt iter] fun [[[guess][x]]
+  new if [good enough? [[guess][x]]
+    [guess]
+    sqrt iter [improve [[guess][x]] [x]]
+  ]
+]]
 ```
