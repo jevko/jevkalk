@@ -323,3 +323,19 @@ bind [[sqrt iter] fun [[[guess][x]]
   ]
 ]]
 ```
+
+## page 27
+
+```
+bind [[square] fun [[x]
+  * [[x][x]]
+]]
+
+bind [[square] fun [[x]
+  exp [double [log [x]]]
+]]
+
+bind [[double] fun [[x]
+  + [[x][x]]
+]]
+```
