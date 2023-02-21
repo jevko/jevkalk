@@ -339,3 +339,19 @@ bind [[double] fun [[x]
   + [[x][x]]
 ]]
 ```
+
+## page 28
+
+```
+bind [[square] fun [[x]
+  * [[x][x]]
+]]
+
+bind [[square] fun [[y]
+  * [[y][y]]
+]]
+
+bind [[good enough?] fun [[[guess][x]]
+  < [abs [- [square [guess] [x]]] [0.001]]
+]]
+```
