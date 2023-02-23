@@ -355,3 +355,30 @@ bind [[good enough?] fun [[[guess][x]]
   < [abs [- [square [guess] [x]]] [0.001]]
 ]]
 ```
+
+## page 29
+
+```
+bind [[sqrt] fun [[x]
+  sqrt iter [[1.0][x]]
+]]
+```
+
+At this point I'll introduce `define` to make it easier to manually type. Defining `define` in Jevkalk is easy: `define` is easy to define.
+
+```
+define [sqrt iter [[guess][x]]
+  ? [
+    good enough? [[guess][x]] [guess]
+    sqrt iter [improve [[guess][x]] [x]]
+  ]
+]
+
+define [good enough? [[guess][x]]
+  < [abs [- [square [guess] [x]]] [0.001]]
+]
+
+define [improve [[guess][x]]
+  average [[guess] / [[x][guess]]]
+]
+```
