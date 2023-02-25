@@ -418,3 +418,26 @@ define [sqrt [x]
   sqrt iter [1.0]
 ]
 ```
+
+## page 32
+
+```
+factorial [6]
+
+* [[6] factorial [5]]
+
+* [[6] * [[5] factorial [4]]]
+
+* [[6] * [[5] * [[4] factorial [3]]]]
+
+* [[6] * [[5] * [[4] * [[3] factorial [2]]]]]
+
+* [[6] * [[5] * [[4] * [[3] * [[2] factorial [1]]]]]]
+
+define [factorial [n]
+  ? [
+    = [[n][1]] [1]
+    * [[n] factorial [- [[n][1]]]]
+  ]
+]
+```
