@@ -441,3 +441,44 @@ define [factorial [n]
   ]
 ]
 ```
+
+##
+
+```
+define [factorial [n]
+  fact iter [[1][1][n]]
+]
+
+define [fact iter [[product][counter][max count]]
+  ? [
+    > [[counter][max count]] [product]
+    fact iter [
+      * [[counter][product]]
+      + [[counter][1]]
+      [max count]
+    ]
+  ]
+]
+
+define [factorial [n]
+  define [iter [[product][counter]]
+    ? [
+      > [[counter][n]] [product]
+      fact iter [
+        * [[counter][product]]
+        + [[counter][1]]
+      ]
+    ]
+  ]
+  iter [[1][1]]
+]
+
+factorial [6]
+fact iter [[1][1][6]]
+fact iter [[1][2][6]]
+fact iter [[2][3][6]]
+fact iter [[6][4][6]]
+fact iter [[24][5][6]]
+fact iter [[120][6][6]]
+fact iter [[720][7][6]]
+```
