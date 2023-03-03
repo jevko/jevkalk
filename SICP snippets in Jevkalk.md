@@ -560,3 +560,11 @@ define [fib iter [[a][b][count]]
   ]
 ]
 ```
+
+## 40
+
+```
+define [count change [amount]
+  cc [[amount][5]]
+]
+```
