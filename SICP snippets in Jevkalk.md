@@ -604,3 +604,30 @@ define [first denomination [kinds of coins]
 
 count change [100]
 ```
+
+## 44
+
+```
+define [cube [x]
+  * [[x][x][x]]
+]
+
+define [p [x]
+  - [* [[3][x]] * [[4] cube [x]]]
+]
+
+define [sine [angle]
+  ? [
+    not [> [abs [angle] [0.1]]]
+    [angle]
+    p [sine [/ [[angle][3.0]]]]
+  ]
+]
+
+define [expt [[b][n]]
+  ? [
+    = [[n][0]] [1]
+    * [[b] expt [[b] - [[n][1]]]]
+  ]
+]
+```
