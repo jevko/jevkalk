@@ -631,3 +631,34 @@ define [expt [[b][n]]
   ]
 ]
 ```
+
+## 45
+
+```
+define [expt [[b][n]]
+  expt iter [[b][n][1]]
+]
+
+define [expt iter [[b][counter][product]]
+  ? [
+    = [[counter][0]] [product]
+    expt iter [
+      [b]
+      - [[counter][1]]
+      * [[b][product]]
+    ]
+  ]
+]
+
+define [fast expt [[b][n]]
+  ? [
+    = [[n][0]] [1]
+    even? [n] square [fast expt [[b] / [[n][2]]]]
+    * [[b] fast expt [[b] - [[n][1]]]]
+  ]
+]
+
+define [even? [n]
+  = [remainder [[n][2]] [0]]
+]
+```
