@@ -662,3 +662,42 @@ define [even? [n]
   = [remainder [[n][2]] [0]]
 ]
 ```
+
+## 46
+
+```
+define [* [[a][b]]
+  ? [
+    = [[b][0]] [0]
+    + [[a] * [[a] - [[b][1]]]]
+  ]
+]
+```
+
+## 47
+
+```
+define [fib [n]
+  fib iter [[1][0][0][1][n]]
+]
+
+define [fib iter [[a][b][p][q][count]]
+  ? [
+    = [[count][0]] [b]
+    even? [count] fib iter [
+      [a]
+      [b]
+      [??]    compute p'
+      [??]    compute q'
+      / [[count][2]]
+    ]
+    fib iter [
+      + [* [[b][q]] * [[a][q]] * [[a][p]]]
+      + [* [[b][p]] * [[a][q]]]
+      [p]
+      [q]
+      - [[count][1]]
+    ]
+  ]
+]
+```
