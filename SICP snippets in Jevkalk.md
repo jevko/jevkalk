@@ -701,3 +701,14 @@ define [fib iter [[a][b][p][q][count]]
   ]
 ]
 ```
+
+## 49
+
+```
+define [gcd [[a][b]]
+  ? [
+    = [[b][0]] [a]
+    gcd [[b] remainder [[a][b]]]
+  ]
+]
+```
