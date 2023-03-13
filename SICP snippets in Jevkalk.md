@@ -773,3 +773,26 @@ define [fast prime? [[n][times]]
   ]
 ]
 ```
+
+## 54
+
+Note `` display [`***`] `` is novel syntax for strings, based on Djevko. That would have to be implemented into (D)Jevkalk. 
+
+```
+define [timed prime test [n]
+  newline []
+  display [n]
+  start prime test [[n] runtime []]
+]
+
+define [start prime test [[n][start time]]
+  ? [
+    prime? [n] report prime [- [runtime [] [start time]]]
+  ]
+]
+
+define [report prime [elapsed time]
+  display [`***`]
+  display [elapsed time]
+]
+```
