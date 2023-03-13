@@ -776,7 +776,11 @@ define [fast prime? [[n][times]]
 
 ## 54
 
-Note `` display [`***`] `` is novel syntax for strings, based on Djevko. That would have to be implemented into (D)Jevkalk. 
+Note: at this point I am introducing string syntax not implemented in current (2023-03-13) Jevkalk -- `` display [`***`] ``. This is based on Djevko. To implement that, Jevkalk would need to be ported into Djevko (perhaps resulting in Djevkalk).
+
+As I am porting these snippets, likely more and more novel syntax will be introduced. I will try to always include a note when this happens.
+
+At some point, if the gods decide it good, I shall implement all these noveltes into the language.
 
 ```
 define [timed prime test [n]
