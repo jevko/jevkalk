@@ -800,3 +800,24 @@ define [report prime [elapsed time]
   display [elapsed time]
 ]
 ```
+
+## 55
+
+```
+define [expmod [[base][exp][m]]
+  ? [
+    = [[exp][0]] [1]
+    even? [exp] remainder [
+      * [
+        expmod [[base] / [[exp][2]] [m]]
+        expmod [[base] / [[exp][2]] [m]]
+      ]
+      [m]
+    ]
+    remainder [
+      * [[base] expmod [[base] - [[exp][1]] [m]]]
+      [m]
+    ]
+  ]
+]
+```
