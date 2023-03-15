@@ -833,3 +833,31 @@ define [cube [x]
 * [[x][x][x]]
 * [[y][y][y]]
 ```
+
+## 57
+
+```
+define [sum integers [[a][b]]
+  ? [
+    > [[a][b]] [0]
+    + [[a] sum integers [+ [[a][1]] [b]]]
+  ]
+]
+
+define [sum cubes [[a][b]]
+  ? [
+    > [[a][b]] [0]
+    + [cube [a] sum cubes [+ [[a][1]] [b]]]
+  ]
+]
+
+define [pi sum [[a][b]]
+  ? [
+    > [[a][b]] [0]
+    + [
+      / [[1.0] * [[a] + [[a][2]]]]
+      pi sum [+ [[a][4]] [b]]
+    ]
+  ]
+]
+```
