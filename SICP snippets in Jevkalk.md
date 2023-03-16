@@ -861,3 +861,28 @@ define [pi sum [[a][b]]
   ]
 ]
 ```
+
+## 58
+
+```
+define [<name> [[a][b]]
+  ? [
+    > [[a][b]] [0]
+    + [
+      <term> [a]
+      <name> [<next> [a] [b]]
+    ]
+  ]
+]
+
+define [sum [[term][a][next][b]]
+  ? [
+    > [[a][b]] [0]
+    + [term [a] sum [[term] next [a] [next] [b]]]
+  ]
+]
+
+define [inc [n]
+  + [[n][1]]
+]
+```
