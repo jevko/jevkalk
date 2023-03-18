@@ -916,3 +916,29 @@ define [pi sum [[a][b]]
 
 * [[8] pi sum [[1][1000]]]
 ```
+
+## 60
+
+```
+define [integral [[f][a][b][dx]]
+  define [add dx [x] + [[x][dx]]]
+  * [
+    sum [[f] + [[a] / [[dx][2.0]]] [add dx] [b]]
+    [dx]
+  ]
+]
+
+integral [[cube][0][1][0.01]]
+
+integral [[cube][0][1][0.001]]
+
+define [sum [[term][a][next][b]]
+  define [iter [[a][result]]
+    ? [
+      [??] [??]
+      iter [[??][??]]
+    ]
+  ]
+  iter [[??][??]]
+]
+```
