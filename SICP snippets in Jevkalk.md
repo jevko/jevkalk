@@ -942,3 +942,42 @@ define [sum [[term][a][next][b]]
   iter [[??][??]]
 ]
 ```
+
+## 61
+
+```
+accumulate [[combiner][null value][term][a][next][b]]
+```
+
+## 62
+
+```
+fun [[x] + [[x][4]]]
+
+fun [[x] / [[1.0] * [[x] + [[x][2]]]]]
+
+define [pi sum [[a][b]]
+  sum [
+    fun [[x] / [[1.0] * [[x] + [[x][2]]]]]
+    [a]
+    fun [[x] + [[x][4]]]
+    [b]
+  ]
+]
+
+define [integral [[f][a][b][dx]]
+  * [
+    sum [
+      [f]
+      + [[a] / [[dx][2.0]]]
+      fun [[x] + [[x][dx]]]
+      [b]
+    ]
+    [dx]
+  ]
+]
+
+fun [[<formal parameters>] <body>]
+
+define [plus4 [x] + [[x][4]]]
+```
