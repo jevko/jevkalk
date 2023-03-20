@@ -981,3 +981,18 @@ fun [[<formal parameters>] <body>]
 
 define [plus4 [x] + [[x][4]]]
 ```
+
+## 63
+
+Note: this uses `.` to invoke the value of the previous expression which is a function.
+
+```
+define [[plus4] fun [[x] + [[x][4]]]]
+
+fun [[x] + [[x][4]]]
+
+fun [[[x][y][z]]
+  + [[x][y] square [z]]
+]
+.[[1][2][3]]
+```
