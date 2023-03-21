@@ -996,3 +996,71 @@ fun [[[x][y][z]]
 ]
 .[[1][2][3]]
 ```
+
+## 64
+
+Let's see what happens if I change the style a bit in terms of spaces.
+
+```
+define[f[[x] [y]]
+  define[f helper[[a] [b]]
+    +[
+      *[[x] square[a]]
+      *[[y] [b]]
+      *[[a] [b]]
+    ]
+  ]
+  f helper[
+    +[[1] *[[x] [y]]]
+    -[[1] [y]]
+  ]
+]
+
+define[f[[x] [y]]
+  fun[[[a] [b]]
+    +[
+      *[[x] square[a]]
+      *[[y] [b]]
+      *[[a] [b]]
+    ]
+  ]
+  .[
+    +[[1] *[[x] [y]]]
+    -[[1] [y]]
+  ]
+]
+```
+
+Introducing `let` (not in Jevkalk as of 2023-03-22).
+
+```
+define[f[[x] [y]]
+  let[
+    [
+      [a] +[[1] *[[x] [y]]]
+      [b] -[[1] [y]]
+    ]
+    +[
+      *[[x] square[a]]
+      *[[y] [b]]
+      *[[a] [b]]
+    ]
+  ]
+]
+```
+
+Note: decided to remove the brackets around var-exp pairs from the original Scheme syntax.
+
+```
+let [
+  [
+    <var 1> <exp 1>
+    <var 2> <exp 2>
+    .
+    .
+    .
+    <var n> <exp n>
+  ]
+  <body>
+]
+```
