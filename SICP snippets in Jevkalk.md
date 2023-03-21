@@ -1064,3 +1064,17 @@ let [
   <body>
 ]
 ```
+
+Note: this is not in SICP, but the above code could also be written as:
+
+```
+define[f[[x] [y]]
+  define[[a] +[[1] *[[x] [y]]]]
+  define[[b] -[[1] [y]]]
+  +[
+    *[[x] square[a]]
+    *[[y] [b]]
+    *[[a] [b]]
+  ]
+]
+```
