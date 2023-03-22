@@ -1078,3 +1078,54 @@ define[f[[x] [y]]
   ]
 ]
 ```
+
+## 65
+
+```
+fun[
+  [[<var 1>]...[<var n>]]
+  <body>
+]
+.[
+  [<exp 1>]
+  .
+  .
+  .
+  [<exp n>]
+]
+
++[
+  let[
+    [[x] [3]]
+    +[[x] *[[x] [10]]]
+  ]
+  [x]
+]
+
+let[
+  [
+    [x] [3]
+    [y] +[[x] [2]]
+  ]
+  *[[x] [y]]
+]
+```
+
+The first expression could also be written in Jevkalk using `ap`:
+
+```
+ap[
+  fun[
+    [[<var 1>]...[<var n>]]
+    <body>
+  ][
+    [<exp 1>]
+    .
+    .
+    .
+    [<exp n>]
+  ]
+]
+```
+
+Perhaps there is a better name for that construct.
