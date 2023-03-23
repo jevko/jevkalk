@@ -1129,3 +1129,29 @@ ap[
 ```
 
 Perhaps there is a better name for that construct.
+
+## 66
+
+Turns out this is in SICP after all. :D
+
+```
+define[f[[x] [y]]
+  define[[a] +[[1] *[[x] [y]]]]
+  define[[b] -[[1] [y]]]
+  +[
+    *[[x] square[a]]
+    *[[y] [b]]
+    *[[a] [b]]
+  ]
+]
+```
+
+```
+define[f[g]
+  g[2]
+]
+
+f[square]
+
+f[fun[[z] *[[z] +[[z][1]]]]]
+```
