@@ -1155,3 +1155,31 @@ f[square]
 
 f[fun[[z] *[[z] +[[z][1]]]]]
 ```
+
+## 67
+
+```
+define[
+  search[
+    [[f] [neg point] [pos point]]
+    let[
+      [
+        [midpoint] average[[neg point] [pos point]]
+      ]
+      ?[
+        close enough?[[neg point] [pos point]] [midpoint]
+        let[
+          [
+            [test value] f[midpoint]
+          ]
+          ?[
+            positive?[test value] search[[f] [neg point] [midpoint]]
+            negative?[test value] search[[f] [midpoint] [pos point]]
+            [midpoint]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+```
