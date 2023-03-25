@@ -1256,3 +1256,20 @@ define[
   try[first guess]
 ]
 ```
+
+```
+fixed point[ [cos] [1.0] ]
+
+fixed point[ 
+  fun[  [y]  +[ sin[y] cos[y] ]  ]
+  [1.0] 
+]
+
+define[
+  sqrt[x]
+  fixed point[
+    fun[  [y]  /[ [x] [y] ]  ]
+    [1.0]
+  ]
+]
+```
