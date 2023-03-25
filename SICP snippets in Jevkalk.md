@@ -1183,3 +1183,47 @@ define[
   ]
 ]
 ```
+
+## 68
+
+```
+define[close enough?[[x] [y]]
+  <[abs[-[[x] [y]]] [0.001]]
+]
+```
+
+Seeing what happens if I introduce more spacing inside brackets.
+
+```
+define[ half interval method[ [f] [a] [b] ]
+  let[
+    [
+      [a value] f[a]
+      [b value] f[b]
+    ]
+    ?[
+      and[
+        negative?[a value]
+        positive?[b value]
+      ] 
+      search[ [f] [a] [b] ]
+      
+      and[
+        negative?[b value]
+        positive?[a value]
+      ] 
+      search[ [f] [b] [a] ]
+      
+      error[ ['Values are not of opposite sign'] [a] [b] ]
+    ]
+  ]
+]
+
+half interval method[ [sin] [2.0] [4.0] ]
+
+half interval method[ 
+  fun[ [x] -[ *[ [x] [x] [x] ] ] *[ [2] [x] ] [3] ]
+  [1.0]
+  [2.0]
+]
+```
