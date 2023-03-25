@@ -1248,7 +1248,7 @@ define[
         [next] f[guess]
       ]
       ?[
-        close enough? [ [guess] [next] ]   [next]
+        close enough?[ [guess] [next] ]   [next]
         try[next]
       ]
     ]
