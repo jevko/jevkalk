@@ -1273,3 +1273,43 @@ define[
   ]
 ]
 ```
+
+## 70
+
+```
+define [
+  sqrt[x]
+  fixed point [
+    fun [
+      [x] 
+      average[ 
+        [y] 
+        /[ [x] [y] ] 
+      ] 
+    ]
+    [1.0]
+  ]
+]
+```
+
+## 71
+
+```
+cont frac[
+  fun[ [i] [1.0] ]
+  fun[ [i] [1.0] ]
+  [k]
+]
+```
+
+## 72
+
+```
+define[
+  average damp[f]
+  fun [
+    [x]
+    average[ [x] f[x] ]
+  ]
+]
+```
