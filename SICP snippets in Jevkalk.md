@@ -1378,4 +1378,12 @@ define[
   newton's method[ [g] [guess] ]
   fixed point[ newton transform[g] [guess] ]
 ]
+
+define [
+  sqrt[x]
+  newton's method[
+    fun[  [y]  -[ square[y] [x] ]  ]
+    [1.0]
+  ]
+]
 ```
