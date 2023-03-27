@@ -1339,3 +1339,43 @@ define[
   ]
 ]
 ```
+
+##
+
+```
+define[
+  deriv[g]
+  fun[
+    [x]
+    /[
+      -[  g[+[ [x] [dx] ]]  g[x]  ]
+      [dx]
+    ]
+  ]
+]
+
+define[ [dx] [0.00001] ]
+
+define[
+  cube[x]
+  *[ [x] [x] [x] ]
+]
+
+ap[ deriv[cube][x] ]
+
+define[
+  newton transform[g]
+  fun[
+    [x]
+    -[ 
+      [x]
+      /[ g[x] ap[deriv[g][x]] ]
+    ]
+  ]
+]
+
+define[
+  newton's method[ [g] [guess] ]
+  fixed point[ newton transform[g] [guess] ]
+]
+```
