@@ -1313,3 +1313,29 @@ define[
   ]
 ]
 ```
+
+## 73
+
+```
+ap[ average damp[square][10] ]
+
+define[
+  sqrt[x]
+  fixed point[
+    average damp[
+      fun[  [y]  /[ [x] [y] ]  ]
+    ]
+    [1.0]
+  ]
+]
+
+define[
+  cube root[x]
+  fixed point[
+    average damp[
+      fun[  [y]  /[ [x] square[y] ]  ]
+    ]
+    [1.0]
+  ]
+]
+```
