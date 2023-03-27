@@ -1388,7 +1388,7 @@ define [
 ]
 ```
 
-Alternative syntax for lambda's I've been thinking about:
+Alternative syntax for lambdas I've been thinking about:
 
 ```
 define[
