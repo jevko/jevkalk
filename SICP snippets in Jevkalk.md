@@ -1387,3 +1387,59 @@ define [
   ]
 ]
 ```
+
+Alternative syntax for lambda's I've been thinking about:
+
+```
+define[
+  deriv[g]
+  [
+    fun[x]
+    /[
+      -[  g[+[ [x] [dx] ]]  g[x]  ]
+      [dx]
+    ]
+  ]
+]
+
+define[
+  newton transform[g]
+  [
+    fun[x]
+    -[ 
+      [x]
+      /[ g[x] ap[deriv[g][x]] ]
+    ]
+  ]
+]
+
+define [
+  sqrt[x]
+  newton's method[
+    [  fun[y]  -[ square[y] [x] ]  ]
+    [1.0]
+  ]
+]
+```
+
+So:
+
+```
+fun[  [y]  -[ square[y] [x] ]  ]
+```
+
+would become:
+
+```
+[  fun[y]  -[ square[y] [x] ]  ]
+```
+
+this could technically become:
+
+```
+[  [y]  -[ square[y] [x] ]  ]
+```
+
+dropping the `fun` "keyword" completely.
+
+Fun to think about.
