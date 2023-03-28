@@ -1443,3 +1443,27 @@ this could technically become:
 dropping the `fun` "keyword" completely.
 
 Fun to think about.
+
+##
+
+```
+newton's method[  cubic[ [a] [b] [c] ]  [1]  ]
+
+ap[ double[double[double]][inc][5] ]
+
+ap[  compose[ [square] [inc] ][5]  ]
+
+ap[  repeated[ [square] [2] ][5]  ]
+```
+
+Technically, could get rid of the `ap` "keyword" as well:
+
+```
+[ double[double[double]][inc][5] ]
+
+[  compose[ [square] [inc] ][5]  ]
+
+[  repeated[ [square] [2] ][5]  ]
+```
+
+But that feels like going too far.
