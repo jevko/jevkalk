@@ -1340,7 +1340,7 @@ define[
 ]
 ```
 
-##
+## 74
 
 ```
 define[
@@ -1373,7 +1373,11 @@ define[
     ]
   ]
 ]
+```
 
+## 75
+
+```
 define[
   newton's method[ [g] [guess] ]
   fixed point[ newton transform[g] [guess] ]
@@ -1383,6 +1387,20 @@ define [
   sqrt[x]
   newton's method[
     fun[  [y]  -[ square[y] [x] ]  ]
+    [1.0]
+  ]
+]
+
+define[
+  fixed point of transform[ [g] [transform] [guess] ]
+  fixed point[ transform[g] [guess] ]
+]
+
+define[
+  sqrt[x]
+  fixed point of transform[
+    fun[  [y]  /[ [x] [y] ]  ]
+    [average damp]
     [1.0]
   ]
 ]
@@ -1420,6 +1438,15 @@ define [
     [1.0]
   ]
 ]
+
+define[
+  sqrt[x]
+  fixed point of transform[
+    [  fun[y]  /[ [x] [y] ]  ]
+    [average damp]
+    [1.0]
+  ]
+]
 ```
 
 So:
@@ -1444,7 +1471,22 @@ dropping the `fun` "keyword" completely.
 
 Fun to think about.
 
-##
+## 76
+
+Note: using the proposed new syntax for lambdas.
+
+```
+define[
+  sqrt[x]
+  fixed point of transform[
+    [  fun[y]  -[ square[y] [x] ]  ]
+    [newton transform]
+    [1.0]
+  ]
+]
+```
+
+## 77
 
 ```
 newton's method[  cubic[ [a] [b] [c] ]  [1]  ]
