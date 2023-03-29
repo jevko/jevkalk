@@ -1509,3 +1509,17 @@ Technically, could get rid of the `ap` "keyword" as well:
 ```
 
 But that feels like going too far.
+
+## 81
+
+```
+define[
+  linear combination[ [a] [b] [x] [y] ]
+  +[  *[ [a] [x] ]  *[ [b] [y] ]  ]
+]
+
+define[
+  linear combination[ [a] [b] [x] [y] ]
+  add[  mul[ [a] [x] ]  mul[ [b] [y] ]  ]
+]
+```
