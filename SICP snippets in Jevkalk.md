@@ -1573,3 +1573,45 @@ define[
   ]
 ]
 ```
+
+##
+
+Classic Lisp pairs (cons, car, cdr).
+
+```
+define[  [x]  cons[ [1] [2] ]  ]
+
+car[x]
+
+cdr[x]
+
+define[  [x]  cons[ [1] [2] ]  ]
+
+define[  [y]  cons[ [3] [4] ]  ]
+
+define[  [z]  cons[ [x] [y] ]  ]
+
+car[ car[z] ]
+
+car[ cdr[z] ]
+```
+
+Less classic aliases (pair, fst, snd).
+
+```
+define[  [x]  pair[ [1] [2] ]  ]
+
+fst[x]
+
+snd[x]
+
+define[  [x]  pair[ [1] [2] ]  ]
+
+define[  [y]  pair[ [3] [4] ]  ]
+
+define[  [z]  pair[ [x] [y] ]  ]
+
+fst[ fst[z] ]
+
+snd[ snd[z] ]
+```
