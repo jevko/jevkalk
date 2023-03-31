@@ -1615,3 +1615,48 @@ fst[ fst[z] ]
 
 snd[ snd[z] ]
 ```
+
+##
+
+```
+define[
+  make rat[ [n] [d] ]
+  cons[ [n] [d] ]
+]
+
+define[ numer[x] car[x] ]
+
+define[ denom[x] cdr[x] ]
+
+define[
+  print rat[x]
+  newline[]
+  display[ numer[x] ]
+  display['/']
+  display[ denom[x] ]
+]
+
+define[  [one half]  make rat[ [1] [2] ]  ]
+
+print rat[one half]
+
+define[]
+
+define[  [one third]  make rat[ [1] [3] ]  ]
+
+print rat[  add rat[ [one half] [one third] ]  ]
+
+print rat[  mul rat[ [one half] [one third] ]  ]
+
+print rat[  add rat[ [one third] [one third] ]  ]
+
+define[
+  make rat[ [n] [d] ]
+  let[
+    [  [g]  gcd[ [n] [d] ]  ]
+    cons[  /[ [n] [g] ]  /[ [d] [g] ]  ]
+  ]
+]
+
+print rat[  add rat[ [one thrid] [one third] ]  ]
+```
