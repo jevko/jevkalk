@@ -1660,3 +1660,53 @@ define[
 
 print rat[  add rat[ [one thrid] [one third] ]  ]
 ```
+
+##
+
+```
+define[
+  print point[p]
+  newline[]
+  display['(']
+  display[ x point[p] ]
+  display[',']
+  display[ y point[p] ]
+  display[')']
+]
+
+define[
+  cons[ [x] [y] ]
+  define[
+    dispatch[m]
+    ?[
+      =[ [m] [0] ] [x]
+      =[ [m] [1] ] [y]
+      error[ ['Argument not 0 or 1 -- CONS'] [m] ]
+    ]
+  ]
+  [dispatch]
+]
+
+define[ car[z] z[0] ]
+
+define[ cdr[z] z[1] ]
+
+define[
+  cons[ [x] [y] ]
+  fun[  [m]  m[ [x] [y] ]  ]
+]
+
+define[
+  car[z]
+  z[
+    fun[  [ [p] [q] ]  [p]  ]
+  ]
+]
+
+define[  [zero]  fun[ [f] fun[ [x] [x] ] ]  ]
+
+define [ 
+  add 1[n]
+  fun[  [f]  fun[ [x] f[ ap[n[f][x]] ] ]  ]
+]
+```
