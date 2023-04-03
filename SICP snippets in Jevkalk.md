@@ -1723,7 +1723,7 @@ define[
 ]
 ```
 
-Another take on `let`.
+Another take on `let`. Losing a pair of brackets in exchange for only one expression in body.
 
 ```
 define[
