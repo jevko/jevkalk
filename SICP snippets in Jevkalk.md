@@ -1847,3 +1847,71 @@ define[
   ]
 ]
 ```
+
+## 98
+
+```
+cons[
+  cons[ [1] [2] ]
+  cons[ [3] [4] ]
+]
+
+cons[
+  cons[
+    [1]
+    cons[ [2] [3] ]
+  ]
+  [4]
+]
+```
+
+## 99
+
+```
+cons[
+  [1]
+  cons[
+    [2]
+    cons[
+      [3]
+      cons[ [4] [nil] ]
+    ]
+  ]
+]
+```
+
+## 100
+
+```
+list[ [<a_1>] [<a_2>] ... [<a_n>] ]
+
+cons[
+  [<a_1>]
+  cons[
+    [<a_2>]
+    cons[
+      ...
+      cons[
+        [<a_n>]
+        [nil]
+      ]
+      ...
+    ]
+  ]
+]
+
+define[
+  [one through four]
+  list[ [1] [2] [3] [4] ]
+]
+
+[one through four]
+
+car[one through four]
+
+cdr[one through four]
+```
+
+```
+cadr[<arg>] = car[ cdr[<arg>] ]
+```
