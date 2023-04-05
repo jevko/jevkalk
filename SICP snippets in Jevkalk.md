@@ -1524,7 +1524,7 @@ define[
 ]
 ```
 
-## 
+## 84
 
 ```
 define[
@@ -1574,7 +1574,7 @@ define[
 ]
 ```
 
-##
+## 85
 
 Classic Lisp pairs (cons, car, cdr).
 
@@ -1616,7 +1616,7 @@ fst[ fst[z] ]
 snd[ snd[z] ]
 ```
 
-##
+## 86
 
 ```
 define[
@@ -1640,10 +1640,16 @@ define[  [one half]  make rat[ [1] [2] ]  ]
 
 print rat[one half]
 
-define[]
-
 define[  [one third]  make rat[ [1] [3] ]  ]
 
+define[ [make rat] [cons] ]
+define[ [numer] [car] ]
+define[ [denom] [cdr] ]
+```
+
+## 87
+
+```
 print rat[  add rat[ [one half] [one third] ]  ]
 
 print rat[  mul rat[ [one half] [one third] ]  ]
@@ -1661,7 +1667,32 @@ define[
 print rat[  add rat[ [one thrid] [one third] ]  ]
 ```
 
-##
+## 89
+
+```
+define[
+  make rat[ [n] [d] ]
+  cons[ [n] [d] ]
+]
+
+define[
+  numer[x]
+  let[
+    [  [g]  gcd[ car[x] cdr[x] ]  ]
+    /[ car[x] [g] ]
+  ]
+]
+
+define[
+  denom[x]
+  let[
+    [  [g]  gcd[ car[x] cdr[x] ]  ]
+    /[ cdr[x] [g] ]
+  ]
+]
+```
+
+## 90
 
 ```
 define[
@@ -1673,7 +1704,11 @@ define[
   display[ y point[p] ]
   display[')']
 ]
+```
 
+## 91
+
+```
 define[
   cons[ [x] [y] ]
   define[
@@ -1690,7 +1725,11 @@ define[
 define[ car[z] z[0] ]
 
 define[ cdr[z] z[1] ]
+```
 
+## 92
+
+```
 define[
   cons[ [x] [y] ]
   fun[  [m]  m[ [x] [y] ]  ]
@@ -1702,7 +1741,11 @@ define[
     fun[  [ [p] [q] ]  [p]  ]
   ]
 ]
+```
 
+## 93
+
+```
 define[  [zero]  fun[ [f] fun[ [x] [x] ] ]  ]
 
 define [ 
@@ -1711,7 +1754,7 @@ define [
 ]
 ```
 
-##
+## 94
 
 ```
 define[
@@ -1757,7 +1800,7 @@ define[
 ]
 ```
 
-##
+## 95
 
 ```
 define[
@@ -1777,7 +1820,11 @@ define[
   width[i]
   /[  -[ upper bound[i] lower bound[i] ]  [2]  ]
 ]
+```
 
+## 96
+
+```
 define[
   par1[ [r1] [r2] ]
   div interval[
@@ -1789,7 +1836,7 @@ define[
 define[
   par2[ [r1] [r2] ]
   let[
-    [one] make interval[ [1] [1] ]
+    [one]  make interval[ [1] [1] ]
     div interval[
       [one]
       add interval[
@@ -1799,8 +1846,4 @@ define[
     ]
   ]
 ]
-
-define[ [make rat] [cons] ]
-define[ [numer] [car] ]
-define[ [denom] [cdr] ]
 ```
