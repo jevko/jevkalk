@@ -1915,3 +1915,31 @@ cdr[one through four]
 ```
 cadr[<arg>] = car[ cdr[<arg>] ]
 ```
+
+## 101
+
+```
+car[ cdr[one through four] ]
+
+cons[ [10] [one through four] ]
+
+cons[ [5] [one through four] ]
+
+define[
+  list ref[ [items] [n] ]
+  ?[
+    =[ [n] [0] ]  car[items]
+    list ref[
+      cdr[items]
+      -[ [n] [1] ]
+    ]
+  ]
+]
+
+define[
+  [squares]
+  list[ [1] [4] [9] [16] [25] ]
+]
+
+list ref[ [squares] [3] ]
+```
