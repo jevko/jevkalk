@@ -1943,3 +1943,41 @@ define[
 
 list ref[ [squares] [3] ]
 ```
+
+## 102
+
+```
+define[
+  length[items]
+  ?[
+    null?[items] [0]
+    +[  [1]  length[ cdr[items] ]  ]
+  ]
+]
+
+define[
+  [odds]
+  list[ [1] [3] [5] [7] ]
+]
+
+length[odds]
+
+define[
+  length[items]
+  define[
+    length iter[ [a] [count] ]
+    ?[
+      null?[a] [count]
+      length iter[
+        cdr[a]
+        +[ [1] [count] ]
+      ]
+    ]
+  ]
+  length iter[ [items] [0] ]
+]
+
+append[ [squares] [odds] ]
+
+append[ [odds] [squares] ]
+```
