@@ -2156,3 +2156,53 @@ define[
   map[ [??] [??] ]
 ]
 ```
+
+## 107
+
+```
+define[
+  square list[items]
+  define[
+    iter[ [things] [answer] ]
+    ?[
+      null?[things] [answer]
+      iter[
+        cdr[things]
+        cons[
+          square[ car[things] ]
+          [answer]
+        ]
+      ]
+    ]
+  ]
+  iter[ [items] [nil] ]
+]
+
+define[
+  square list[items]
+  define[
+    iter[ [things] [answer] ]
+    ?[
+      null?[things] [answer]
+      iter[
+        cdr[things]
+        cons[
+          [answer]
+          square[ car[things] ]
+        ]
+      ]
+    ]
+  ]
+  iter[ [items] [nil] ]
+]
+
+for each[
+  fun[ [x] newline[] display[x] ]
+  list[ [57] [321] [88] ]
+]
+
+cons[
+  list[ [1] [2] ]
+  list[ [3] [4] ]
+]
+```
