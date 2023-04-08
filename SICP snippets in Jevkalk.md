@@ -2046,7 +2046,6 @@ define[
   <body>
 ]
 
-
 f[ [1] [2] [3] [4] [5] [6] ]
 
 define[
@@ -2074,5 +2073,59 @@ define[
     [ ...[w] ]
     <body>
   ]
+]
+```
+
+## 105
+
+```
+define[
+  scale list[ [items] [factor] ]
+  ?[
+    null?[items] [nil]
+    cons[
+      *[ car[items] [factor] ]
+      scale list[ cdr[items] [factor] ]
+    ]
+  ]
+]
+
+scale list[
+  list[ [1] [2] [3] [4] [5] [6] ]
+  [10]
+]
+
+define[
+  map[ [proc] [items] ]
+  ?[
+    null?[items] [nil]
+    cons[
+      proc[ car[items] ]
+      map[ [proc] cdr[items] ]
+    ]
+  ]
+]
+
+map[  [abs]  list[ [-10] [2.5] [-11.6] [17] ]  ]
+
+map[
+  fun[  [x]  *[ [x] [x] ]  ]
+  list[ [1] [2] [3] [4] ]
+]
+
+map[
+  [+]
+  list[ [1] [2] [3] ]
+  list[ [40] [50] [60] ]
+  list[ [700] [800] [900] ]
+]
+
+map[
+  fun[
+    [ [x] [y] ]
+    +[  [x]  *[ [2] [y] ]  ]
+  ]
+  list[ [1] [2] [3] ]
+  list[ [4] [5] [6] ]
 ]
 ```
