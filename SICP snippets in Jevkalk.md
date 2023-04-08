@@ -2129,3 +2129,30 @@ map[
   list[ [4] [5] [6] ]
 ]
 ```
+
+## 106
+
+```
+define[
+  scale list[ [items] [factor] ]
+  map[
+    fun[  [x]  *[ [x] [factor] ]  ]
+    [items]
+  ]
+]
+
+square list[  list[ [1] [2] [3] [4] ]  ]
+
+define[
+  square list[items]
+  ?[
+    null?[items] [nil]
+    cons[ [??] [??] ]
+  ]
+]
+
+define[
+  square list[items]
+  map[ [??] [??] ]
+]
+```
