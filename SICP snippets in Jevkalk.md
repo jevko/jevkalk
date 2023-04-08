@@ -1981,3 +1981,98 @@ append[ [squares] [odds] ]
 
 append[ [odds] [squares] ]
 ```
+
+## 103
+
+```
+define[
+  append[ [list1] [list2] ]
+  ?[
+    null?[list1] [list2]
+    cons[
+      car[list1]
+      append[ cdr[list1] [list2] ]
+    ]
+  ]
+]
+
+last pair[  list[ [23] [72] [149] [34] ]  ]
+
+reverse[  list[ [1] [4] [9] [16] [25] ] ]
+
+define[
+  [us coins]
+  list[ [50] [25] [10] [5] [1] ]
+]
+
+define[
+  [uk coins]
+  list[ [100] [50] [20] [10] [5] [2] [1] [0.5] ]
+]
+
+cc[ [100] [us coins] ]
+```
+
+## 104
+
+```
+define[
+  cc[ [amount] [coin value] ]
+  ?[
+    =[ [amount] [0] ]  [1]
+    or[  <[ [amount] [0] ]  no more?[coin values]  ]   [0]
+    +[
+      cc[
+        [amount]
+        except first denomination[coin values]
+      ]
+      cc[
+        -[
+          [amount]
+          first denomination[coin values]
+        ]
+        [coin values]
+      ]
+    ]
+  ]
+]
+```
+
+Figuring out the equivalent of the dotted-tail notation. Using a JavaScript-style rest parameter syntax.
+
+```
+define[
+  f[ [x] [y] ...[z] ]
+  <body>
+]
+
+
+f[ [1] [2] [3] [4] [5] [6] ]
+
+define[
+  g[ ...[w] ]
+  <body>
+]
+
+g[ [1] [2] [3] [4] [5] [6] ]
+
+same parity[ [1] [2] [3] [4] [5] [6] [7] ]
+
+same parity[ [2] [3] [4] [5] [6] [7] ]
+
+define[
+  [f]
+  fun[
+    [ [x] [y] ...[z] ]
+    <body>
+  ]
+]
+
+define[
+  [g]
+  fun[
+    [ ...[w] ]
+    <body>
+  ]
+]
+```
