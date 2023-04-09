@@ -2220,3 +2220,114 @@ define[
 
 length[x]
 ```
+
+## 109
+
+```
+count leaves[x]
+
+list[ [x] [x] ]
+
+length[
+  list[ [x] [x] ]
+]
+
+count leaves[
+  list[ [x] [x] ]
+]
+
+define[
+  count leaves[x]
+  ?[
+    null?[x] [0]
+    not[ pair?[x] ]  [1]
+    +[
+      count leaves[ car[x] ]
+      count leaves[ cdr[x] ]
+    ]
+  ]
+]
+```
+
+## 110
+
+I'm thinking maybe representations of lists/jevkos as data should have `'` in front, to be valid also as code.
+
+```
+'[  [1]  [3]  [ [5] [7] ]  [9]  ]
+
+'[ [7] ]
+
+'[[1] [[2] [[3] [[4] [[5] [[6] [7]]]]]]]
+```
+
+```
+define[
+  [x]
+  list[ [1] [2] [3] ]
+]
+
+define[
+  [y]
+  list[ [4] [5] [6] ]
+]
+
+append[ [x] [y] ]
+
+cons[ [x] [y] ]
+
+list[ [x] [y] ]
+
+define[
+  [x]
+  list[  list[ [1] [2] ]  list[ [3] [4] ]  ]
+]
+
+[x]
+
+reverse[x]
+
+deep reverse[x]
+```
+
+NB there should be native functions like:
+
+```
+jevko[ [subjevkos] [suffix] ]
+subjevko[ [prefix] [jevko] ]
+```
+
+where `subjevkos` is a list, not necessarily a linked list (TBD).
+
+## 111
+
+```
+define[
+  [x]
+  list[  list[ [1] [2] ]  list[ [3] [4] ]  ]
+]
+
+fringe[x]
+
+fringe[  list[ [x] [x] ]  ]
+
+define[
+  make mobile[ [left] [right] ]
+  list[ [left] [right] ]
+]
+
+define[
+  make branch[ [length] [structure] ]
+  list[ [length] [structure] ]
+]
+
+define[
+  make mobile[ [left] [right] ]
+  cons[ [left] [right] ]
+]
+
+define[
+  make branch[ [length] [structure] ]
+  cons[ [length] [structure] ]
+]
+```
