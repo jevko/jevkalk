@@ -2422,3 +2422,55 @@ define[
   ]
 ]
 ```
+
+## 114
+
+```
+define[
+  even fibs[n]
+  define[
+    next[k]
+    ?[
+      >[ [k] [n] ]  [nil]
+      let[
+        [f]  fib[k]
+        ?[
+          even?[f]  cons[
+            [f]
+            next[  +[ [k] [1] ]  ]
+          ]
+          next[  +[ [k] [1] ]  ]
+        ]
+      ]
+    ]
+  ]
+  next[0]
+]
+```
+
+## 115
+
+```
+map[
+  [square]
+  list[ [1] [2] [3] [4] [5] ]
+]
+
+define[
+  filter[ [predicate] [sequence] ]
+  ?[
+    null?[sequence] [nil]
+    predicate[ car[sequence] ]  cons[
+      car[sequence]
+      filter[
+        [predicate]
+        cdr[sequence]
+      ]
+    ]
+    filter[
+      [predicate]
+      cdr[sequence]
+    ]
+  ]
+]
+```
