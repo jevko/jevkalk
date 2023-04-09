@@ -2474,3 +2474,77 @@ define[
   ]
 ]
 ```
+
+## 116
+
+```
+filter[
+  [odd?]
+  list[ [1] [2] [3] [4] ]
+]
+
+define[
+  accumulate[ [op] [initial] [sequence] ]
+  ?[
+    null?[sequence] [initial]
+    op[
+      car[sequence]
+      accumulate[
+        [op]
+        [initial]
+        cdr[sequence]
+      ]
+    ]
+  ]
+]
+
+accumulate[
+  [+]
+  [0]
+  list[ [1] [2] [3] [4] [5] ]
+]
+
+accumulate[
+  [*]
+  [1]
+  list[ [1] [2] [3] [4] [5] ]
+]
+
+accumulate[
+  [cons]
+  [nil]
+  list[ [1] [2] [3] [4] [5] ]
+]
+
+define[
+  enumerate interval[ [low] [high] ]
+  ?[
+    >[ [low] [high] ]  [nil]
+    cons[
+      [low]
+      enumerate interval[
+        +[ [low] [1] ]
+        [high]
+      ]
+    ]
+  ]
+]
+
+enumerate interval[ [2] [7] ]
+
+define[
+  enumerate tree[tree]
+  ?[
+    null?[tree] [nil]
+    not[pair?[tree]]  list[tree]
+    append[
+      enumerate tree[ car[tree] ]
+      enumerate tree[ cdr[tree] ]
+    ]
+  ]
+]
+
+enumerate tree[
+  list[ [1] list[ [2] list[ [3] [4] ]] [5] ]
+]
+```
