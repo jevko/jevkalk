@@ -2387,3 +2387,38 @@ square tree[
   ]
 ]
 ```
+
+## 113
+
+```
+define[  square tree[tree]  tree map[ [square] [tree] ]  ]
+
+define[
+  subsets[s]
+  ?[
+    null?[s]  list[nil]
+    let[
+      [rest]  subsets[cdr[s]]
+      append[
+        [rest]
+        map[ [??] [rest] ]
+      ]
+    ]
+  ]
+]
+
+define[
+  sum odd squares[tree]
+  ?[
+    null?[tree]  [0]
+    not[pair?[tree]] ?[
+      odd?[tree] square[tree]
+      [0]
+    ]
+    +[
+      sum odd squares[ car[tree] ]
+      sum odd squares[ cdr[tree] ]
+    ]
+  ]
+]
+```
