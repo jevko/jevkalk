@@ -2548,3 +2548,54 @@ enumerate tree[
   list[ [1] list[ [2] list[ [3] [4] ]] [5] ]
 ]
 ```
+
+## 117
+
+```
+define[
+  sum odd squares[tree]
+  accumulate[
+    [+]
+    [0]
+    map[
+      [square]
+      filter[
+        [odd?]
+        enumerate tree[tree]
+      ]
+    ]
+  ]
+]
+
+define[
+  even fibs[n]
+  accumulate[
+    [cons]
+    [nil]
+    filter[
+      [even?]
+      map[
+        [fib]
+        enumerate interval[ [0] [n] ]
+      ]
+    ]
+  ]
+]
+
+define[
+  list fib squares[n]
+  accumulate[
+    [cons]
+    [nil]
+    map[
+      [square]
+      map[
+        [fib]
+        enumerate interval[ [0] [n] ]
+      ]
+    ]
+  ]
+]
+
+list fib squares[10]
+```
