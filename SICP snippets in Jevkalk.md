@@ -2599,3 +2599,38 @@ define[
 
 list fib squares[10]
 ```
+
+## 118
+
+```
+define[
+  product of squares of odd elements[sequence]
+  accumulate[
+    [*]
+    [1]
+    map[
+      [square]
+      filter[ [odd?] [sequence] ]
+    ]
+  ]
+]
+
+product of squares of odd elements[
+  list[ [1] [2] [3] [4] [5] ]
+]
+
+define[
+  salary of highest paid programmer[records]
+  accumulate[
+    [max]
+    [0]
+    map[
+      [salary]
+      filter[
+        [programmer?]
+        [records]
+      ]
+    ]
+  ]
+]
+```
