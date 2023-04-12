@@ -2634,3 +2634,151 @@ define[
   ]
 ]
 ```
+
+## 119
+
+```
+define[
+  map[ [p] [sequence] ]
+  accumulate[
+    fun[  [ [x] [y] ]  [??]  ]
+    [nil]
+    [sequence]
+  ]
+]
+
+define[
+  append[ [seq1] [seq2] ]
+  accumulate[ [cons] [??] [??] ]
+]
+
+define[
+  length[sequence]
+  accumulate[ [??] [0] [sequence] ]
+]
+
+define[
+  horner eval[ [x] [coefficient sequence] ]
+  accumulate[
+    fun[  [ [this coeff] [higher terms] ]  [??]  ]
+    [0]
+    [coefficient sequence]
+  ]
+]
+
+horner eval[
+  [2]
+  list[ [1] [3] [0] [5] [0] [1] ]
+]
+```
+
+## 120
+
+```
+define[
+  count leaves[t]
+  accumulate[
+    [??]
+    [??]
+    map[ [??] [??] ]
+  ]
+]
+
+define[
+  accumulate n[ [op] [init] [seqs] ]
+  ?[
+    null?[car[seqs]]  [nil]
+    cons[
+      accumulate[ [op] [init] [??] ]
+      accumulate n[ [op] [init] [??] ]
+    ]
+  ]
+]
+
+dot product[ [v] [w] ]
+
+matrix * vector[ [m] [v] ]
+
+matrix * matrix[ [m] [n] ]
+
+transpose[m]
+```
+
+## 121
+
+```
+define[
+  dot product[ [v] [w] ]
+  accumulate[  [+]  [0]  map[ [*] [v] [w] ]  ]
+]
+
+define[
+  matrix * vector[ [m] [v] ]
+  map[ [??] [m] ]
+]
+
+define[
+  transpose[mat]
+  accumulate n[ [??] [??] [mat] ]
+]
+
+define[
+  matrix * matrix[ [m] [n] ]
+  let[
+    [cols] transpose[n]
+    map[ [??] [m] ]
+  ]
+]
+
+define[
+  fold left[ [op] [initial] [sequence] ]
+  define[
+    iter[ [result] [rest] ]
+    ?[
+      null?[rest]  [result]
+      iter[
+        op[ [result] car[rest] ]
+        cdr[rest]
+      ]
+    ]
+  ]
+  iter[ [initial] [sequence] ]
+]
+
+fold right[  [/]  [1]  list[ [1] [2] [3] ]  ]
+
+fold left[  [/]  [1]  list[ [1] [2] [3] ]  ]
+
+fold right[  [list]  [nil]  list[ [1] [2] [3] ]  ]
+
+fold left[  [list]  [nil]  list[ [1] [2] [3] ]  ]
+```
+
+## 122
+
+```
+define[
+  reverse[sequence]
+  fold right[
+    fun[
+      [ [x] [y] ]
+      [??]
+    ]
+    [nil]
+    [sequence]
+  ]
+]
+
+define[
+  reverse[sequence]
+  fold left[
+    fun[
+      [ [x] [y] ]
+      [??]
+    ]
+    [nil]
+    [sequence]
+  ]
+]
+```
+
