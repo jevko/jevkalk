@@ -2911,3 +2911,60 @@ define[
   queen cols[board size]
 ]
 ```
+
+## 126
+
+```
+flatmap[
+  fun[ [new row]
+    map[
+      fun[ [rest of queens]
+        adjoin position[ [new row] [k] [rest of queens] ]
+      ]
+      queen cols[-[ [k] [1] ]]
+    ]
+  ]
+  enumerate interval[ [1] [board size] ]
+]
+```
+
+## 128
+
+```
+define[ [wave2]
+  beside[ [wave] flip vert[wave] ]
+]
+
+define[ [wave4]
+  below[ [wave2] [wave2] ]
+]
+```
+
+## 130
+
+```
+define[
+  flipped pairs[painter]
+  let[
+    [painter2]  beside[ [painter] flip vert[painter] ]
+    below[ [painter2] [painter2] ]
+  ]
+]
+
+define[ [wave4] flipped pairs[wave] ]
+```
+
+## 131
+
+```
+define[  right split[ [painter] [n] ]
+  ?[
+    =[ [n] [0] ]  [painter]
+    let[
+      [smaller]
+        right split[  [painter]  -[ [n] [1] ]  ]
+      beside[  [painter]  below[ [smaller] [smaller] ]  ]
+    ]
+  ]
+]
+```
