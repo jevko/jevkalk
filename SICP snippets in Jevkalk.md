@@ -2846,3 +2846,37 @@ define[
   ]
 ]
 ```
+
+## 124
+
+```
+define[
+  permutations[s]
+  ?[
+    null?[s] list[nil]
+    flatmap[
+      fun[ [x]
+        map[
+          fun[ [p]
+            cons[ [x] [p] ]
+          ]
+          permutations[
+            remove[ [x] [s] ]
+          ]
+        ]
+      ]
+      [s]
+    ]
+  ]
+]
+
+define[
+  remove[ [item] [sequence] ]
+  filter[
+    fun[ [x]
+      not[=[ [x] [item] ]]
+    ]
+    [sequence]
+  ]
+]
+```
