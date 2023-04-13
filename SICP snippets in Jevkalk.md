@@ -2880,3 +2880,34 @@ define[
   ]
 ]
 ```
+
+## 125
+
+```
+define[
+  queens[board size]
+  define[
+    queen cols[k]
+    ?[
+      =[ [k] [0] ]  list[empty board]
+      filter[
+        fun[ [positions]
+          safe?[ [k] [positions] ]
+        ]
+        flatmap[
+          fun[ [rest of queens]
+            map[
+              fun[ [new row]
+                adjoin position[ [new row] [k] [rest of queens] ]
+              ]
+              enumerate interval[ [1] [board size] ]
+            ]
+          ]
+          queen cols[-[ [k] [1] ]]
+        ]
+      ]
+    ]
+  ]
+  queen cols[board size]
+]
+```
