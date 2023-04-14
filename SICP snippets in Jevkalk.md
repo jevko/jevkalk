@@ -3030,3 +3030,24 @@ define[ [flipped pairs]
   square of four[ [identity] [flip vert] [identity] [flip vert] ]
 ]
 ```
+
+## 134
+
+```
+define[ flipped pairs[painter]
+  let[
+    [combine4]  square of four[ [identity] [flip vert] [identity] [flip vert] ]
+    combine4[painter]
+  ]
+]
+
+define[  square limit[ [painter] [n] ]
+  let[
+    [combine4]  square of four[ [flip horiz] [identity] [rotate180] [flip vert] ]
+    combine4[corner split[ [painter] [n] ]]
+  ]
+]
+
+define[  [right split]  split[ [beside] [below] ]  ]
+define[  [up split]  split[ [below] [beside] ]  ]
+```
