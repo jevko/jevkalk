@@ -3014,3 +3014,19 @@ define[
   ]
 ]
 ```
+
+## 133
+
+```
+right split[ [wave] [4] ]
+
+right split[ [rogers] [4] ]
+
+corner split[ [wave] [4] ]
+
+corner split[ [rogers] [4] ]
+
+define[ [flipped pairs]
+  square of four[ [identity] [flip vert] [identity] [flip vert] ]
+]
+```
