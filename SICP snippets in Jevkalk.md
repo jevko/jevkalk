@@ -3067,3 +3067,102 @@ define[  frame coord map[frame]
   ]
 ]
 ```
+
+## 136
+
+```
+ap[
+  frame coord map[a frame]
+  [  make vect[ [0] [0] ]  ]
+]
+
+origin frame[a frame]
+
+define[  make frame[ [origin] [edge1] [edge2] ]
+  list[ [origin] [edge1] [edge2] ]
+]
+
+define[  make frame[ [origin] [edge1] [edge2] ]
+  cons[  [origin]  cons[ [edge1] [edge2] ]  ]
+]
+```
+
+## 137
+
+```
+define[
+  segments->painter[segment list]
+  fun[ [frame]
+    for each[
+      fun[ [segment]
+        draw line[
+          ap[ frame coord map[frame][start segment[segment]] ]
+          ap[ frame coord map[frame][end segment[segment]] ]
+        ]
+      ]
+      [segment list]
+    ]
+  ]
+]
+```
+
+## 138
+
+```
+define[
+  transform painter[ [painter] [origin] [corner1] [corner2] ]
+  fun[ [frame]
+    let[
+      [m]  frame coord map[frame]
+      let[
+        [new origin]  m[origin]
+        painter[
+          make frame[
+            [new origin]
+            sub vect[ m[corner1] [new origin] ]
+            sub vect[ m[corner2] [new origin] ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[
+  flip vert[painter]
+  transform painter[
+    [painter]
+    make vect[ [0.0] [1.0] ]   new origin
+    make vect[ [1.0] [1.0] ]   new end of edge1
+    make vect[ [0.0] [0.0] ]   new end of edge2 
+  ]
+]
+
+define[
+  shrink to upper right[painter]
+  transform painter[
+    [painter]
+    make vect[ [0.5] [0.5] ]
+    make vect[ [1.0] [0.5] ]
+    make vect[ [0.5] [1.0] ]
+  ]
+]
+```
+
+## 139
+
+```
+define[
+  rotate90[painter]
+  transform painter[
+    [painter]
+    make vect[ [1.0] [0.0] ]
+    make vect[ [1.0] [1.0] ]
+    make vect[ [0.0] [0.0] ]
+  ]
+]
+
+define[
+  todo
+]
+```
