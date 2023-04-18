@@ -3197,3 +3197,56 @@ define[
   ]
 ]
 ```
+
+## 142
+
+### Introducing Quotation!
+
+So here we're using S-expressions not to write MIT Scheme, but to encode some lists. Similarly, the first two lists could be sensibly translated to Jevko (as opposed to Jevkalk) as:
+
+```
+[ [a] [b] [c] [d] ]
+
+[ [23] [45] [17] ]
+```
+
+The third list could be:
+
+```
+[  [ [Norah] [12] ]  [ [Molly] [9] ]  [ [Anna] [7] ]  [ [Lauren] [6] ]  [ [Charlotte] [4] ]  ]
+```
+
+or, more succinctly:
+
+```
+[ Norah[12] Molly[9] Anna[7] Lauren[6] Charlotte[4] ]
+```
+
+Now the following two S-expressions are also meant to be just S-expressions (and not code), but happen to look like Scheme. So our translation will look like Jevkalk (but is meant to be just Jevko):
+
+```
+*[  +[ [23] [45] ]  +[ [x] [9] ]  ]
+
+define[ fact[n]
+  ?[
+    =[ [n] [1] ]  [1]
+    *[  [n]  fact[ -[[n][1]] ]  ]
+  ]
+]
+```
+
+## 143
+
+```
+define[ [a] [1] ]
+
+define[ [b] [2] ]
+
+list[ [a] [b] ]
+
+list[ '[a] '[b] ]
+
+list[ '[a] [b] ]
+```
+
+Note: we don't need separate `quote[...]`.
