@@ -3253,13 +3253,71 @@ Note: we don't need separate `quote[...]`.
 
 ## 144
 
-<!-- todo: this has to be rewritten taking into account the structure of Jevko -->
+Now, a somewhat naive translation of the code at the top of the page would be:
 
 ```
 car[  '[ [a] [b] [c] ]  ]
 
 cdr[  '[ [a] [b] [c] ]  ]
+```
 
+But this creates a problem. `car` and `cdr` are well-defined for lists, but not really for arbitrary jevkos.
+
+So here we are forced to continue to flesh out the thread from page [110](#110).
+
+One way to proceed would be to define `car` and `cdr` only for lists. So this would be valid:
+
+```
+car[  list[ [a] [b] [c] ]  ]
+
+cdr[  list[ [a] [b] [c] ]  ]
+```
+
+While the above wouldn't. `'` would actually mean `quote` rather than `list`, like I imagined previously.
+
+Now for quoted jevkos we would need a separate set for primitive functions for analysis.
+
+Let's imagine how could such functions look like.
+
+I'll leave proper naming for later. First let's make up a function `f1`, which would be somewhat like `car` and could be applied like so:
+
+```
+f1[  '[ [a] [b] [c] ]  ]
+```
+
+and for this application it would return:
+
+```
+[a]
+```
+
+Or should that be:
+
+```
+'[a]
+```
+
+? Not sure yet, let's not commit to either for the time being. Let's say it returns:
+
+```
+?[a]
+```
+
+where `?` represents the prefix being empty or equal to `'` (or maybe something else).
+
+Now what should `f1` return for something like:
+
+```
+f1[  '[ x1[x2] y1[y2] ]  ]
+```
+
+Here I will take my reasoning process offline. I am leaving it to serve as an example of how one might go about designing something like this.
+
+***
+
+<!-- todo: this has to be rewritten taking into account the structure of Jevko -->
+
+```
 define[  memq[ [item] [x] ]
   ?[
     null?[x]  [false]
@@ -3285,6 +3343,8 @@ cadr[  '[ x1[x2] y1[y2] ]  ]
 ```
 
 ## 145
+
+<!-- todo: this has to be rewritten taking into account the structure of Jevko -->
 
 ```
 pair?[
