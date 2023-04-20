@@ -3251,7 +3251,9 @@ list[ '[a] [b] ]
 
 Note: we don't need separate `quote[...]`.
 
-## 
+## 144
+
+<!-- todo: this has to be rewritten taking into account the structure of Jevko -->
 
 ```
 car[  '[ [a] [b] [c] ]  ]
@@ -3280,7 +3282,11 @@ list[ list['[george]] ]
 cdr[  '[ x1[x2] y1[y2] ]  ]
 
 cadr[  '[ x1[x2] y1[y2] ]  ]
+```
 
+## 145
+
+```
 pair?[
   car[  '[ a[[short][list]] ]  ]
 ]
