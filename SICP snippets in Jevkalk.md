@@ -3315,7 +3315,75 @@ Here I will take my reasoning process offline. I am leaving it to serve as an ex
 
 ***
 
-<!-- todo: this has to be rewritten taking into account the structure of Jevko -->
+Upon some reflection, we may imagine the following useful functions:
+
+```
+fsj[jevko]
+
+fsp[jevko]
+```
+
+`fsj` takes a `jevko` and returns its first subjevko's jevko, e.g.:
+
+```
+fsj[ '[x1[x2] y1[y2]] ]
+```
+
+would return
+
+```
+'[x2]
+```
+
+`fsp` takes a `jevko` and returns its first subjevko's prefix, e.g.:
+
+```
+fsp[ '[x1[x2] y1[y2]] ]
+```
+
+would return
+
+```
+'[x1]
+```
+
+Note: the prefix is returned as a jevko (perhaps it should be a string instead -- or there should be a separate function or conversion for that).
+
+Another useful function would be `rss`:
+
+```
+rss[jevko]
+```
+
+`rss` takes a `jevko` and returns it sans the first subjevko, e.g.:
+
+```
+rss[ '[x1[x2] y1[y2]] ]
+```
+
+would return
+
+```
+'[ y1[y2]]
+```
+
+### Homoiconic output
+
+A provisional name for a concept I've been thinking about on and off for a long time, can be defined something like:
+
+> Homoiconic output/representation of a piece of data is the code that when executed would construct an equivalent piece of data.
+
+Rephrased:
+
+> A homoiconic text representation of data refers to the code that, when executed, can construct an identical replica of the original data using the smallest possible amount of code.
+
+Something like that.
+
+It's important to note here that most if not all languages, including MIT Scheme don't adhere to this. E.g. `(list 1 2 3)` is displayed as `(1 2 3)`. `(1 2 3)` can't be then executed to obtain the same list.
+
+### Jevkalk-specific alternatives to `memq`
+
+This is the original definition of `memq` translated to Jevkalk:
 
 ```
 define[  memq[ [item] [x] ]
@@ -3328,17 +3396,70 @@ define[  memq[ [item] [x] ]
     ]
   ]
 ]
+```
 
+This won't do. We would be better served by a tailor-made equivalent or equivalents, e.g. `memj` which would use `fsj` and `rss` instead of `car` and `cdr`, `memp` which would use `fsp` and `rss`, maybe `memjp` which would use an alternative of both. Perhaps we could write a generalized `member` function in Jevkalk which would look something like this:
+
+```
+define[  member[ [item] [x] ]
+  ?[
+    null?[x]  [false]
+    or[
+      equal?[ [item] fsj[x] ]
+      equal?[ [item] fsp[x] ]
+    ]  [x]
+    member[ [item] rss[x] ]
+  ]
+]
+```
+
+where `equal?` would signify generalized structural equality.
+
+Let's translate the rest of the code with that in mind.
+
+***
+
+So instead of:
+
+```
 memq[  '[apple]  '[ [pear] [banana] [prune] ]  ]
 
 memq[  '[apple]  '[ [x] apple[sauce] [y] [apple] [pear] ]  ]
+```
 
+we'd have something like:
+
+```
+memj[  '[apple]  '[ [pear] [banana] [prune] ]  ]
+
+memj[  '[apple]  '[ [x] apple[sauce] [y] [apple] [pear] ]  ]
+```
+
+Then we have this (which is rather uncontroversial):
+
+```
 list[ '[a] '[b] '[c] ]
 
 list[ list['[george]] ]
+```
 
+Then instead of this:
+
+```
 cdr[  '[ x1[x2] y1[y2] ]  ]
+```
 
+we'd have
+
+```
+rss[  '[ x1[x2] y1[y2] ]  ]
+```
+
+TODO:
+
+<!-- todo: this has to be rewritten taking into account the structure of Jevko -->
+
+```
 cadr[  '[ x1[x2] y1[y2] ]  ]
 ```
 
