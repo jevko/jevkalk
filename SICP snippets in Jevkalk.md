@@ -3494,3 +3494,53 @@ equal?[
 
 car[ '['[abracadabra]] ]
 ```
+
+## 147
+
+```
+variable?[e]
+
+same variable?[ [v1] [v2] ]
+
+sum?[e]
+
+addend[e]
+
+augend[e]
+
+make sum[ [a1] [a2] ]
+
+product?[e]
+
+multiplier[e]
+
+make product[ [m1] [m2] ]
+
+define[  deriv[ [exp] [var] ]
+  ?[
+    number?[exp]  [0]
+    variable?[exp]  ?[
+      same variable?[ [exp] [var] ]  [1]
+      [0]
+    ]
+    sum?[exp]  make sum[
+      deriv[ addend[exp] [var] ]
+      deriv[ augend[exp] [var] ]
+    ]
+    product?[exp]  make sum[
+      make product[
+        multiplier[exp]
+        deriv[ multiplicand[exp] [var] ]
+      ]
+      make product[
+        deriv[ multiplier[exp] [var] ]
+        multiplicand[exp]
+      ]
+    ]
+    error[
+      [`unknown expression type -- DERIV`]
+      [exp]
+    ]
+  ]
+]
+```
