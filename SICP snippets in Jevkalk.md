@@ -3455,44 +3455,50 @@ we'd have
 rss[  '[ x1[x2] y1[y2] ]  ]
 ```
 
-TODO:
+***
 
-<!-- todo: this has to be rewritten taking into account the structure of Jevko -->
+Now this naive translation:
 
 ```
 cadr[  '[ x1[x2] y1[y2] ]  ]
 ```
 
+should be this instead:
+
+```
+fsj[  '[ x1[x2] y1[y2] ]  ]
+```
+
 ## 145
 
-<!-- todo: this has to be rewritten taking into account the structure of Jevko -->
+Just riffing here...
 
 ```
 pair?[
-  car[  '[ a[[short][list]] ]  ]
+  fsp[  '[ a[[short][list]] ]  ]
 ]
 
-memq[
+memj[
   '[red]
   '[ red[shoes] blue[socks] ]
 ]
 
-memq[
+memp[
   '[red]
   '[  red[ [shoes] [blue] [socks] ]  ]
 ]
 
 equal?[
-  '[  this[ [is] [a] [list] ]  ]
-  '[  this[ [is] [a] [list] ]  ]
+  '[  this[ [is] [a] [jevko] ]  ]
+  '[  this[ [is] [a] [jevko] ]  ]
 ]
 
 equal?[
-  '[  this[ [is] [a] [list] ]  ]
-  '[  this[ is[a] [list] ]  ]
+  '[  this[ [is] [a] [jevko] ]  ]
+  '[  this[ is[a] [jevko] ]  ]
 ]
 
-car[ '['[abracadabra]] ]
+fsp[ '['[abracadabra]] ]
 ```
 
 ## 147
@@ -3547,9 +3553,37 @@ define[  deriv[ [exp] [var] ]
 
 ## 148
 
-```
-define[  variable?[x]  symbol?[x]  ]
+Note: we are assuming our expressions are lists, rather than jevkos, e.g.:
 
+```
+list[ '[+] [2] [3] ]
+```
+
+rather than
+
+```
+'[  +[ [2] [3] ]  ]
+```
+
+With that in mind, we proceed.
+
+Now, we shall introduce the `pj?` predicate which will be used in place of `symbol?` in the definition of `variable?`:
+
+```
+define[  variable?[x]  pj?[x]  ]
+```
+
+`pj?` takes a jevko and returns `true` if it is primitive. A primitive jevko is one which does not have any subjevkos. E.g.:
+
+```
+pj?[ '[x] ]  true
+pj?[ '[[a][b]] ]  false
+pj?[ '[] ]  not sure; let's say true for now
+```
+
+Now we continue translating.
+
+```
 define[  same variable?[ [v1] [v2] ]
   and[
     variable?[v1]
@@ -3570,7 +3604,7 @@ define[  sum?[x]
 ]
 ```
 
-<!-- todo: translate cadr, caddr -->
+Note: `cadr`, `caddr`, etc. can be defined for `list`s.
 
 ```
 define[ addend[s] cadr[s] ]
@@ -3589,16 +3623,18 @@ define[  multiplier[p]  cadr[p]  ]
 
 ## 149
 
-<!-- todo: translate cadr, caddr, logic -->
-
 ```
 define[  multiplicand[p]  caddr[p]  ]
+```
 
-deriv[  '[ [+] [x] [3] ]  '[x]  ]
+Note: we shall translate `'(+ x 3)` into `list[ '[x] [3] ]`, etc.
 
-deriv[  '[ [*] [x] [y] ]  '[x]  ]
+```
+deriv[  list[ '[+] '[x] [3] ]  '[x]  ]
 
-deriv[  '[ [*] [[*][x][y]] [[+][x][3]] ]  '[x]  ]
+deriv[  list[ '[*] '[x] [y] ]  '[x]  ]
+
+deriv[  list[ '[*] list['[*]'[x]'[y]] list['[+]'[x][3]] ]  '[x]  ]
 
 define[  make sum[ [a1] [a2] ]
   ?[
