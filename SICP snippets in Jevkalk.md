@@ -3586,3 +3586,29 @@ define[ product?[s]
 
 define[  multiplier[p]  cadr[p]  ]
 ```
+
+## 149
+
+<!-- todo: translate cadr, caddr, logic -->
+
+```
+define[  multiplicand[p]  caddr[p]  ]
+
+deriv[  '[ [+] [x] [3] ]  '[x]  ]
+
+deriv[  '[ [*] [x] [y] ]  '[x]  ]
+
+deriv[  '[ [*] [[*][x][y]] [[+][x][3]] ]  '[x]  ]
+
+define[  make sum[ [a1] [a2] ]
+  ?[
+    =number?[ [a1] [0] ]  [a2]
+    =number?[ [a2] [0] ]  [a1]
+    and[
+      number?[a1]
+      number?[a2]
+    ]  +[ [a1] [a2] ]
+    list[ '[+] [a1] [a2] ]
+  ]
+]
+```
