@@ -3750,3 +3750,36 @@ define[  make sum[ [a1] [a2] ]
   ]
 ]
 ```
+
+## 150
+
+```
+define[  =number?[ [exp] [num] ]
+  and[
+    number?[exp]
+    =[ [exp] [num] ]
+  ]
+]
+
+define[  make product[ [m1] [m2] ]
+  ?[
+    or[
+      =number?[ [m1] [0] ]
+      =number?[ [m2] [0] ]
+    ]  [0]
+    =number?[ [m1] [1] ]  [m2]
+    =number?[ [m2] [1] ]  [m1]
+    and[
+      number?[m1]
+      number?[m2]
+    ]  *[ [m1] [m2] ]
+    list[ '[*] [m1] [m2] ]
+  ]
+]
+
+deriv[  list[ '[+] '[x] [3] ]  '[x]  ]
+
+deriv[  list[ '[*] '[x] '[y] ]  '[x]  ]
+
+deriv[  list[ '[*] list['[*]'[x]'[y]] list['[+]'[x][3]] ]  '[x]  ]
+```
