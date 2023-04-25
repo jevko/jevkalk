@@ -3621,6 +3621,108 @@ define[ product?[s]
 define[  multiplier[p]  cadr[p]  ]
 ```
 
+### Alternative definitions
+
+Here I introduce some functions to manipulate jevkos and make the whole thing based around jevkos rather than lists.
+
+`'number?` checks if a jevko can be evaluated to a number (looks like a number literal).
+
+The apostrophes in the signature of `deriv[ '[exp] '[var] ]` supress evaluation of the arguments (they are interpreted verbatim, as jevkos).
+
+```
+define[  deriv[ '[exp] '[var] ]
+  ?[
+    'number?[exp]  [0]
+    variable?[exp]  ?[
+      same variable?[ [exp] [var] ]  [1]
+      [0]
+    ]
+    sum?[exp]  make sum[
+      deriv[ addend[exp] [var] ]
+      deriv[ augend[exp] [var] ]
+    ]
+    product?[exp]  make sum[
+      make product[
+        multiplier[exp]
+        deriv[ multiplicand[exp] [var] ]
+      ]
+      make product[
+        deriv[ multiplier[exp] [var] ]
+        multiplicand[exp]
+      ]
+    ]
+    error[
+      [`unknown expression type -- DERIV`]
+      [exp]
+    ]
+  ]
+]
+```
+
+`name?` checks if a jevko looks like an identifier.
+
+```
+define[  variable?['[x]]  'name?[x]  ]
+```
+
+`'$` constructs jevkos and allows splicing in various parts from variables.
+
+```
+define[  make sum[ '[a1] '[a2] ]
+  '$[ +[$[a1]$[a2]] ]
+]
+
+define[  make product[ '[m1] '[m2] ]
+  '$[ *[$[m1]$[m2]] ]
+]
+```
+
+`'nonempty?` checks if a jevko has at least one subjevko. Maybe there is a better name for this one.
+
+`subs[jevko]` returns the list of the `jevko`'s subjevkos.
+
+`at[list]` returns a function to select elements from the `list`. The function accepts 0-based indices. It should also work for negative indices, to select elements backwards from the end of the list (`-1` is the last element).
+
+`prefix[subjevko]` returns the `subjevko`'s prefix as text.
+
+`.` is a placeholder variable that always holds the value of the previous expression.
+
+```
+define[  sum?['[x]]
+  and[
+    'nonempty?[x]
+    equals?[
+      [[x] subs[.] at[.].[0] prefix[.]]
+      ['+']
+    ]
+  ]
+]
+```
+
+`as jevko[subjevko]` wraps the `subjevko` in a jevko.
+
+```
+define[ addend['[s]] 
+  [s]
+  subs[.]
+  at[.].[0]
+  jevko[.]
+  subs[.]
+  at[.].[0]
+  as jevko[.] 
+]
+
+define[ augend['[s]] 
+  [s]
+  subs[.]
+  at[.].[0]
+  jevko[.]
+  subs[.]
+  at[.].[1]
+  as jevko[.] 
+]
+```
+
 ## 149
 
 ```
