@@ -3813,3 +3813,35 @@ define[
   ]
 ]
 ```
+
+## 153
+
+```
+define[
+  intersection set[ [set1] [set2] ]
+  ?[
+    or[ null?[set1] null?[set2] ]  [nil]
+    element of set?[ car[set1] [set2] ]  cons[
+      car[set1]
+      intersection set[ cdr[set1] [set2] ]
+    ]
+    intersection set[ cdr[set1] [set2] ]
+  ]
+]
+```
+
+Or using `head`, `tail`, and `pair` instead of `car`, `cdr`, and `cons`.
+
+```
+define[
+  intersection set[ [set1] [set2] ]
+  ?[
+    or[ null?[set1] null?[set2] ]  [nil]
+    element of set?[ head[set1] [set2] ]  pair[
+      head[set1]
+      intersection set[ tail[set1] [set2] ]
+    ]
+    intersection set[ tail[set1] [set2] ]
+  ]
+]
+```
