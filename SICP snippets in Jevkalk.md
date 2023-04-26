@@ -3783,3 +3783,33 @@ deriv[  list[ '[*] '[x] '[y] ]  '[x]  ]
 
 deriv[  list[ '[*] list['[*]'[x]'[y]] list['[+]'[x][3]] ]  '[x]  ]
 ```
+
+## 151
+
+```
+deriv[
+  list[ '[*] '[x] '[y] list['[+]'[x][3]] ]
+  '[x]
+]
+```
+
+## 152
+
+```
+define[
+  element of set?[ [x] [set] ]
+  ?[
+    null?[set]  [false]
+    equal?[ [x] car[set] ]  [true]
+    element of set?[ [x] cdr[set] ]
+  ]
+]
+
+define[
+  adjoin set[ [x] [set] ]
+  ?[
+    element of set?[ [x] [set] ]  [set]
+    cons[ [x] [set] ]
+  ]
+]
+```
