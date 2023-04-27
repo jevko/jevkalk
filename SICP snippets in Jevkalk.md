@@ -3859,3 +3859,35 @@ define[
   ]
 ]
 ```
+
+## 155
+
+```
+define[
+  intersection set[ [set1] [set2] ]
+  ?[
+    or[ null?[set1] null?[set2] ]  [nil]
+    let[
+      [x1]  car[set1]
+      [x2]  car[set2]
+      ?[
+        =[ [x1] [x2] ]  cons[
+          [x1]
+          intersection set[
+            cdr[set1]
+            cdr[set2]
+          ]
+        ]
+        <[ [x1] [x2] ]  intersection set[
+          cdr[set1]
+          [set2]
+        ]
+        <[ [x2] [x1] ]  intersection set[
+          [set1]
+          cdr[set2]
+        ]
+      ]
+    ]
+  ]
+]
+```
