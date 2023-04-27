@@ -3845,3 +3845,17 @@ define[
   ]
 ]
 ```
+
+## 154
+
+```
+define[
+  element of set?[ [x] [set] ]
+  ?[
+    null?[set]  [false]
+    =[ [x] car[set] ]  [true]
+    <[ [x] car[set] ]  [false]
+    element of set?[ [x] cdr[set] ]
+  ]
+]
+```
