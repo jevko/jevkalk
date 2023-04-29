@@ -3942,3 +3942,20 @@ define[  adjoin set[ [x] [set] ]
 ]
 ```
 
+## 158
+
+```
+define[
+  tree->list 1[tree]
+  ?[
+    null?[tree]  [nil]
+    append[
+      tree->list 1[ left branch[tree] ]
+      cons[
+        entry[tree]
+        tree->list 1[ right branch[tree] ]
+      ]
+    ]
+  ]
+]
+```
