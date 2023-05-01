@@ -4020,3 +4020,58 @@ define[  partial tree[ [elts] [n] ]
   ]
 ]
 ```
+
+## 160
+
+```
+define[
+  lookup[ [given key] [set of records] ]
+  ?[
+    null?[set of records]  [false]
+    equal?[ [given key] key[car[set of records]] ]  car[set of records]
+    lookup[ [given key] cdr[set of records] ]
+  ]
+]
+```
+
+## 165
+
+```
+define[  make leaf[ [symbol] [weight] ]
+  list[ '[leaf] [symbol] [weight] ]
+]
+
+define[  leaf?[object]
+  eq?[ car[object] '[leaf] ]
+]
+
+define[  symbol leaf[x]  cadr[x]  ]
+define[  weight leaf[x]  caddr[x]  ]
+
+define[  make code tree[ [left] [right] ]
+  list[
+    [left]
+    [right]
+    append[ symbols[left] symbols[right] ]
+    +[ weight[left] weight[right] ]
+  ]
+]
+
+define[  left branch[tree]  car[tree]  ]
+
+define[  right branch[tree]  cadr[tree]  ]
+
+define[  symbols[tree]
+  ?[
+    leaf?[tree]  list[symbol leaf[tree]]
+    caddr[tree]
+  ]
+]
+
+define[  weight[tree]
+  ?[
+    leaf?[tree]  weight leaf[tree]
+    cadddr[tree]
+  ]
+]
+```
