@@ -4075,3 +4075,37 @@ define[  weight[tree]
   ]
 ]
 ```
+
+## 166
+
+```
+define[  decode[ [bits] [tree] ]
+  define[  decode 1[ [bits] [current branch] ]
+    ?[
+      null?[bits]  [nil]
+      let[
+        [next branch]  choose branch[
+          car[bits]
+          [current branch]
+        ]
+        ?[
+          leaf?[next branch]  cons[
+            symbol leaf[next branch]
+            decode 1[ cdr[bits] [tree] ]
+          ]
+          decode 1[ cdr[bits] [next branch] ]
+        ]
+      ]
+    ]
+  ]
+  decode 1[ [bits] [tree] ]
+]
+
+define[  choose branch[ [bit] [branch] ]
+  ?[
+    =[ [bit] [0] ]  left branch[branch]
+    =[ [bit] [1] ]  right branch[branch]
+    error[ ['bad bit -- CHOOSE-BRANCH'] [bit] ]
+  ]
+]
+```
