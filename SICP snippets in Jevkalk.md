@@ -4109,3 +4109,55 @@ define[  choose branch[ [bit] [branch] ]
   ]
 ]
 ```
+
+## 167
+
+```
+define[  adjoin set[ [x] [set] ]
+  ?[
+    null?[set]  list[x]
+    <[ weight[x] weight[car[set]] ]  cons[ [x] [set] ]
+    cons[
+      car[set]
+      adjoin set[ [x] cdr[set] ]
+    ]
+  ]
+]
+
+define[  make leaf set[pairs]
+  ?[
+    null?[pairs]  [nil]
+    let[
+      [pair]  car[pair]
+      adjoin set[
+        make leaf[ car[pair] cadr[pair] ]
+        make leaf set[ cdr[pairs] ]
+      ]
+    ]
+  ]
+]
+
+define[  [sample tree]
+  make code tree[
+    make leaf[ '[A] [4] ]
+    make code tree[
+      make leaf[ '[B] [2] ]
+      make code tree[
+        make leaf[ '[D] [1] ]
+        make leaf[ '[C] [1] ]
+      ]
+    ]
+  ]
+]
+
+define[  [sample message]  '[[0][1][1][0][0][1][0][1][0][1][1][1][0]]  ]
+
+define[  encode[ [message] [tree] ]
+  ?[  null?[message] [nil]
+    append[
+      encode symbol[ car[message] [tree] ]
+      encode[ cdr[message] [tree] ]
+    ]
+  ]
+]
+```
