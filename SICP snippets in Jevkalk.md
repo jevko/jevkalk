@@ -4360,3 +4360,38 @@ define[  imag part[z]
   ]
 ]
 ```
+
+## 178
+
+```
+define[  magnitude[z]
+  ?[
+    rectangular?[z]  magnitude rectangular[contents[z]]
+    polar?[z]  magnitude polar[contents[z]]
+    error[ ['Unknown type -- MAGNITUDE'] [z] ]
+  ]
+]
+
+define[  angle[z]
+  ?[
+    rectangular?[z]  angle rectangular[contents[z]]
+    polar?[z]  angle polar[contents[z]]
+    error[ ['Unknown type -- ANGLE'] [z] ]
+  ]
+]
+
+define[  add complex[ [z1] [z2] ]
+  make from real imag[
+    +[ real part[z1] real part[z2] ]
+    +[ imag part[z1] imag part[z2] ]
+  ]
+]
+
+define[  make from real imag[ [x] [y] ]
+  make from real imag rectangular[ [x] [y] ]
+]
+
+define[  make from mag ang[ [r] [a] ]
+  make from mag ang polar[ [r] [a] ]
+]
+```
