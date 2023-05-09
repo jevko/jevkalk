@@ -4486,3 +4486,62 @@ define[  install polar package[]
 
 apply[ [+] list[[1][2][3][4]] ]
 ```
+
+## 184
+
+```
+define[  apply generic[ [op] ...[args] ]
+  let[
+    [type tags] map[ [type tag] [args] ]
+    let[
+      [proc] get[ [op] [type tags] ]
+      ?[
+        [proc]  apply[  [proc]  map[ [contents] [args] ]  ]
+        error[
+          ['No method for these types -- APPLY-GENERIC']
+          list[ [op] [type tags] ]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  real part[z]  apply generic[ '[real part] [z] ]  ]
+
+define[  imag part[z]  apply generic[ '[imag part] [z] ]  ]
+
+define[  magnitude[z]  apply generic[ '[magnitude] [z] ]  ]
+
+define[  angle[z]  apply generic[ '[angle] [z] ]  ]
+
+define[  make from real imag[ [x] [y] ]
+  [  get[ '[make from real imag] '[rectangular] ] .[ [x] [y] ] ]
+]
+
+define[  make from mag ang[ [r] [a] ]
+  [  get[ '[make from mag ang] '[polar] ] .[ [r] [a] ] ]
+]
+
+define[  deriv[ [exp] [var] ]
+  ?[
+    number?[exp]  [0]
+    variable?[exp]  ?[ same variable?[[exp][var]] [1] [0] ]
+    sum?[exp] make sum[
+      deriv[ addend[exp] [var] ]
+      deriv[ augend[exp] [var] ]
+    ]
+    product?[exp]  make sum[
+      make product[
+        multiplier[exp]
+        deriv[ multiplicand[exp] [var] ]
+      ]
+      make product[
+        deriv[ multiplier[exp] [var] ]
+        multiplicand[exp]
+      ]
+    ]
+  ]
+  <more rules can be added here>
+  error[ ['unknown expression type -- DERIV'] [exp] ]
+]
+```
