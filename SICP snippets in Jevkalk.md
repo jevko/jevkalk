@@ -4545,3 +4545,24 @@ define[  deriv[ [exp] [var] ]
   error[ ['unknown expression type -- DERIV'] [exp] ]
 ]
 ```
+
+## 185
+
+```
+define[  deriv[ [exp] [var] ]
+  ?[
+    number?[exp]  [0]
+    variable?[exp]  ?[ same variable?[[exp][var]] [1] [0] ]
+    [
+      get[ '[deriv] operator[exp] ]
+      .[ operands[exp] [var] ]
+    ]
+  ]
+]
+
+define[  operator[exp]  car[exp]  ]
+
+define[  operands[exp]  cdr[exp]  ]
+
+[  get[ operator[exp] '[deriv] ]  .[ operands[exp] [var] ]  ]
+```
