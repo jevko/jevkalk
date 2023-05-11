@@ -4566,3 +4566,26 @@ define[  operands[exp]  cdr[exp]  ]
 
 [  get[ operator[exp] '[deriv] ]  .[ operands[exp] [var] ]  ]
 ```
+
+## 186
+
+```
+define[  make from real imag[ [x] [y] ]
+  define[  dispatch[op]
+    ?[
+      eq?[ [op] '[real part] ]  [x]
+      eq?[ [op] '[imag part] ]  [y]
+      eq?[ [op] '[magnitude] ]  sqrt[+[ square[x] square[y] ]]
+      eq?[ [op] '[angle] ]  atan[ [y] [x] ]
+      error[ ['Unknown op -- MAKE-FROM-REAL-IMAG'] [op] ]
+    ]
+  ]
+  [dispatch]
+]
+```
+
+## 187
+
+```
+define[  apply generic[ [op] [arg] ]  arg[op]  ]
+```
