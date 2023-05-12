@@ -4780,3 +4780,19 @@ put[  '[real part]  '[[complex]]  [real part]  ]
 put[  '[magnitude]  '[[complex]]  [magnitude]  ]
 put[  '[angle]  '[[complex]]  [angle]  ]
 ```
+
+## 194
+
+```
+to be included in the complex package:
+define[  add complex to schemenum[ [z] [x] ]
+  make from real imag[
+    +[ real part[z] [x] ]
+    imag part[z]
+  ]
+]
+
+put[  '[add]  '[ [complex] [scheme number] ]
+  fun[  [ [z] [x] ]  tag[add complex to schemenum[ [z] [x] ]]  ]
+]
+```
