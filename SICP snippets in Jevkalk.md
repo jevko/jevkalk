@@ -4760,3 +4760,23 @@ define[  install complex package[]
   '[done]
 ]
 ```
+
+## 192
+
+```
+define[  make complex from real imag[ [x] [y] ]
+  get[ '[make from real imag] '[complex] ].[ [x] [y] ]
+]
+define[  make complex from mag ang[ [r] [a] ]
+  get[ '[make from mag ang] '[complex] ].[ [r] [a] ]
+]
+```
+
+## 193
+
+```
+put[  '[real part]  '[[complex]]  [real part]  ]
+put[  '[real part]  '[[complex]]  [real part]  ]
+put[  '[magnitude]  '[[complex]]  [magnitude]  ]
+put[  '[angle]  '[[complex]]  [angle]  ]
+```
