@@ -4796,3 +4796,140 @@ put[  '[add]  '[ [complex] [scheme number] ]
   fun[  [ [z] [x] ]  tag[add complex to schemenum[ [z] [x] ]]  ]
 ]
 ```
+
+## 195
+
+```
+define[  scheme number->complex[n]
+  make complex from real imag[ contents[n] [0] ]
+]
+
+put coerction[  '[scheme number]  '[complex]  scheme number->complex  ]
+```
+
+## 196
+
+```
+define[  apply generic[ [op] ...[args] ]
+  let[
+    [type tags]  map[ [type tag] [args] ]
+    let[
+      [proc]  get[ [op] [type tags] ]
+      ?[
+        [proc]  apply[ [proc] map[[contents][args]] ]
+        ?[
+          =[ length[args] [2] ]  let[
+            [type1]  car[type tags]
+            [type2]  cadr[type tags]
+            [a1]  car[args]
+            [a2]  cadr[args]
+            let[
+              [t1->t2]  get coercion[ [type1] [type2] ]
+              [t2->t1]  get coercion[ [type2] [type1] ]
+              ?[
+                [t1->t2]  apply generic[ [op] t1->t2[a1] [a2] ]
+                [t2->t1]  apply generic[ [op] [a1] t2->t1[a2] ]
+                error[
+                  ['No method for these types']
+                  list[ [op] [type tags] ]
+                ]
+              ]
+            ]
+          ]
+          error[
+            ['No method for these types']
+            list[ [op] [type tags] ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+```
+
+Note: for `apply generic` to work properly, `get` needs to accept the following forms as interchangeable:
+
+```
+list[ '[a] '[b] '[c] ]
+'[ [a] [b] [c] ]
+```
+
+`get` is thus far not defined in the book, but we should take that into account later.
+
+Anyway, to accept these forms as interchangeable, we shall define conversion functions:
+
+```
+define[  list of jevkos->jevko[l]
+  jevko[
+    map[ 
+      fun[  [j]  subjevko[ [''] [j] ]  ]
+      [l]
+    ]
+    ['']
+  ]
+]
+
+define[  jevko->list of jevkos[j]
+  map[
+    fun[  [s]  get jevko[s]  ]
+    subs[j]
+  ]
+]
+```
+
+where `get jevko[subjevko]` extracts the `subjevko's` `jevko`.
+
+The same functions with added type checking:
+
+```
+define[  list of jevkos->jevko[l]
+  ?[
+    list?[l]  jevko[
+      map[ 
+        fun[  [j]
+          ?[
+            jevko?[j]  subjevko[ [''] [j] ]
+            error[ ['Expected jevko, got '] [j] ]
+          ]
+        ]
+        [l]
+      ]
+      ['']
+    ]
+    error[ ['Expected list, got '] [l] ]
+  ]
+]
+
+define[  jevko->list of jevkos[j]
+  ?[
+    jevko?[j]  map[
+      fun[  [s]  get jevko[s]  ]
+      subs[j]
+    ]
+    error[ ['Expected jevko, got '] [j] ]
+  ]
+]
+```
+
+Where `jevko?[value]` checks whether a value is a `jevko`.
+
+Perhaps it would be sensible to specify a more organized naming convention(s) for selector and constructor functions, e.g.:
+
+```
+selectors start with 'get'
+get subs[jevko]
+get jevko[subjevko]
+
+constructors start with 'make'
+make jevko[ [subs] [suffix] ]
+make sub[ [prefix] [jevko] ]
+```
+
+[certain?] selectors could also be invokable something like:
+
+```
+at[jevko].['subs']
+at[subjevko].['jevko']
+```
+
+i.e. as "fields". The generalized `at` would check the type of its argument and return a function which accepts the name of a selector. An editor could autocomplete the names.
