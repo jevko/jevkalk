@@ -4951,3 +4951,91 @@ put[  '[exp]  '[ [scheme number] [scheme number] ]
   fun[  [ [x] [y] ]  tag[expt[ [x] [y] ]]  using primitive expt  ]
 ]
 ```
+
+## 204
+
+```
+define[  add poly[ [p1] [p2] ]
+  ?[
+    same variable?[ variable[p1] variable[p2] ]  make poly[
+      variable[p1]
+      add terms[
+        term list[p1]
+        term list[p2]
+      ]
+    ]
+    error[
+      [`Polys not in same var -- ADD-POLY`]
+      list[ [p1] [p2] ]
+    ]
+  ]
+]
+
+define[  mul poly[ [p1] [p2] ]
+  ?[
+    same variable?[ variable[p1] variable[p2] ]  make poly[
+      variable[p1]
+      mul terms[
+        term list[p1]
+        term list[p2]
+      ]
+    ]
+    error[
+      [`Polys not in same var -- MUL-POLY`]
+      list[ [p1] [p2] ]
+    ]
+  ]
+]
+
+define[  install polynomial package[]
+  internal procedures
+  representation of poly
+  define[  make poly[ [variable] [term list] ]
+    cons[ [variable] [term list] ]
+  ]
+  define[  variable[p]  car[p]  ]
+  define[  term list[p]  cdr[p]  ]
+  <procedures 'same variable?' and 'variable?' from section 2.3.2>
+
+  representation of terms and term lists
+  <procedures 'adjoin term' ... 'coeff' from text below>
+
+  continued on next page
+```
+
+## 205
+
+```
+  define[  add poly[ [p1] [p2] ]  ...  ]
+  <procedures used by 'add poly'>
+  define[  mul poly[ [p1] [p2] ]  ...  ]
+  <procedures used by 'mul poly'>
+
+  interface to the rest of the system
+  define[  tag[p]  attach tag[ '[polynomial] [p] ]  ]
+  put[  '[add]  '[ [polynomial] [polynomial] ]
+    fun[  [ [p1] [p2] ]  tag[add poly[ [p1] [p2] ]]  ]
+  ]
+  put[  '[mul]  '[ [polynomial] [polynomial] ]
+    fun[  [ [p1] [p2] ]  tag[mul poly[ [p1] [p2] ]]  ]
+  ]
+  put[  '[make]  '[polynomial]
+    fun[  [ [var] [terms] ]  tag[make poly[ [var] [terms] ]]  ]
+  ]
+  '[done]
+]
+```
+
+An idea for a leaner lambda variant:
+
+```
+fun1[  [p1] [p2]  tag[mul poly[ [p1] [p2] ]]  ]
+```
+
+The syntax here is:
+
+```
+fun1[ [arg1] ... [argN] [body] ]
+```
+
+The brackets around the args are discarded in exchange for single-expression body. The body could always be made into a block however.
