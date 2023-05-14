@@ -4933,3 +4933,21 @@ at[subjevko].['jevko']
 ```
 
 i.e. as "fields". The generalized `at` would check the type of its argument and return a function which accepts the name of a selector. An editor could autocomplete the names.
+
+## 200
+
+```
+define[  scheme number->scheme number[n]  [n]  ]
+
+define[  complex->complex[z]  [z]  ]
+
+put coercion[  '[scheme number] '[scheme number]  scheme number->scheme number  ]
+
+put coercion[  '[complex] '[complex]  complex->complex  ]
+
+define[  exp[ [x] [y] ]  apply generic[ '[exp] [x] [y] ]  ]
+
+put[  '[exp]  '[ [scheme number] [scheme number] ]
+  fun[  [ [x] [y] ]  tag[expt[ [x] [y] ]]  using primitive expt  ]
+]
+```
