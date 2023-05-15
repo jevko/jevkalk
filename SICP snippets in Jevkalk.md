@@ -5100,3 +5100,42 @@ define[  mul term by all terms[ [t1] [L] ]
   ]
 ]
 ```
+
+## 209
+
+```
+define[  adjoin term[ [term] [term list] ]
+  ?[
+    =zero?[coeff[term]]  [term list]
+    cons[ [term] [term list] ]
+  ]
+]
+
+define[  the empty termlist[]  [nil]  ]
+
+define[  first term[term list]  car[term list]  ]
+
+define[  rest terms[term list]  cdr[term list]  ]
+
+define[  empty termlist?[term list]  null?[term list]  ]
+
+define[  make term[ [order] [coeff] ]  list[ [order] [coeff] ]  ]
+
+define[  order[term]  car[term]  ]
+
+define[  coeff[term]  cadr[term]  ]
+
+define[  make polynomial[ [var] [terms] ]
+  get[ '[make] '[polynomial] ].[ [var] [terms] ]
+]
+```
+
+An idea: a `list'` function that works much like Scheme's quote applied to a list: it returns a list of unevaluated jevkos. That's in contrast to `'` which returns a jevko.
+
+```
+list'[ [a] [b] ]
+
+would be equivalent to
+
+list[ '[a] '[b] ]
+```
