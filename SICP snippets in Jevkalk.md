@@ -5273,3 +5273,75 @@ define[  [rf2]  make rational[ [p3] [p4] ]  ]
 
 add[ [rf1] [rf2] ]
 ```
+
+## Chapter 3
+
+## 219
+
+```
+withdraw[25]
+
+withdraw[25]
+
+withdraw[60]
+
+withdraw[15]
+```
+
+
+## 220
+
+```
+define[  [balance]  [100]  ]
+
+define[  withdraw[amount]
+  ?[
+    >=[ [balance] [amount] ]  [
+      set![ [balance] -[[balance][amount]] ]
+      [balance]
+    ]
+    [`Insufficient funds`]
+  ]
+]
+
+set![ [balance] -[[balance][amount]] ]
+
+set![ [name] [new value] ]
+```
+
+## 221
+
+The equivalent of `begin` in Jevkalk is simply:
+
+```
+[ [exp_1] [exp_2] ... [exp_k] ]
+```
+
+```
+define[  [new withdraw]
+  let[
+    [balance]  [100]
+    ?[
+      >=[ [balance] [amount] ]  [
+        set![ [balance] -[[balance][amount]] ]
+        [balance]
+      ]
+      [`Insufficient funds`]
+    ]
+  ]
+]
+```
+
+An Unified Call Syntax I've been developing would also allow this:
+
+```
+[balance].set![-[[balance][amount]]]
+```
+
+or even:
+
+```
+[balance].set![[balance].-[amount]]
+```
+
+More on that later.
