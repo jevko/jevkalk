@@ -5139,3 +5139,137 @@ would be equivalent to
 
 list[ '[a] '[b] ]
 ```
+
+## 210
+
+```
+define[  div terms[ [L1] [L2] ]
+  ?[
+    empty termlist?[L1]  list[ the empty termlist[] the empty termlist[] ]
+    let[
+      [t1]  first term[L1]
+      [t2]  first term[L2]
+      ?[
+        >[ order[t2] order[t1] ]  list[ the empty termlist[] [L1] ]
+        let[
+          [new c]  div[ coeff[t1] coeff[t2] ]
+          [new o]  -[ order[t1] order[t2] ]
+          let[
+            [rest of result]  <compute rest of result recursively>
+            <form complete result>
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+```
+
+## 212
+
+```
+define[  [p1]  
+  make polynomial[ 
+    '[x] 
+    list'[ [[2][1]] [[0][1]] ] 
+  ]
+]
+
+define[  [p2]  
+  make polynomial[ 
+    '[x] 
+    list'[ [[3][1]] [[0][1]] ] 
+  ]
+]
+
+define[  [rf]
+  make rational[ [p2] [p1] ]
+]
+
+define[  gcd[ [a] [b] ]
+  ?[
+    =[ [b] [0] ]  [a]
+    gcd[ [b] remainder[[a][b]] ]
+  ]
+]
+```
+
+Note: `list'` should then interpret things like:
+
+```
+list'[ [[2][1]] [[0][1]] ] 
+```
+
+as
+
+```
+list[ list['[2]'[1]] list['[0]'[1]] ] 
+```
+
+## 213
+
+```
+define[  gcd terms[ [a] [b] ]
+  ?[
+    empty termlist?[b]  [a]
+    gcd terms[ [b] remainder terms[[a][b]] ]
+  ]
+]
+
+define[  [p1]
+  make polynomial[
+    '[x]
+    list'[ [[4][1]] [[3][-1]] [[2][-2]] [[1][2]] ]
+  ]
+]
+
+define[  [p2]
+  make polynomial[
+    '[x]
+    list'[ [[3][1]] [[1][-1]] ]
+  ]
+]
+
+greatest common divisor[ [p1] [p2] ]
+```
+
+## 215
+
+```
+define[  reduce integers[ [n] [d] ]
+  let[
+    [g]  gcd[[n][d]]
+    list[ /[[n][g]] /[[d][g]] ]
+  ]
+]
+
+define[  [p1]
+  make polynomial[
+    '[x]
+    list'[ [[1][1]] [[0][1]] ]
+  ]
+]
+define[  [p2]
+  make polynomial[
+    '[x]
+    list'[ [[3][1]] [[0][-1]] ]
+  ]
+]
+define[  [p3]
+  make polynomial[
+    '[x]
+    list'[ [[1][1]] ]
+  ]
+]
+define[  [p4]
+  make polynomial[
+    '[x]
+    list'[ [[2][1]] [[0][-1]] ]
+  ]
+]
+
+define[  [rf1]  make rational[ [p1] [p2] ]  ]
+define[  [rf2]  make rational[ [p3] [p4] ]  ]
+
+add[ [rf1] [rf2] ]
+```
