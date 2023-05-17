@@ -5345,3 +5345,109 @@ or even:
 ```
 
 More on that later.
+
+
+## 222
+
+```
+define[  make withdraw[balance]
+  fun[ [amount]
+    ?[
+      >=[ [balance] [amount] ]  [
+        set![ [balance] -[[balance][amount]] ]
+        [balance]
+      ]
+      [`Insufficient funds`]
+    ]
+  ]
+]
+
+define[  [W1]  make withdraw[100]  ]
+define[  [W2]  make withdraw[100]  ]
+
+W1[50]
+
+W2[70]
+```
+
+## 223
+
+```
+W2[40]
+
+W1[40]
+
+define[  make account[balance]
+  define[  withdraw[amount]
+    ?[
+      >=[ [balance] [amount] ] [
+        set![ [balance] -[[balance][amount]] ]
+        [balance]
+      ]
+      [`Insufficient funds`]
+    ]
+  ]
+  define[  deposit[amount]
+    set![ [balance] +[[balance][amount]] ]
+    [balance]
+  ]
+  define[  dispatch[m]
+    ?[
+      eq?[ [m] '[withdraw] ]  [withdraw]
+      eq?[ [m] '[deposit] ]  [deposit]
+      error[
+        [`Unknown request -- MAKE-ACCOUNT`]
+        [m]
+      ]
+    ]
+  ]
+  [dispatch]
+]
+
+define[  [acc]  make account[100]  ]
+
+acc[ '[withdraw] ].[50]
+```
+
+## 224
+
+```
+acc[ '[withdraw] ].[60]
+
+acc[ '[deposit] ].[40]
+
+acc[ '[withdraw] ].[60]
+
+define[  [acc2]  make account[100]  ]
+
+define[  [A]  make accumulator[5]  ]
+
+A[10]
+
+A[10]
+```
+
+If we redefine `make account`'s `dispatch` as:
+
+```
+define[  dispatch[m]
+  ?[
+    eq?[ [m] [`withdraw`] ]  [withdraw]
+    eq?[ [m] [`deposit`] ]  [deposit]
+    error[
+      [`Unknown request -- MAKE-ACCOUNT`]
+      [m]
+    ]
+  ]
+]
+```
+
+i.e. we accept strings instead of "symbols", the above code will look nicer:
+
+```
+acc[`withdraw`].[60]
+
+acc[`deposit`].[40]
+
+acc[`withdraw`].[60]
+```
