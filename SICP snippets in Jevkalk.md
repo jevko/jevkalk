@@ -5451,3 +5451,36 @@ acc[`deposit`].[40]
 
 acc[`withdraw`].[60]
 ```
+
+## 225
+
+```
+define[  [s]  make monitored[sqrt]  ]
+
+s[100]
+
+s[ '[how many calls] ]
+
+define[  [acc]  make account[ [100] '[secret password] ]  ]
+
+acc[ '[secret password] '[withdraw] ].[40]
+
+acc[ '[some other password] '[deposit] ].[50]
+
+x_2 = rand update[x_1]
+x_3 = rand update[x_2]
+```
+
+## 226
+
+```
+define[  [rand]
+  let[
+    [x]  [random init]
+    fun[ []
+      set![ [x] rand update[x] ]
+      [x]
+    ]
+  ]
+]
+```
