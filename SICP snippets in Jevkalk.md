@@ -5536,3 +5536,60 @@ define[  random gcd test[ [trials] [initial x] ]
   iter[ [trials] [0] [initial x] ]
 ]
 ```
+
+## 229
+
+```
+define[  random in range[ [low] [high] ]
+  let[
+    [range]  -[ [high] [low] ]
+    +[ [low] random[range] ]
+  ]
+]
+```
+
+## 230
+
+```
+define[  make simplified withdraw[balance]
+  fun[ [amount]
+    set![ [balance] -[[balance][amount]] ]
+    [balance]
+  ]
+]
+
+define[  [W]  make simplified withdraw[25]  ]
+
+W[20]
+
+W[10]
+
+define[  make decrementer[balance]
+  fun[ [amount]
+    -[ [balance] [amount] ] 
+  ]
+]
+
+define[  [D]  make decrementer[25]  ]
+
+D[20]
+
+D[10]
+
+make decrementer[25].[20]
+```
+
+## 231
+
+```
+fun[ [amount] -[[25][amount]] ].[20]
+
+-[ [25] [20] ]
+
+make simplified withdraw[25].[20]
+
+fun[  [amount]  set![ [balance] -[[25][amount]] ]  [25]  ].[20]
+
+set![ [balance] -[[25][20]] ] [25]
+```
+
