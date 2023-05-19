@@ -5593,3 +5593,84 @@ fun[  [amount]  set![ [balance] -[[25][amount]] ]  [25]  ].[20]
 set![ [balance] -[[25][20]] ] [25]
 ```
 
+## 232
+
+```
+define[  [D1]  make decrementer[25]  ]
+
+define[  [D2]  make decrementer[25]  ]
+
+define[  [W1]  make simplified withdraw[25]  ]
+
+define[  [W2]  make simplified withdraw[25]  ]
+
+W1[20]
+
+W1[20]
+
+W2[20]
+```
+
+## 233
+
+```
+define[  [peter acc]  make account[100]  ]
+
+define[  [paul acc]  make account[100]  ]
+
+define[  [peter acc]  make account[100]  ]
+
+define[  [paul acc]  [peter acc]  ]
+```
+
+## 234
+
+```
+define[  factorial[n]
+  define[  iter[ [product] [counter] ]
+    ?[
+      >[ [counter] [n] ]  [product]
+      iter[
+        *[ [counter] [product] ]
+        +[ [counter] [1] ]
+      ]
+    ]
+  ]
+  iter[ [1] [1] ]
+]
+```
+
+## 235
+
+```
+define[  factorial[n]
+  let[
+    [product]  [1]
+    [counter]  [1]
+    [
+      define[  iter[]
+        ?[
+          >[ [counter] [n] ]  [product]
+          [
+            set![ [product] *[[counter][product]] ]
+            set![ [counter] +[[counter][1]] ]
+            iter[]
+          ]
+        ]
+      ]
+      iter[]
+    ]
+  ]
+]
+
+set![ [counter] +[[counter][1]] ]
+set![ [product] *[[counter][product]] ]
+```
+
+## 236
+
+```
+define[  [paul acc]
+  make joint[ [peter acc] '[open sesame] '[rosebud] ]
+]
+```
