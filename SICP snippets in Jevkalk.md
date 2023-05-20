@@ -5674,3 +5674,103 @@ define[  [paul acc]
   make joint[ [peter acc] '[open sesame] '[rosebud] ]
 ]
 ```
+
+## 238
+
+```
+define[  square[x]
+  *[ [x] [x] ]
+]
+```
+
+## 239
+
+```
+define[  [square]
+  fun[  [x]  *[ [x] [x] ]  ]
+]
+```
+
+## 241
+
+```
+define[  square[x]
+  *[ [x] [x] ]
+]
+
+define[  sum of squares[ [x] [y] ]
+  +[ square[x] square[y] ]
+]
+
+define[  f[a]
+  sum of squares[ +[[a][1]] *[[a][2]] ]
+]
+```
+
+## 242
+
+```
+sum of squares[ +[[a][1]] *[[a][2]] ]
+```
+
+## 243
+
+```
+define[  factorial[n]
+  ?[
+    =[ [n] [1] ]  [1]
+    *[ [n] factorial[-[[n][1]]] ]
+  ]
+]
+
+define[  factorial[n]
+  fact iter[ [1] [1] [n] ]
+]
+```
+
+## 244
+
+```
+define[  fact iter[ [product] [counter] [max count] ]
+  ?[
+    >[ [counter] [max count] ]  [product]
+    fact iter[
+      *[ [counter] [product] ]
+      +[ [counter] [1] ]
+      [max count]
+    ]
+  ]
+]
+
+define[  make withdraw[balance]
+  fun[  [amount]
+    ?[
+      >=[ [balance] [amount] ]  [
+        set![ [balance] -[[balance][amount]] ]
+        [balance]
+      ]
+      [`Insufficient funds`]
+    ]
+  ]
+]
+
+define[  [W1]  make withdraw[100]  ]
+
+W1[50]
+
+define[  [W1]  make withdraw[100]  ]
+```
+
+## 245
+
+```
+W1[50]
+
+?[
+  >=[ [balance] [amount] ] [
+    set![ [balance] -[[balance][amount]] ]
+    [balance]
+  ]
+  [`Insufficient funds`]
+]
+```
