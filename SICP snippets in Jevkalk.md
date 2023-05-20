@@ -5774,3 +5774,62 @@ W1[50]
   [`Insufficient funds`]
 ]
 ```
+
+## 246
+
+```
+define[  [W2]  make withdraw[100]  ]
+```
+
+## 248
+
+```
+define[  make withdraw[initial amount]
+  let[
+    [balance]  [initial amount]
+    fun[  [amount]
+      ?[
+        >=[ [balance] [amount] ]  [
+          set![ [balance] -[[balance][amount]] ]
+          [balance]
+        ]
+        [`Insufficient funds`]
+      ]
+    ]
+  ]
+]
+
+define[  [W1]  make withdraw[100]  ]
+
+W1[50]
+
+define[  [W2]  make withdraw[100]  ]
+```
+
+## 249
+
+```
+define[  sqrt[x]
+  define[  good enough?[guess]
+    <[  abs[-[ square[guess] [x] ]]  [0.001]  ]
+  ]
+  define[  improve[guess]
+    average[ [guess] /[[x][guess]] ]
+  ]
+  define[  sqrt iter[guess]
+    ?[
+      good enough?[guess]  [guess]
+      sqrt iter[ improve[guess] ]
+    ]
+  ]
+  sqrt iter[1.0]
+]
+```
+
+## 250
+
+```
+define[  good enough?[guess]
+  <[  abs[-[ square[guess] [x] ]]  [0.001]  ]
+]
+```
