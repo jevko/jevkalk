@@ -5955,3 +5955,108 @@ define[  mystery[x]
   loop[ [x] [nil] ]
 ]
 ```
+
+## 257
+
+Experimenting here with using strings instead of symbols.
+
+`['a]` is the string `a`. It is equivalent to `['a']` and `` [`a`] ``.
+
+```
+define[  [x]  list[ ['a] ['b] ]  ]
+
+define[  [z1]  cons[ [x] [x] ]  ]
+
+define[  [z2]  cons[ list[['a]['b]] list[['a]['b]] ]  ]
+```
+
+## 258
+
+```
+define[  set to wow![x]
+  set car![ car[x] ['wow] ]
+  [x]
+]
+
+[z1]
+
+set to wow![z1]
+
+[z2]
+
+set to wow![z2]
+```
+
+## 259
+
+```
+define[  count pairs[x]
+  ?[
+    not[pair?[x]]  [0]
+    +[
+      count pairs[car[x]]
+      count pairs[cdr[x]]
+      [1]
+    ]
+  ]
+]
+```
+
+## 260
+
+```
+define[  cons[ [x] [y] ]
+  define[  dispatch[m]
+    ?[
+      eq?[ [m] ['car] ]  [x]
+      eq?[ [m] ['cdr] ]  [y]
+      error[ ['Undefined operation -- CONS] [m] ]
+    ]
+  ]
+  [dispatch]
+]
+
+define[  car[z]  z['car]  ]
+
+define[  cdr[z]  z['cdr]  ]
+
+define[  cons[ [x] [y] ]
+  define[  set x![v]  set![ [x] [v] ]  ]
+  define[  set y![v]  set![ [y] [v] ]  ]
+  define[  dispatch[m]
+    ?[
+      eq?[ [m] ['car] ]  [x]
+      eq?[ [m] ['cdr] ]  [y]
+      eq?[ [m] ['set car!] ]  [set x!]
+      eq?[ [m] ['set cdr!] ]  [set y!]
+      error[ ['Undefined operation -- CONS] [m] ]
+    ]
+  ]
+  [dispatch]
+]
+
+define[  car[z]  z['car]  ]
+define[  cdr[z]  z['cdr]  ]
+```
+
+## 261
+
+```
+define[  set car![ [z] [new value] ]
+  z['set car!].[new value]
+  [z]
+]
+
+define[  set cdr![ [z] [new value] ]
+  z['set cdr!].[new value]
+  [z]
+]
+
+define[  [z]  cons[ [1] [2] ]  ]
+
+define[  [z]  cons[ [x] [x] ]  ]
+
+set car![ cdr[z] [17] ]
+
+car[x]
+```
