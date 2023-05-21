@@ -5833,3 +5833,125 @@ define[  good enough?[guess]
   <[  abs[-[ square[guess] [x] ]]  [0.001]  ]
 ]
 ```
+
+## 251
+
+```
+define[  make account[balance]
+  define[  withdraw[amount]
+    ?[
+      >=[ [balance] [amount] ]  [
+        set![ [balance] -[[balance][amount]] ]
+        [balance]
+      ]
+      ['Insufficient funds']
+    ]
+  ]
+  define[  deposit[amount]
+    set![ [balance] +[[balance][amount]] ]
+    [balance]
+  ]
+  define[  dispatch[m]
+    ?[
+      eq?[ [m] ['withdraw'] ]  [withdraw]
+      eq?[ [m] ['deposit'] ]  [deposit]
+      error[
+        ['Unknown request -- MAKE-ACCOUNT']
+        [m]
+      ]
+    ]
+  ]
+  [dispatch]
+]
+
+define[  [acc]  make account[50]  ]
+
+acc['deposit'].[40]
+
+acc['withdraw'].[60]
+
+define[  [acc2]  make account[100] ]
+```
+
+## 252
+
+```
+set balance![ [<account>] [<new value>] ]
+```
+
+## 255
+
+```
+define[  cons[ [x] [y] ]
+  let[
+    [new]  get new pair[]
+    [
+      set car![ [new] [x] ]
+      set cdr![ [new] [y] ]
+      [new]
+    ]
+  ]
+]
+
+define[  append[ [x] [y] ]
+  ?[
+    null?[x]  [y]
+    cons[  car[x]  append[ cdr[x] [y] ]  ]
+  ]
+]
+
+define[  append![ [x] [y] ]
+  set cdr![ last pair[x] [y] ]
+  [x]
+]
+
+define[  last pair[x]
+  ?[
+    null?[cdr[x]]  [x]
+    last pair[cdr[x]]
+  ]
+]
+
+define[  [x]  list[ ['a'] ['b'] ]  ]
+
+define[  [y]  list[ ['c'] ['d'] ]  ]
+
+define[  [z]  append[ [x] [y] ]  ]
+```
+
+## 256
+
+```
+[z]
+
+cdr[x]
+
+define[  [w]  append![ [x] [y] ]  ]
+
+[w]
+
+cdr[x]
+
+define[  make cycle[x]
+  set cdr![ last pair[x] [x] ]
+  [x]
+]
+
+define[  [z]  make cycle[ list[['a']['b']['c']] ]  ]
+
+define[  mystery[x]
+  define[  loop[ [x] [y] ]
+    ?[
+      null?[x]  [y]
+      let[
+        [temp]  cdr[x]
+        [
+          set cdr![ [x] [y] ]
+          loop[ [temp] [x] ]
+        ]
+      ]
+    ]
+  ]
+  loop[ [x] [nil] ]
+]
+```
