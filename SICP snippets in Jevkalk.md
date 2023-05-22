@@ -6060,3 +6060,117 @@ set car![ cdr[z] [17] ]
 
 car[x]
 ```
+
+## 262
+
+```
+define[  [q]  make queue[]  ]
+
+insert queue![ [q] ['a] ]    a
+
+insert queue![ [q] ['b] ]    a b
+
+delete queue![q]             b
+
+insert queue![ [q] ['c] ]    b c
+
+insert queue![ [q] ['d] ]    b c d
+
+delete queue![q]             c d
+
+make queue[]
+
+empty queue?[<queue>]
+
+front queue[<queue>]
+
+insert queue![ [<queue>] [<item>] ]
+
+delete queue![<queue>]
+```
+
+## 263
+
+```
+define[  front ptr[queue]  car[queue]  ]
+
+define[  rear ptr[queue]  cdr[queue]  ]
+
+define[  set front ptr![ [queue] [item] ]  set car![ [queue] [item] ]  ]
+
+define[  set rear ptr![ [queue] [item] ]  set cdr![ [queue] [item] ]  ]
+```
+
+## 264
+
+```
+define[  make queue[]  cons[ [nil] [nil] ]  ]
+
+define[  front queue[queue]
+  ?[
+    empty queue?[queue]  error[ [`FRONT called with an empty queue`] [queue] ]
+    car[front ptr[queue]]
+  ]
+]
+
+define[  insert queue![ [queue] [item] ]
+  let[
+    [new pair]  cons[ [item] [nil] ]
+    ?[
+      empty queue?[queue]  [
+        set front ptr![ [queue] [new pair] ]
+        set rear ptr![ [queue] [new pair] ]
+        [queue]
+      ]
+      [
+        set cdr![ rear ptr[queue] [new pair] ]
+        set rear ptr![ [queue] [new pair] ]
+        [queue]
+      ]
+    ]
+  ]
+]
+```
+
+## 265
+
+```
+define[  delete queue![queue]
+  ?[
+    empty queue?[queue]  error[
+      [`DELETE! called with an empty queue`]
+      [queue]
+    ]
+    [
+      set front ptr![ [queue] cdr[front ptr[queue]] ]
+      [queue]
+    ]
+  ]
+]
+
+define[  [q1]  make queue[]  ]
+
+insert queue![ [q1] ['a] ]
+
+insert queue![ [q1] ['b] ]
+
+delete queue![q1]
+
+delete queue![q1]
+```
+
+## 266
+
+```
+define[  make queue[]
+  let[
+    [front ptr]  [...]
+    [rear ptr]  [...]
+    [
+      <definitions of internal procedures>
+      define[  dispatch[m]  [...]  ]
+      [dispatch]
+    ]
+  ]
+]
+```
