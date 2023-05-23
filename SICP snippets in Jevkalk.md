@@ -6174,3 +6174,43 @@ define[  make queue[]
   ]
 ]
 ```
+
+## 268
+
+```
+define[  lookup[ [key] [table] ]
+  let[
+    [record]  assoc[ [key] cdr[table] ]
+    ?[
+      [record]  cdr[record]
+      [false]
+    ]
+  ]
+]
+
+define[  assoc[ [key] [records] ]
+  ?[
+    null?[records]  [false]
+    equal?[ [key] caar[records] ]  car[records]
+    assoc[ [key] cdr[records] ]
+  ]
+]
+
+define[  insert![ [key] [value] [table] ]
+  let[
+    [record]  assoc[ [key] cdr[table] ]
+    ?[
+      [record]  set cdr![ [record] [value] ]
+      set cdr![
+        [table]
+        cons[  cons[ [key] [value] ]  cdr[table]  ]
+      ]
+    ]
+  ]
+  ['ok]
+]
+
+define[  make table[]
+  list[ ['*table*] ]
+]
+```
