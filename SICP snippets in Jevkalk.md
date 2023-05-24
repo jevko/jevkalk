@@ -6330,3 +6330,9 @@ define[  [operation table]  make table[]  ]
 define[  [get]  operation table['lookup proc]  ]
 define[  [set]  operation table['insert proc!]  ]
 ```
+
+Note that the above definition uses strings instead of "symbols", so it's inconsistent with the previous code that assumed the existence of `get` and `put` operations. That would need to be adjusted accordingly. Perhaps at a later time. For now the purpose of this translation is to explore different language features, learn about them, apply the spirit of minimalism, come up with new ideas in the process, filter and solidify these ideas.
+
+As I get to the end of the book or sufficiently far, I may do a round of editing that will make things neat.
+
+BTW I'm thinking that the `let` construct may be entirely done away with in favor of (generalized?) `define`. Also I may want to replace `cons`, `cdr`, `car` with higher-level modern equivalents. In fact I am forming an idea for a language codenamed `JevoScript` which would be compiled to JavaScript and highly-interoperable with it. It would be a thin Jevko-based syntactic layer that generalizes certain language constructs, streamlining and simplifying JavaScript, fixing some design errors, making the language fully expression oriented. It would take the best from Scheme (which after all, is the root of JavaScript) and JavaScript, combining the simplicity of the former with the modern feeling and ease of use of the latter. We shall see how this develops.
