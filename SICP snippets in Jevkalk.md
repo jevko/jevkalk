@@ -6336,3 +6336,56 @@ Note that the above definition uses strings instead of "symbols", so it's incons
 As I get to the end of the book or sufficiently far, I may do a round of editing that will make things neat.
 
 BTW I'm thinking that the `let` construct may be entirely done away with in favor of (generalized?) `define`. Also I may want to replace `cons`, `cdr`, `car` with higher-level modern equivalents. In fact I am forming an idea for a language codenamed `JevoScript` which would be compiled to JavaScript and highly-interoperable with it. It would be a thin Jevko-based syntactic layer that generalizes certain language constructs, streamlining and simplifying JavaScript, fixing some design errors, making the language fully expression oriented. It would take the best from Scheme (which after all, is the root of JavaScript) and JavaScript, combining the simplicity of the former with the modern feeling and ease of use of the latter. We shall see how this develops.
+
+## 272
+
+```
+define[  fib[n]
+  ?[
+    =[ [n] [0] ]  [0]
+    =[ [n] [1] ]  [1]
+    +[
+      fib[-[ [n] [1] ]]
+      fib[-[ [n] [2] ]]
+    ]
+  ]
+]
+
+define[  [memo fib]
+  memoize[fun[  [n]
+    ?[
+      =[ [n] [0] ]  [0]
+      =[ [n] [1] ]  [1]
+      +[
+        memo fib[-[ [n] [1] ]]
+        memo fib[-[ [n] [2] ]]
+      ]
+    ]
+  ]]
+]
+```
+
+## 273
+
+```
+define[  memoize[f]
+  let[
+    [table]  make table[]
+    fun[  [x]
+      let[
+        [previously computed result]  lookup[ [x] [table] ]
+        or[
+          [previously computed result]
+          let[
+            [result]  f[x]
+            [
+              insert![ [x] [result] [table] ]
+              [result]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+```
