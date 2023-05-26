@@ -6389,3 +6389,41 @@ define[  memoize[f]
   ]
 ]
 ```
+
+## 274
+
+```
+define[  [a]  make wire[]  ]
+define[  [b]  make wire[]  ]
+define[  [c]  make wire[]  ]
+```
+
+## 275
+
+```
+define[  [d]  make wire[]  ]
+define[  [e]  make wire[]  ]
+define[  [s]  make wire[]  ]
+
+or gate[ [a] [b] [d] ]
+
+and gate[ [a] [b] [c] ]
+
+inverter[ [c] [e] ]
+
+and gate[ [d] [e] [s] ]
+
+define[  half adder[ [a] [b] [s] [c] ]
+  let[
+    [d]  make wire[]
+    [e]  make wire[]
+    [
+      or gate[ [a] [b] [d] ]
+      and gate[ [a] [b] [c] ]
+      inverter[ [c] [e] ]
+      and gate[ [d] [e] [s] ]
+      ['ok]
+    ]
+  ]
+]
+```
