@@ -6451,3 +6451,25 @@ set signal![ [<wire>] [<new value>] ]
 
 add action![ [<wire>] [<procedure of no arguments>] ]
 ```
+
+## 277
+
+```
+define[  inverter[ [input] [inverter] ]
+  define[  invert input[]
+    let[
+      [new value]  logical not[get signal[input]]
+      after delay[
+        [inverter delay]
+        fun[  []
+          set signal![ [output] [new value] ]
+        ]
+      ]
+    ]
+  ]
+  add action![ [input] [invert input] ]
+  ['ok]
+]
+```
+
+<!-- todo: logical not, and gate -->
