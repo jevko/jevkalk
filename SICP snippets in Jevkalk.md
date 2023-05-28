@@ -6470,6 +6470,29 @@ define[  inverter[ [input] [inverter] ]
   add action![ [input] [invert input] ]
   ['ok]
 ]
-```
 
-<!-- todo: logical not, and gate -->
+define[  logical not[s]
+  ?[
+    =[ [s] [0] ]  [1]
+    =[ [s] [1] ]  [0]
+    error[ ['Invalid signal] [s] ]
+  ]
+]
+
+define[  and gate[ [a1] [a2] [output] ]
+  define[  and action procedure[]
+    let[
+      [new value]  logical and[ get signal[a1] get signal[a2] ]
+      after delay[
+        [and gate delay]
+        fun[ []
+          set signal![ [output] [new value] ]
+        ]
+      ]
+    ]
+  ]
+  add action![ [a1] [and action procedure] ]
+  add action![ [a2] [and action procedure] ]
+  ['ok]
+]
+```
