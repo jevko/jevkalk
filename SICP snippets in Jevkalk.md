@@ -6496,3 +6496,50 @@ define[  and gate[ [a1] [a2] [output] ]
   ['ok]
 ]
 ```
+
+## 279
+
+```
+define[  make wire[]
+  let[
+    [signal value]  [0]
+    [action procedues]  [nil]
+    [
+      define[  set my signal![new value]
+        ?[
+          not[=[ [signal value] [new value] ]]  [
+            set![ [signal value] [new value] ]
+            call each[action procedures]
+          ]
+          ['done]
+        ]
+      ]
+      
+      define[  accept action procedure![proc]
+        set![ [action procedures] cons[[proc][action procedures]] ]
+        proc[]
+      ]
+
+      define[  dispatch[m]
+        ?[
+          eq?[ [m] ['get signal] ]  [signal value]
+          eq?[ [m] ['set signal!] ]  [set my signal!]
+          eq?[ [m] ['add action!] ]  [accept action procedure]
+          error[ ['Unknown operation -- WIRE] [m] ]
+        ]
+      ]
+      [dispatch]
+    ]
+  ]
+]
+
+define[  call each[procedures]
+  ?[
+    null?[procedures]  ['done]
+    [
+      car[procedures].[]
+      call each[cdr[procedures]]
+    ]
+  ]
+]
+```
