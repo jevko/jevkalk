@@ -6543,3 +6543,76 @@ define[  call each[procedures]
   ]
 ]
 ```
+
+## 280
+
+```
+define[  get signal[wire]
+  wire['get signal]
+]
+
+define[  set signal![ [wire] [new value] ]
+  wire['set signal!].[new value]
+]
+
+define[  add action![ [wire] [action procedure] ]
+  wire['add action!].[action procedure]
+]
+
+make agenda[]
+
+empty agenda?[<agenda>]
+
+first agenda item[<agenda>]
+
+remove first agenda item![<agenda>]
+
+add to agenda![ [<time>] [<action>] [<agenda>] ]
+
+current time[<agenda>]
+```
+
+## 281
+
+```
+define[  after delay[ [delay] [action] ]
+  add to agenda![
+    +[ [delay] current time[the agenda] ]
+    [action]
+    [the agenda]
+  ]
+]
+
+define[ propagate[]
+  ?[
+    empty agenda?[the agenda]  ['done]
+    let[
+      [first item]  first agenda item[the agenda]
+      [
+        first item[]
+        remove first agenda item![the agenda]
+        propagate[]
+      ]
+    ]
+  ]
+]
+
+define[  probe[ [name] [wire] ]
+  add action![
+    [wire]
+    fun[  []
+      newline[]
+      display[name]
+      display[' ']
+      display[ current time[the agenda] ]
+      display['  New value = ']
+      display[ get signal[wire] ]
+    ]
+  ]
+]
+
+define[  [the agenda]  make agenda[]  ]
+define[  [inverter delay]  [2]  ]
+define[  [and gate delay]  [3]  ]
+define[  [or gate delay]  [5]  ]
+```
