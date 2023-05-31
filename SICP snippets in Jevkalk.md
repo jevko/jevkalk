@@ -6673,3 +6673,63 @@ define[  first segment[agenda]  car[segments[agenda]]  ]
 
 define[  rest segments[agenda]  cdr[segments[agenda]]  ]
 ```
+
+## 284
+
+```
+define[  empty agenda?[agenda]
+  null?[segments[agenda]]
+]
+
+define[  add to agenda![ [time] [action] [agenda] ]
+  define[  belongs before?[segments]
+    or[
+      null?[segments]
+      <[ [time] segment time[car[segments]] ]
+    ]
+  ]
+  define[  make new time segment[ [time] [action] ]
+    let[
+      [q]  make queue[]
+      [
+        insert queue![ [q] [action] ]
+        make time segment[ [time] [q] ]
+      ]
+    ]
+  ]
+  define[  add to segments![segments]
+    ?[
+      =[ segment time[car[segments]] [time] ]  insert queue![
+        segment queue[car[segments]]
+        [action]
+      ]
+      let[
+        [rest]  cdr[segments]
+        ?[
+          belongs before?[rest]  set cdr![
+            [segments]
+            cons[
+              make new time segment[ [time] [action] ]
+              cdr[segments]
+            ]
+          ]
+          add to segments![rest]
+        ]
+      ]
+    ]
+  ]
+  let[
+    [segments]  segments[agenda]
+    ?[
+      belongs before?[segments]  set segments![
+        [agenda]
+        cons[
+          make new time segment[ [time] [action] ]
+          [segments]
+        ]
+      ]
+      add to segments![segments]
+    ]
+  ]
+]
+```
