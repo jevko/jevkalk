@@ -6789,3 +6789,32 @@ define[  celsius fahrenheit converter[ [c] [f] ]
   ]
 ]
 ```
+
+## 288
+
+```
+probe[ ['Celsius temp] [C] ]
+probe[ ['Fahrenheit temp] [F] ]
+
+set value![ [C] [25] ['user] ]
+
+set value![ [F] [212] ['user] ]
+
+forget value![ [C] ['user] ]
+```
+
+## 289
+
+```
+set value![ [F] [212] ['user] ]
+
+has value?[<connector>]
+
+get value[<connector>]
+
+set value![ [<connector>] [<new value>] [<informant>] ]
+
+forget value![ [<connector>] [<retractor>] ]
+
+connect[ [<connector>] [<new constraint>] ]
+```
