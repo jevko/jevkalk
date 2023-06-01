@@ -6733,3 +6733,59 @@ define[  add to agenda![ [time] [action] [agenda] ]
   ]
 ]
 ```
+
+## 285
+
+```
+define[  remove first agenda item![agenda]
+  let[
+    [q]  segment queue[first segment[agenda]]
+    [
+      delete queue![q]
+      ?[
+        empty queue?[q]  set segments![ [agenda] rest segments[agenda] ]
+      ]
+    ]
+  ]
+]
+
+define[  first agenda item[agenda]
+  ?[
+    empty agenda?[agenda]  error['Agenda is empty -- FIRST-AGENDA-ITEM']
+    let[
+      [first seg]  first segment[agenda]
+      [
+        set current time![ [agenda] segment time[first seg] ]
+        front queue[segment queue[first seg]]
+      ]
+    ]
+  ]
+]
+```
+
+## 287
+
+```
+define[  [C]  make connector[]  ]
+define[  [F]  make connector[]  ]
+celsius fahrenheit converter[ [C] [F] ]
+
+define[  celsius fahrenheit converter[ [c] [f] ]
+  let[
+    [u]  make connector[]
+    [v]  make connector[]
+    [w]  make connector[]
+    [x]  make connector[]
+    [y]  make connector[]
+    [
+      multiplier[ [c] [w] [u] ]
+      multiplier[ [v] [x] [u] ]
+      adder[ [v] [y] [f] ]
+      constant[ [9] [w] ]
+      constant[ [5] [x] ]
+      constant[ [32] [y] ]
+      ['ok]
+    ]
+  ]
+]
+```
