@@ -6954,3 +6954,68 @@ define[  probe[ [name] [connector] ]
   [me]
 ]
 ```
+
+##
+
+```
+define[  make connector[]
+  let[
+    [value]  [false]
+    [informant]  [false]
+    [constraints]  [nil]
+    [
+      define[  set my value[ [newval] [setter] ]
+        ?[
+          not[has value?[me]]  [
+            set![ [value] [newval] ]
+            set![ [informant] [setter] ]
+            for each except[
+              [setter]
+              [inform about value]
+              [constraints]
+            ]
+          ]
+          not[=[ [value] [newval] ]]  error[ ['Contradiction] list[[value][newval]] ]
+          ['ignored]
+        ]
+      ]
+      define[  forget my value[retractor]
+        ?[
+          eq?[ [retractor] [informant] ]  [
+            set![ [informant] [false] ]
+            for each except[
+              [retractor]
+              [inform about no value]
+              [constraints]
+            ]
+          ]
+          ['ignored]
+        ]
+      ]
+      define[  connect[new constraint]
+        ?[
+          not[memq[ [new constraint] [constraints] ]]  set![
+            [constraints]
+            cons[ [new constraint] [constraints] ]
+          ]
+        ]
+        ?[
+          has value?[me]  inform about value[new constraint]
+        ]
+        ['done]
+      ]
+      define[  me[request]
+        ?[
+          eq?[ [request] ['has value?] ]  ?[ [informant] [true] [false] ]
+          eq?[ [request] ['value] ]  [value]
+          eq?[ [request] ['set value!] ]  [set my value]
+          eq?[ [request] ['forget] ]  [forget my value]
+          eq?[ [request] ['connect] ]  [connect]
+          error[ ['Unknown operation -- CONNECTOR] [request] ]
+        ]
+      ]
+      [me]
+    ]
+  ]
+]
+```
