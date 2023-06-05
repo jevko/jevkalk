@@ -7057,3 +7057,29 @@ define[  connect[ [connector] [new constraint] ]
   connector['connect].[new constraint]
 ]
 ```
+
+## 295
+
+```
+define[  squarer[ [a] [b] ]
+  define[  process new value[]
+    ?[
+      has value?[b]  ?[
+        <[ get value[b] [0] ]  error[ ['square less than 0 -- SQUARER] get value[b] ]
+        <alternative 1>
+      ]
+      <alternative 2>
+    ]
+  ]
+  define[  process forget value[]  <body 1>  ]
+  define[  me[request]  <body 2>  ]
+  <rest of definition>
+  [me]
+]
+
+define[  [a]  make connector[]  ]
+define[  [b]  make connector[]  ]
+set value![ [a] [10] ['user] ]
+
+for each except[ [setter] [inform about value] [constraints] ]
+```
