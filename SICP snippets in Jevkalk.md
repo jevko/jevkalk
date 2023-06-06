@@ -7121,3 +7121,27 @@ withdraw[25]
 
 withdraw[25]
 ```
+
+## 299
+
+```
+define[  withdraw[amount]
+  ?[
+    >=[ [balance] [amount] ]  [
+      set![ [balance] -[[balance][amount]] ]
+      [balance]
+    ]
+    ['Insufficient funds]
+  ]
+]
+
+set![ [balance] -[[balance][amount]] ]
+```
+
+## 303
+
+```
+set![ [balance] +[[balance][10]] ]
+set![ [balance] -[[balance][20]] ]
+set![  [balance]  -[ [balance] /[[balance][2]] ]  ]
+```
