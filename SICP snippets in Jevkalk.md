@@ -7083,3 +7083,41 @@ set value![ [a] [10] ['user] ]
 
 for each except[ [setter] [inform about value] [constraints] ]
 ```
+
+## 296
+
+```
+define[  celsius fahrenheit converter[x]
+  c+[
+    c*[  c/[ cv[9] cv[5] ]  [x]  ]
+    cv[32]
+  ]
+]
+
+define[  [C]  make connector[]  ]
+define[  [F]  celsius fahrenheit converter[C]  ]
+
+define[  c+[ [x] [y] ]
+  let[
+    [x]  make connector[]
+    [
+      adder[ [x] [y] [z] ]
+      [z]
+    ]
+  ]
+]
+
+v sum[ [a] [b] [temp1] ]
+v sum[ [c] [d] [temp2] ]
+v prod[ [temp1] [temp2] [answer] ]
+
+define[  [answer]  v prod[ v sum[[a][b]] v sum[[c][d]] ]  ]
+```
+
+## 297
+
+```
+withdraw[25]
+
+withdraw[25]
+```
