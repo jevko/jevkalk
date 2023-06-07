@@ -7183,6 +7183,7 @@ define[  make account[balance]
   ]
   define[  deposit[amount]
     set![ [balance] +[[balance][amount]] ]
+    [balance]
   ]
   let[
     [protected]  make serializer[]
@@ -7201,3 +7202,105 @@ define[  make account[balance]
 ]
 ```
 
+## 306
+
+```
+define[  [x]  [10]  ]
+
+define[  [s]  make serializer[]  ]
+
+parallel execute[
+  fun[  []  set![ [x]
+    s[fun[  []  *[[x][x]]  ]].[]
+  ]  ]
+  s[fun[  []  set![ [x] +[[x][1]] ]  ]]
+]
+
+define[  [x]  [10]  ]
+
+parallel execute[
+  fun[  []  set![ [x] *[[x][x]] ]  ]
+  fun[  []  set![ [x] +[[x][x][x]] ]  ]
+]
+
+define[  [x]  [10]  ]
+
+define[  [s]  make serializer[]  ]
+
+parallel execute[
+  s[fun[  []  set![ [x] *[[x][x]] ]  ]]
+  s[fun[  []  set![ [x] +[[x][x][x]] ]  ]]
+]
+
+define[  make account[balance]
+  define[  withdraw[amount]
+    ?[
+      >=[ [balance] [amount] ]  [
+        set![ [balance] -[[balance][amount]] ]
+        [balance]
+      ]
+      ['Insufficient funds]
+    ]
+  ]
+  define[  deposit[amount]
+    set![ [balance] +[[balance][amount]] ]
+    [balance]
+  ]
+  continued on next page
+```
+
+## 307
+
+```
+  let[
+    [protected]  make serializer[]
+    [
+      define[  dispatch[m]
+        ?[
+          eq?[ [m] ['withdraw] ]  protected[withdraw]
+          eq?[ [m] ['deposit] ]  protected[deposit]
+          eq?[ [m] ['balance] ]  [
+            protected[fun[  []  [balance]  ]].[]   serialized
+          ]
+          error[ ['Unknown request -- MAKE-ACCOUNT] [m] ]
+        ]
+      ]
+      [dispatch]
+    ]
+  ]
+]
+
+define[  make account[balance]
+  define[  withdraw[amount]
+    ?[
+      >=[ [balance] [amount] ]  [
+        set![ [balance] -[[balance][amount]] ]
+        [balance]
+      ]
+      ['Insufficient funds]
+    ]
+  ]
+  define[  deposit[amount]
+    set![ [balance] +[[balance][amount]] ]
+    [balance]
+  ]
+  let[
+    [protected]  make serializer[]
+    let[
+      [protected withdraw]  protected[withdraw]
+      [protected deposit]  protected[deposit]
+      [
+        define[  dispatch[m]
+          ?[
+            eq?[ [m] ['withdraw] ]  [protected withdraw]
+            eq?[ [m] ['deposit] ]  [protected deposit]
+            eq?[ [m] ['balance] ]  [balance]
+            error[ ['Unknown request -- MAKE-ACCOUNT] [m] ]
+          ]
+        ]
+        [dispatch]
+      ]
+    ]
+  ]
+]
+```
