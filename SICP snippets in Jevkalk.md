@@ -7145,3 +7145,59 @@ set![ [balance] +[[balance][10]] ]
 set![ [balance] -[[balance][20]] ]
 set![  [balance]  -[ [balance] /[[balance][2]] ]  ]
 ```
+
+## 304
+
+```
+parallel execute[ [<p_1>] [<p_2>] ... [<p_k>] ]
+
+define[  [x]  [10]  ]
+
+parallel execute[
+  fun[  []  set![ [x] *[[x][x]] ]  ]
+  fun[  []  set![ [x] +[[x][1]] ]  ]
+]
+```
+
+## 305
+
+```
+define[  [x]  [10]  ]
+
+define[  [s]  make serializer[]  ]
+
+parallel execute[
+  s[fun[  []  set![ [x] *[[x][x]] ]  ]]
+  s[fun[  []  set![ [x] +[[x][1]] ]  ]]
+]
+
+define[  make account[balance]
+  define[  withdraw[amount]
+    ?[
+      >=[ [balance] [amount] ]  [
+        set![ [balance] -[[balance][amount]] ]
+        [balance]
+      ]
+      ['Insufficient funds]
+    ]
+  ]
+  define[  deposit[amount]
+    set![ [balance] +[[balance][amount]] ]
+  ]
+  let[
+    [protected]  make serializer[]
+    [
+      define[  dispatch[m]
+        ?[
+          eq?[ [m] ['withdraw] ]  protected[withdraw]
+          eq?[ [m] ['deposit] ]  protected[deposit]
+          eq?[ [m] ['balance] ]  [balance]
+          error[ ['Unknown request -- MAKE-ACCOUNT] [m] ]
+        ]
+      ]
+      [dispatch]
+    ]
+  ]
+]
+```
+
