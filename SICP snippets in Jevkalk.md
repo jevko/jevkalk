@@ -7377,3 +7377,43 @@ define[  serialized exchange[ [account1] [account2] ]
   ]
 ]
 ```
+
+## 310
+
+```
+define[  transfer[ [from account] [to account] [amount] ]
+  from account['withdraw].[amount]
+  to account['deposit].[amount]
+]
+
+define[  make account and serializer[balance]
+  define[  withdraw[amount]
+    ?[
+      >=[ [balance] [amount] ]  [
+        set![ [balance] -[[balance][amount]] ]
+        [balance]
+      ]
+      ['Insufficient funds]
+    ]
+  ]
+  define[  deposit[amount]
+    set![ [balance] +[[balance][amount]] ]
+    [balance]
+  ]
+  let[
+    [balance serializer]  make serializer[]
+    [
+      define[  dispatch[m]
+        ?[
+          eq?[ [m] ['withdraw] ]  balance serializer[withdraw]
+          eq?[ [m] ['deposit] ]  balance serializer[deposit]
+          eq?[ [m] ['balance] ]  [balance]
+          eq?[ [m] ['serializer] ]  [balance serializer]
+          error[ ['Unknown request -- MAKE-ACCOUNT] [m] ]
+        ]
+      ]
+      [dispatch]
+    ]
+  ]
+]
+```
