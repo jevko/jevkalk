@@ -7497,3 +7497,45 @@ define[  test and set![cell]
   ]
 ]
 ```
+
+## 318
+
+```
+define[  sum primes[ [a] [b] ]
+  define[  iter[ [count] [accum] ]
+    ?[
+      >[ [count] [b] ]  [accum]
+      prime?[count]  iter[ +[[count][1]] +[[count][accum]] ]
+      iter[ +[[count][1]] [accum] ]
+    ]
+  ]
+  iter[ [a] [0] ]
+]
+
+define[  sum primes[ [a] [b] ]
+  accumulate[
+    [+]
+    [0]
+    filter[ [prime?] enumerate interval[[a][b]] ]
+  ]
+]
+
+car[  cdr[ filter[
+  [prime?]
+  enumerate interval[ [10000] [1000000] ]
+] ]  ]
+```
+
+## 319
+
+```
+stream car[  cons stream[ [x] [y] ]  ] = [x]
+stream cdr[  cons stream[ [x] [y] ]  ] = [y]
+
+define[  stream ref[ [s] [n] ]
+  ?[
+    =[ [n] [0] ]  stream car[s]
+    stream ref[ stream cdr[s] -[[n][1]] ]
+  ]
+]
+```
