@@ -7417,3 +7417,83 @@ define[  make account and serializer[balance]
   ]
 ]
 ```
+
+## 311
+
+```
+define[  deposit[ [account] [amount] ]
+  account['deposit].[amount]
+]
+
+define[  make serializer[]
+  let[
+    [mutex]  make mutex[]
+    fun[  [p]
+      define[  serialized p[...[args]]
+        mutex['acquire]
+        let[
+          [val]  apply[ [p] [args] ]
+          [
+            mutex['release]
+            [val]
+          ]
+        ]
+      ]
+      [serialized p]
+    ]
+  ]
+]
+```
+
+## 312
+
+```
+define[  make mutex[]
+  let[
+    [cell]  list[false]
+    [
+      define[  the mutex[m]
+        ?[
+          eq?[ [m] ['acquire] ]  ?[
+            test and set![cell]  the mutex['acquire]
+          ]   retry
+          eq?[ [m] ['release] ]  clear![cell]
+        ]
+      ]
+      [the mutex]
+    ]
+  ]
+]
+
+define[  clear![cell]
+  set car![ [cell] [false] ]
+]
+
+define[  test and set![cell]
+  ?[
+    car[cell]  [true]
+    [
+      set car![ [cell] [true] ]
+      [false]
+    ]
+  ]
+]
+```
+
+## 313
+
+```
+define[  test and set![cell]
+  without interrupts[
+    fun[  []
+      ?[
+        car[cell]  [true]
+        [
+          set car![ [cell] [true] ]
+          [false]
+        ]
+      ]
+    ]
+  ]
+]
+```
