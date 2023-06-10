@@ -7539,3 +7539,36 @@ define[  stream ref[ [s] [n] ]
   ]
 ]
 ```
+
+## 320
+
+```
+define[  stream map[ [proc] [s] ]
+  ?[
+    stream null?[s]  [the empty stream]
+    cons stream[
+      proc[stream car[s]]
+      stream map[ [proc] stream cdr[s] ]
+    ]
+  ]
+]
+
+define[  stream for each[ [proc] [s] ]
+  ?[
+    stream null?[s]  ['done]
+    [
+      proc[stream car[s]]
+      stream for each[ [proc] stream cdr[s] ]
+    ]
+  ]
+]
+
+define[  display stream[s]
+  stream for each[ [display line] [s] ]
+]
+
+define[  display line[x]
+  newline[]
+  display[x]
+]
+```
