@@ -7572,3 +7572,34 @@ define[  display line[x]
   display[x]
 ]
 ```
+
+## 321
+
+```
+cons stream[ [<a>] [<b>] ]
+
+cons stream[ [<a>] delay[<b>] ]
+
+define[  stream car[stream]  car[stream]  ]
+
+define[  stream cdr[stream]  force[cdr[stream]]  ]
+
+stream car[
+  stream cdr[
+    stream filter[
+      [prime?]
+      stream enumerate interval[ [10000] [1000000] ]
+    ]
+  ]
+]
+
+define[  stream enumerate interval[ [low] [high] ]
+  ?[
+    >[ [low] [high] ]  [the empty stream]
+    cons stream[
+      [low]
+      stream enumerate interval[ +[[low][1]] [high] ]
+    ]
+  ]
+]
+```
