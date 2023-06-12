@@ -7603,3 +7603,76 @@ define[  stream enumerate interval[ [low] [high] ]
   ]
 ]
 ```
+
+## 322
+
+```
+cons[
+  [10000]
+  delay[stream enumerate interval[ [10001] [1000000] ]]
+]
+
+define[  stream filter[ [pred] [stream] ]
+  ?[
+    stream null?[stream]  [the empty stream]
+    pred[stream car[stream]]  cons stream[
+      stream car[stream]
+      stream filter[
+        [pred]
+        stream cdr[stream]
+      ]
+    ]
+    stream filter[ [pred] stream cdr[stream] ]
+  ]
+]
+
+cons[
+  [10001]
+  delay[stream enumerate interval[ [10002] [1000000] ]]
+]
+
+cons stream[
+  stream car[stream]
+  stream filter[ [pred] stream cdr[stream] ]
+]
+
+cons[
+  [10007]
+  delay[stream filter[
+    [prime?]
+    cons[
+      [10008]
+      delay[stream enumerate interval[
+        [10009]
+        [1000000]
+      ]]
+    ]
+  ]]
+]
+```
+
+## 323
+
+```
+cons[
+  [10009]
+  delay[stream filter[
+    [prime?]
+    cons[
+      [10010]
+      delay[stream enumerate interval[
+        [10011]
+        [1000000]
+      ]]
+    ]
+  ]]
+]
+
+delay[<exp>]
+
+fun[ [] [<exp>] ]
+
+define[  force[delayed object]
+  delayed object[]
+]
+```
