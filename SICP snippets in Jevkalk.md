@@ -7770,3 +7770,23 @@ define[  fibgen[ [a] [b] ]
   cons stream[  [a]  fibgen[ [b] +[[a][b]] ]  ]
 ]
 ```
+
+## 327
+
+```
+define[  [fibs]  fibgen[ [0] [1] ]  ]
+
+define[  sieve[stream]
+  cons[
+    stream car[stream]
+    sieve[stream filter[
+      fun[  [x]  not[divisible?[ [x] stream car[stream] ]]  ]
+      stream cdr[stream]
+    ]]
+  ]
+]
+
+define[  [primes]  sieve[integers starting from[2]]  ]
+
+stream ref[ [primes] [50] ]
+```
