@@ -7790,3 +7790,36 @@ define[  [primes]  sieve[integers starting from[2]]  ]
 
 stream ref[ [primes] [50] ]
 ```
+
+## 328
+
+```
+define[  [ones]  cons stream[ [1] [ones] ]  ]
+```
+
+## 329
+
+```
+define[  add streams[ [s1] [s2] ]
+  stream map[ [+] [s1] [s2] ]
+]
+
+define[  [integers]  cons stream[ [1] add streams[[ones][integers]] ]  ]
+
+define[  [fibs]
+  cons stream[
+    [0]
+    cons stream[
+      [1]
+      add streams[
+        stream cdr[fibs]
+        [fibs]
+      ]
+    ]
+  ]
+]
+
+define[  scale stream[ [stream] [factor] ]
+  stream map[  fun[ [x] *[[x][factor]] ]  [stream]  ]
+]
+```
