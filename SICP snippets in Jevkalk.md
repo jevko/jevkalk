@@ -7823,3 +7823,30 @@ define[  scale stream[ [stream] [factor] ]
   stream map[  fun[ [x] *[[x][factor]] ]  [stream]  ]
 ]
 ```
+
+## 330
+
+```
+define[  [double]  cons stream[ [1] scale stream[[double][2]] ]  ]
+
+define[  [primes]
+  cons stream[
+    [2]
+    stream filter[  [prime?]  integers starting from[3]  ]
+  ]
+]
+
+define[  prime?[n]
+  define[  iter[ps]
+    ?[
+      >[ square[stream car[ps]] [n] ]  [true]
+      divisible?[ [n] stream car[ps] ]  [false]
+      iter[ stream cdr[ps] ]
+    ]
+  ]
+  iter[primes]
+]
+
+define[  [s]  cons stream[ [1] add streams[[s][s]] ]  ]
+```
+
