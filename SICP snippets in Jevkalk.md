@@ -7913,3 +7913,43 @@ define[  mul series[ [s1] [s2] ]
   cons stream[ [??] add streams[[??][??]] ]
 ]
 ```
+
+## 334
+
+```
+define[  sqrt improve[ [guess] [x] ]
+  average[  [guess]  /[ [x] [guess] ]  ]
+]
+```
+
+## 335
+
+```
+define[  sqrt stream[x]
+  define[  [guesses]
+    cons stream[
+      [1.0]
+      stream map[
+        fun[  [guess]  sqrt improve[ [guess] [x] ]  ]
+        [guesses]
+      ]
+    ]
+  ]
+  [guesses]
+]
+
+display stream[ sqrt stream[2] ]
+
+define[  pi summands[n]
+  cons stream[
+    /[ [1.0] [n] ]
+    stream map[  [-]  pi summands[ +[[n][2]] ]  ]
+  ]
+]
+
+define[  [pi stream]
+  scale stream[  partial sums[ pi summands[1] ]  [4]  ]
+]
+
+display stream[pi stream]
+```
