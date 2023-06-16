@@ -7850,3 +7850,35 @@ define[  prime?[n]
 define[  [s]  cons stream[ [1] add streams[[s][s]] ]  ]
 ```
 
+## 331
+
+```
+define[  [factorials]  cons stream[ [1] mul streams[[??][??]] ]  ]
+
+define[  merge[ [s1] [s2] ]
+  ?[
+    stream null?[s1]  [s2]
+    stream null?[s2]  [s1]
+    let[
+      [s1car]  stream car[s1]
+      [s2car]  stream car[s2]
+      ?[
+        <[ [s1car] [s2car] ]
+        cons stream[  [s1car]  merge[ stream cdr[s1] [s2] ]  ]
+        >[ [s1car] [s2car] ]
+        cons stream[  [s2car]  merge[ [s1] stream cdr[s2] ]  ]
+        
+        cons stream[
+          [s1car]
+          merge[
+            stream cdr[s1]
+            stream cdr[s2]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  [S]  cons stream[ [1] merge[[??][??]] ]  ]
+```
