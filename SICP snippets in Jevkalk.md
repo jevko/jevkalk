@@ -7977,3 +7977,52 @@ define[  euler transform[s]
 
 display stream[euler transform[pi stream]]
 ```
+
+## 337
+
+```
+define[  make tableau[ [transform] [s] ]
+  cons stream[
+    [s]
+    make tableau[
+      [transform]
+      transform[s]
+    ]
+  ]
+]
+
+define[  accelerated sequence[ [transform] [s] ]
+  stream map[
+    [stream car]
+    make tableau[ [transform] [s] ]
+  ]
+]
+
+display stream[
+  accelerated sequence[ [euler transform] [pi stream] ]
+]
+
+define[  sqrt stream[x]
+  cons stream[
+    [1.0]
+    stream map[
+      fun[  [guess]  sqrt improve[ [guess] [x] ]  ]
+      sqrt stream[x]
+    ]
+  ]
+]
+
+define[  sqrt[ [x] [tolerance] ]
+  stream limit[ sqrt stream[x] [tolerance] ]
+]
+```
+
+## 339
+
+```
+stream filter[
+  fun[  [pair]  prime?[+[ car[pair] cadr[pair] ]]  ]
+  [int pairs]
+]
+```
+
