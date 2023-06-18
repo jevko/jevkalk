@@ -8026,3 +8026,90 @@ stream filter[
 ]
 ```
 
+## 340
+
+```
+stream map[
+  fun[  [x]  list[ stream car[s] [x] ]  ]
+  stream cdr[t]
+]
+
+define[  pairs[ [s] [t] ]
+  cons stream[
+    list[ stream car[s] stream car[t] ]
+    <combine in some way>[
+      stream map[
+        fun[  [x]  list[ stream car[s] [x] ]  ]
+        stream cdr[t]
+      ]
+      pairs[ stream cdr[s] stream cdr[t] ]
+    ]
+  ]
+]
+
+define[  stream append[ [s1] [s2] ]
+  ?[
+    stream null?[s1]  [s2]
+    cons stream[
+      stream car[s1]
+      stream append[ stream cdr[s1] [s2] ]
+    ]
+  ]
+]
+
+pairs[ [integers] [integers] ]
+```
+
+## 341
+
+```
+define[  interleave[ [s1] [s2] ]
+  ?[
+    stream null?[s1]  [s2]
+    cons stream[
+      stream car[s1]
+      interleave[ [s2] stream cdr[s1] ]
+    ]
+  ]
+]
+
+define[  pairs[ [s] [t] ]
+  cons stream[
+    list[ stream car[s] stream car[t] ]
+    interleave[
+      stream map[
+        fun[  [x]  list[ stream car[s] [x] ]  ]
+        stream cdr[t]
+      ]
+      pairs[ stream cdr[s] stream cdr[t] ]
+    ]
+  ]
+]
+
+define[  pairs[ [s] [t] ]
+  interleave[
+    stream map[
+      fun[  [x]  list[ stream car[s] [x] ]  ]
+      [t]
+    ]
+    pairs[ stream cdr[s] stream cdr[t] ]
+  ]
+]
+```
+
+## 343
+
+```
+define[  integral[ [integrand] [initial value] [dt] ]
+  define[  [int]
+    cons stream[
+      [initial value]
+      add streams[
+        scale stream[ [integrand] [dt] ]
+        [int]
+      ]
+    ]
+  ]
+  [int]
+]
+```
