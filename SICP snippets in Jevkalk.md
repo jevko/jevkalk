@@ -8186,3 +8186,53 @@ define[  integral[ [delayed integrand] [initial value] [dt] ]
   [int]
 ]
 ```
+
+## 348
+
+```
+define[  solve[ [f] [y0] [dt] ]
+  define[  [y]  integral[ delay[dy] [y0] [dt] ]  ]
+  define[  [dy]  stream map[ [f] [y] ]  ]
+  [y]
+]
+
+stream ref[  solve[ fun[[y][y]] [1] [0.001] ]  [1000]  ]
+
+define[  integral[ [integrand] [initial value] [dt] ]
+  cons stream[
+    [initial value]
+    ?[
+      stream null?[integrand]  [the empty stream]
+      integral[
+        stream cdr[integrand]
+        +[
+          *[ [dt] stream car[integrand] ]
+          [initial value]
+        ]
+        [dt]
+      ]
+    ]
+  ]
+]
+```
+
+## 352
+
+```
+define[  [rand]
+  let[
+    [x]  [random init]
+    fun[  []
+      set![ [x] rand update[x] ]
+      [x]
+    ]
+  ]
+]
+
+define[  [random numbers]
+  cons stream[
+    [random init]
+    stream map[ [rand update] [random numbers] ]
+  ]
+]
+```
