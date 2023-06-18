@@ -8113,3 +8113,50 @@ define[  integral[ [integrand] [initial value] [dt] ]
   [int]
 ]
 ```
+
+## 345
+
+```
+define[  make zero crossings[ [input stream] [last value] ]
+  cons stream[
+    sign change detector[ stream car[input stream] [last value] ]
+    make zero crossings[
+      stream cdr[input stream]
+      stream car[input stream]
+    ]
+  ]
+]
+
+define[  [zero crossings]  make zero crossings[ [sense data] [0] ]  ]
+
+define[  [zero crossings]
+  stream map[ [sign change detector] [sense data] [<expression>] ]
+]
+
+define[  make zero crossings[ [input stream] [last value] ]
+  let[
+    [avpt]  /[ +[stream car[input stream][last value]] [2] ]
+    cons stream[
+      sign change detector[ [avpt] [last value] ]
+      make zero crossings[
+        stream cdr[input stream]
+        [avpt]
+      ]
+    ]
+  ]
+]
+```
+
+## 346
+
+```
+define[  [int]
+  cons stream[
+    [initial value]
+    add streams[
+      scale stream[ [integrand] [dt] ]
+      [int]
+    ]
+  ]
+]
+```
