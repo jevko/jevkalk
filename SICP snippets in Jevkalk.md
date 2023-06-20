@@ -8303,3 +8303,34 @@ define[  stream withdraw[ [balance] [amount stream] ]
   ]
 ]
 ```
+
+## Chapter 4: Metalinguistic Abstraction
+
+My favorite part!
+
+## 365
+
+```
+define[  eval[ [exp] [env] ]
+  ?[
+    self evaluating?[exp]  [exp]
+    variable?[exp]  lookup variable value[ [exp] [env] ]
+    quoted?[exp]  text of quotation[exp]
+    assignment?[exp]  eval assignmenet[ [exp] [env] ]
+    definition?[exp]  eval definition[ [exp] [env] ]
+    if?[exp]  eval if[ [exp] [env] ]
+    lambda?[exp]  make procedure[
+      lambda parameters[exp]
+      lambda body[exp]
+      [env]
+    ]
+    begin?[exp]  eval sequence[ begin actions[exp] [env] ]
+    cond?[exp]  eval[ cond->if[exp] [enc] ]
+    application?[exp]  apply[
+      eval[ operator[exp] [env] ]
+      list of values[ operands[exp] [env] ]
+    ]
+    error[ ['Unknown expression type -- EVAL] [exp] ]
+  ]
+]
+```
