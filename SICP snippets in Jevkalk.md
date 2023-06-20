@@ -8334,3 +8334,54 @@ define[  eval[ [exp] [env] ]
   ]
 ]
 ```
+
+Now let's slightly modify that to match how Jevkalk happens to be defined:
+
+```
+define[  eval[ [exp] [env] ]
+  ?[
+    self evaluating?[exp]  [exp]
+    variable?[exp]  lookup variable value[ [exp] [env] ]
+    quoted?[exp]  text of quotation[exp]
+    assignment?[exp]  eval assignmenet[ [exp] [env] ]
+    definition?[exp]  eval definition[ [exp] [env] ]
+    cond?[exp]  eval cond[ [exp] [env] ]
+    fun?[exp]  make procedure[
+      fun parameters[exp]
+      fun body[exp]
+      [env]
+    ]
+    block?[exp]  eval sequence[ block actions[exp] [env] ]
+    application?[exp]  apply[
+      eval[ operator[exp] [env] ]
+      list of values[ operands[exp] [env] ]
+    ]
+    error[ ['Unknown expression type -- EVAL] [exp] ]
+  ]
+]
+```
+
+## 366
+
+```
+define[  apply[ [procedure] [arguments] ]
+  ?[
+    primitive procedure?[procedure]  apply primitive procedure[
+      [procedure]
+      [arguments]
+    ]
+    compound procedure?[procedure]  eval sequence[
+      procedure body[procedure]
+      extend environment[
+        procedure parameters[procedure]
+        [arguments]
+        procedure environment[procedure]
+      ]
+    ]
+    error[
+      ['Unknown procedure type -- APPLY]
+      [procedure]
+    ]
+  ]
+]
+```
