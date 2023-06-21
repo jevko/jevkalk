@@ -8417,3 +8417,57 @@ define[  eval sequence[ [exps] [env] ]
 ]
 ```
 
+## 368
+
+```
+define[  eval assignment[ [exp] [env] ]
+  set variable value![
+    assignment variable[exp]
+    eval[ assignment value[exp] [env] ]
+    [env]
+  ]
+  ['ok]
+]
+
+define[  eval definition[ [exp] [env] ]
+  define variable![
+    definition variable[exp]
+    eval[ definition value[exp] [env] ]
+    [env]
+  ]
+  ['ok]
+]
+```
+
+## 369
+
+```
+define[  self evaluating?[exp]
+  ?[
+    number?[exp]  [true]
+    string?[exp]  [true]
+    [false]
+  ]
+]
+
+define[  variable?[exp]  symbol?[exp]  ]
+
+define[  quoted?[exp]  tagged list?[ [exp] ['quote] ]  ]
+
+define[  text of quotation[exp]  cadr[exp]  ]
+
+define[  tagged list?[ [exp] [tag] ]
+  ?[
+    pair?[exp]  eq?[ car[exp] [tag] ]
+    [false]
+  ]
+]
+
+define[  assignment?[exp]
+  tagged list?[ [exp] ['set!] ]
+]
+
+define[  assignment variable[exp]  cadr[exp]  ]
+
+define[  assignment value[exp]  caddr[exp]  ]
+```
