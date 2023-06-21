@@ -8385,3 +8385,35 @@ define[  apply[ [procedure] [arguments] ]
   ]
 ]
 ```
+
+## 367
+
+```
+define[  list of values[ [exps] [env] ]
+  ?[
+    no operands?[exps]  [nil]
+    cons[
+      eval[ first operand[exps] [env] ]
+      list of values[ rest operands[exps] [env] ]
+    ]
+  ]
+]
+
+define[  eval if[ [exp] [env] ]
+  ?[
+    true?[eval[ if predicate[exp] [env] ]]  eval[ if consequent[exp] [env] ]
+    eval[ if alternative[exp] [env] ]
+  ]
+]
+
+define[  eval sequence[ [exps] [env] ]
+  ?[
+    last exp?[exps]  eval[ first exp[exps] [env] ]
+    [
+      eval[ first exp[exps] [env] ]
+      eval sequence[ rest exps[exps] [env] ]
+    ]
+  ]
+]
+```
+
