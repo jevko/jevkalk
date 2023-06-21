@@ -8338,7 +8338,7 @@ define[  eval[ [exp] [env] ]
 Now let's slightly modify that to match how Jevkalk happens to be defined:
 
 ```
-define[  eval[ [exp] [env] ]
+define[  evalsub[ [exp] [env] ]
   ?[
     self evaluating?[exp]  [exp]
     variable?[exp]  lookup variable value[ [exp] [env] ]
@@ -8470,4 +8470,39 @@ define[  assignment?[exp]
 define[  assignment variable[exp]  cadr[exp]  ]
 
 define[  assignment value[exp]  caddr[exp]  ]
+```
+
+To better match Jevkalk we'd do something like:
+
+```
+note: ignoring definitions of number? and string? for now
+define[  self evaluating?[exp]
+  ?[
+    number?[exp]  [true]
+    string?[exp]  [true]
+    [false]
+  ]
+]
+
+note: ignoring definition of identifier? for now
+define[  variable?[exp]  identifier?[exp]  ]
+
+define[  quoted?[exp]  prefix=[ [exp] ['quote] ]  ]
+
+define[  text of quotation[exp]  [exp].jevko[]  ]
+
+define[  prefix=[ [exp] [tag] ]
+  ?[
+    subjevko?[exp]  eq?[ prefix[exp] [tag] ]
+    [false]
+  ]
+]
+
+define[  assignment?[exp]
+  prefix=[ [exp] ['set!] ]
+]
+
+define[  assignment variable[exp]  [exp].jevko[].subs[0]  ]
+
+define[  assignment value[exp]  [exp].jevko[].subs[1]  ]
 ```
