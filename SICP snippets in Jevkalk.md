@@ -8506,3 +8506,48 @@ define[  assignment variable[exp]  [exp].jevko[].subs[0]  ]
 
 define[  assignment value[exp]  [exp].jevko[].subs[1]  ]
 ```
+
+## 370
+
+```
+define[  [<var>]  [<value>]  ]
+
+define[  <var>[<parameter>]  [<body>]  ]
+define[  <var>[ [<parameter_1>] ... [<parameter_n>] ]  [<body>]  ]
+
+define[  [<var>]  fun[ [<parameter>] [<body>] ]  ]
+define[  [<var>]  fun[ [[<parameter_1>]...[<parameter_n>]] [<body>] ]  ]
+```
+
+```
+define[  definition?[exp]
+  tagged list?[ [exp] ['define] ]
+]
+
+define[  definition variable[exp]
+  ?[
+    symbol?[cadr[exp]]  cadr[exp]
+    caadr[exp]
+  ]
+]
+
+define[  definition value[exp]
+  ?[
+    symbol?[cadr[exp]]  caddr[exp]
+    make lambda[
+      cdadr[exp]   formal parameters
+      cddr[exp]    body
+    ]
+  ]
+]
+
+define[  lambda?[exp]  tagged list?[ [exp] ['lambda] ]  ]
+
+define[  lambda parameters[exp]  cadr[exp]  ]
+
+define[  lambda body[exp]  cddr[exp]  ]
+
+define[  make lambda[ [parameters] [body] ]
+  cons[ ['lambda] cons[[parameters][body]] ]
+]
+```
