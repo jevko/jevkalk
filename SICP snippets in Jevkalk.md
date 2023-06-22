@@ -8509,15 +8509,7 @@ define[  assignment value[exp]  [exp].jevko[].subs[1]  ]
 
 ## 370
 
-```
-define[  [<var>]  [<value>]  ]
-
-define[  <var>[<parameter>]  [<body>]  ]
-define[  <var>[ [<parameter_1>] ... [<parameter_n>] ]  [<body>]  ]
-
-define[  [<var>]  fun[ [<parameter>] [<body>] ]  ]
-define[  [<var>]  fun[ [[<parameter_1>]...[<parameter_n>]] [<body>] ]  ]
-```
+Dumb translation from Scheme:
 
 ```
 define[  definition?[exp]
@@ -8549,5 +8541,66 @@ define[  lambda body[exp]  cddr[exp]  ]
 
 define[  make lambda[ [parameters] [body] ]
   cons[ ['lambda] cons[[parameters][body]] ]
+]
+```
+
+However the Jevkalk forms are not like Scheme, but instead:
+
+```
+define[  [<var>]  [<value>]  ]
+
+define[  <var>[<parameter>]  [<body>]  ]
+define[  <var>[ [<parameter_1>] ... [<parameter_n>] ]  [<body>]  ]
+
+define[  [<var>]  fun[ [<parameter>] [<body>] ]  ]
+define[  [<var>]  fun[ [[<parameter_1>]...[<parameter_n>]] [<body>] ]  ]
+```
+
+Therefore we would have something like:
+
+```
+define[  definition?[sub]
+  prefix=[ [sub] ['define] ]
+]
+
+define[  definition variable[sub]
+  define[  [first]  [[sub].jevko[].subs[0]]  ]
+  ?[
+    identifier?[first]  [[first].jevko[].suffix[]]
+    [[first].prefix[]]
+  ]
+]
+
+define[  definition value[sub]
+  define[  [j]  [[sub].jevko[]]  ]
+  define[  [first]  [[j].subs[0]]  ]
+  ?[
+    identifier?[first]  [[j].subs[1]]
+    make fun[
+      note: using whole jevko rather than only its subs
+      [[first].jevko[]]        formal parameters
+      [[j].subs[].slice[1]]    body
+    ]
+  ]
+]
+
+define[  fun?[exp]  prefix[ [exp] ['fun] ]  ]
+
+define[  fun parameters[exp]  [[exp].jevko[].subs[0].jevko[].subs[]]  ]
+
+define[  fun body[exp]  [[exp].jevko[].subs[0].slice[1]]  ]
+
+define[  make fun[ [parameters] [body] ]
+  subjevko[
+    ['fun]  
+    jevko[ 
+      list[
+        subjevko[ ['] [parameters] ]
+        note: assuming list can handle special ...spread parameters
+        ...[body]
+      ]
+      note: assume default suffix blank
+    ] 
+  ]
 ]
 ```
