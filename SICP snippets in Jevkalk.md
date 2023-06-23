@@ -8695,3 +8695,35 @@ if[
   ]
 ]
 ```
+
+Jevkalk version would be something like:
+
+```
+define[  sequence->exp[seq] 
+  ?[
+    null?[seq]  [seq]
+    last exp?[seq]  first exp[seq]
+    make block[seq]
+  ]
+]
+
+define[  make block[seq]  subjevko[ ['] jevko[seq] ]  ]
+
+define[  application?[exp]  subjevko?[exp]  ]
+
+define[  operator[exp]  [[exp].prefix[]]  ]
+
+define[  operands[exp]
+  define[  [j]  [[exp].jevko[]]  ]
+  ?[
+    =[ [[j].subs[].length[]] [0] ]  list[ make identifier[[[j].suffix[]]] ]
+    [[exp].jevko[].subs[]]
+  ]
+]
+
+define[  no operands?[ops]  =[ [[ops].length[]] [0] ]  ]
+
+define[  first operand[ops]  [[ops].[0]]  ]
+
+define[  rest operands[ops]  [[ops].slice[1]]  ]
+```
