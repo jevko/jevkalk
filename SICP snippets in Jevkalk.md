@@ -8631,7 +8631,23 @@ define[  begin actions[exp]  cdr[exp]  ]
 
 define[  last exp?[seq]  null?[cdr[seq]]  ]
 
-define[  first exp?[seq]  car[seq]  ]
+define[  first exp[seq]  car[seq]  ]
 
 define[  rest exps[seq]  cdr[seq]  ]
+```
+
+Jevkalk version:
+
+```
+(skipping if)
+
+define[  block?[exp]  prefix=[ [exp] ['] ]  ]
+
+define[  block actions[exp]  [[exp].jevko[].subs[]]  ]
+
+define[  last exp?[seq]  =[ [[seq].length[]] [1] ]  ]
+
+define[  first exp[seq]  [[seq].[0]]  ]
+
+define[  rest exps[seq]  [[seq].slice[1]]  ]
 ```
