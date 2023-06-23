@@ -8604,3 +8604,34 @@ define[  make fun[ [parameters] [body] ]
   ]
 ]
 ```
+
+## 371
+
+```
+define[  if?[exp]  tagged list?[ [exp] ['if] ]  ]
+
+define[  if predicate[exp]  cadr[exp]  ]
+
+define[  if consequent[exp]  caddr[exp]  ]
+
+define[  if alternative[exp]
+  ?[
+    not[null?[cdddr[exp]]]  cadddr[exp]
+    ['false]
+  ]
+]
+
+define[  make if[ [predicate] [consequent] [alternative] ]
+  list[ ['if'] [predicate] [consequent] [alternative] ]
+]
+
+define[  begin?[exp]  tagged list?[ [exp] ['begin] ]  ]
+
+define[  begin actions[exp]  cdr[exp]  ]
+
+define[  last exp?[seq]  null?[cdr[seq]]  ]
+
+define[  first exp?[seq]  car[seq]  ]
+
+define[  rest exps[seq]  cdr[seq]  ]
+```
