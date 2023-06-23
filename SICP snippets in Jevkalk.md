@@ -8651,3 +8651,47 @@ define[  first exp[seq]  [[seq].[0]]  ]
 
 define[  rest exps[seq]  [[seq].slice[1]]  ]
 ```
+
+## 372
+
+```
+define[  sequence->exp[seq] 
+  ?[
+    null?[seq]  [seq]
+    last exp?[seq]  first exp[seq]
+    make begin[seq]
+  ]
+]
+
+define[  make begin[seq]  cons[ ['begin] [seq] ]  ]
+
+define[  application?[exp]  pair?[exp]  ]
+
+define[  operator[exp]  car[exp]  ]
+
+define[  operands[exp]  cdr[exp]  ]
+
+define[  no operands?[ops]  null?[ops]  ]
+
+define[  first operand[ops]  car[ops]  ]
+
+define[  rest operands[ops]  cdr[ops]  ]
+
+?[
+  >[ [x] [0] ]  [x]
+  =[ [x] [0] ]  [ display['zero] [0] ]
+  -[x]
+]
+
+only sensible to translate this literally at this point:
+if[
+  >[ [x] [0] ]  [x]
+  if[
+    =[ [x] [0] ]  begin[
+      display['zero]
+      [0]
+    ]
+    -[x]
+  ]
+]
+```
