@@ -8766,3 +8766,77 @@ define[  expand clauses[clauses]
   ]
 ]
 ```
+
+## 375
+
+```
+?[
+  assoc[  ['b]  list'[ [[a][1]] [[b][2]] ]  ]   =>[cadr]
+  [false]
+]
+
+let*[
+  [x]  [3]
+  [y]  +[ [x] [2] ]
+  [z]  +[ [x] [y] [5] ]
+  *[ [z] [z] ]
+]
+
+eval[ let*->nested lets[exp] [env] ]
+```
+
+## 376
+
+```
+let[ [<var>] [<bindings>] [<body>] ]
+
+define[  fib[n]
+  nlet[ 
+    fib iter[
+      [a]  [1]
+      [b]  [0]
+      [count]  [n]
+    ]
+    ?[
+      =[ [count] [0] ]  [b]
+      fib iter[
+        +[ [a] [b] ]
+        [a]
+        -[ [count] [1] ]
+      ]
+    ]
+  ]
+]
+```
+
+## 377
+
+```
+define[  true?[x]
+  not[eq?[ [x] [false] ]]
+]
+
+define[  false?[x]
+  eq?[ [x] [false] ]
+]
+
+apply primitive procedure[ [<proc>] [<args>] ]
+
+primitive procedure?[<proc>]
+
+define[  make procedure[ [parameters] [body] [env] ]
+  list[ ['procedure] [parameters] [body] [env] ]
+]
+
+define[  compound procedure?[p]
+  tagged list?[ [p] ['procedure] ]
+]
+
+define[  procedure parameters[p]  cadr[p]  ]
+
+define[  procedure body[p]  caddr[p]  ]
+
+define[  procedure environment[p]  cadddr[p]  ]
+
+lookup variable value[ [<var>] [<env>] ]
+```
