@@ -9211,3 +9211,41 @@ let[
   ]
 ]
 ```
+
+## 392
+
+```
+define[  f[x]
+  letrec[
+    [even?]  fun[  [n]
+      ?[
+        =[ [n] [0] ]  [true]
+        odd?[-[ [n] [1] ]]
+      ]
+    ]
+    [odd?]  fun[  [n]
+      ?[
+        =[ [n] [0] ]  [false]
+        even?[-[ [n] [1] ]]
+      ]
+    ]
+    <rest of body of f>
+  ]
+]
+
+letrec[
+  [var_1]  [exp_1]
+  [var_n]  [exp_n]
+  <body>
+]
+
+letrec[
+  [fact]  fun[  [n]
+    ?[
+      =[ [n] [1] ]  [1]
+      *[  [n]  fact[-[ [n] [1] ]]  ]
+    ]
+  ]
+  fact[10]
+]
+```
