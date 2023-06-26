@@ -8840,3 +8840,32 @@ define[  procedure environment[p]  cadddr[p]  ]
 
 lookup variable value[ [<var>] [<env>] ]
 ```
+
+## 378
+
+```
+extend environment[ [<variables>] [<values>] [<base env>] ]
+
+define variable![ [<var>] [<value>] [<env>] ]
+
+set variable value![ [<var>] [<value>] [<env>] ]
+
+define[  enclosing environment[env]  cdr[env]  ]
+
+define[  first frame[env]  car[env]  ]
+
+define[  [the empty environment]  [nil]  ]
+
+define[  make frame[ [variables] [values] ]
+  cons[ [variables] [values] ]
+]
+
+define[  frame variables[frame]  car[frame]  ]
+
+define[  frame values[frame]  cdr[frame]  ]
+
+define[  add binding to frame![ [var] [val] [frame] ]
+  set car![ [frame] cons[[var]car[frame]] ]
+  set cdr![ [frame] cons[[val]cdr[frame]] ]
+]
+```
