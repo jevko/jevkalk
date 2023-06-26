@@ -9080,3 +9080,134 @@ define[  user print[object]
 
 define[  [the global environment]  setup environment[]  ]
 ```
+
+## 384
+
+```
+driver loop[]
+
+define[  append[ [x] [y] ]
+  ?[
+    null?[x]  [y]
+    cons[
+      car[x]
+      append[ cdr[x] [y] ]
+    ]
+  ]
+]
+
+append[  list'[ [a] [b] [c] ]  list'[ [d] [e] [f] ]  ]
+
+define[  factorial[n]
+  ?[
+    =[ [n] [1] ]  [1]
+    *[
+      factorial[-[ [n] [1] ]]
+      [n]
+    ]
+  ]
+]
+```
+
+## 387
+
+```
+eval[  list'[ [*] [5] [5] ]  [user initial environment]  ]
+
+eval[  cons[ ['*] list'[[5][5]] ]  [user initial environment]  ]
+
+define[  run forever[]  run forever[]  ]
+
+define[  try[p]
+  ?[
+    halts?[ [p] [p] ]  run forever[]
+    ['halted]
+  ]
+]
+
+try[try]
+```
+
+## 388
+
+```
+define[  f[x]
+  define[  even?[n]
+    ?[
+      =[ [n] [0] ]  [true]
+      odd?[-[ [n] [1] ]]
+    ]
+  ]
+  define[  odd?[n]
+    ?[
+      =[ [n] [0] ]  [false]
+      even?[-[ [n] [1] ]]
+    ]
+  ]
+  <rest of body of f>
+]
+```
+
+## 389
+
+```
+fun[  [<vars>]
+  define[  [u]  [<e1>]  ]
+  define[  [v]  [<e2>]  ]
+  [<e3>]
+]
+
+fun[  [<vars>]
+  let[
+    [u]  ['*unassigned*]
+    [v]  ['*unassigned*]
+    [
+      set![ [u] [<e1>] ]
+      set![ [v] [<e2>] ]
+      [<e3>]
+    ]
+  ]
+]
+```
+
+## 390
+
+```
+fun[  [<vars>]
+  let[
+    [u]  ['*unassigned*]
+    [v]  ['*unassigned*]
+    [
+      let[
+        [a]  [<e1>]
+        [b]  [<e2>]
+        set![ [u] [a] ]
+        set![ [v] [b] ]
+      ]
+      [<e3>]
+    ]
+  ]
+]
+```
+
+## 391
+
+```
+define[  solve[ [f] [y0] [dt] ]
+  define[  [y]  integral[ delay[dy] [y0] [dt] ]  ]
+  define[  [dy]  stream map[ [f] [y] ]  ]
+  [y]
+]
+
+let[
+  [a]  [1]
+  [
+    define[  f[x]
+      define[  [b]  +[ [a] [x] ]  ]
+      define[  [a]  [5]  ]
+      +[ [a] [b] ]
+    ]
+    f[10]
+  ]
+]
+```
