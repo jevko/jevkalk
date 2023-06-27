@@ -9252,6 +9252,8 @@ letrec[
 
 ## 393
 
+Shortening `fun` to `fn` from now on.
+
 ```
 [
   fn[  [n]
@@ -9295,5 +9297,20 @@ define[  f[x]
       ]
     ]
   ]
+]
+```
+
+## 394
+
+```
+define[  factorial[n]
+  ?[
+    =[ [n] [1] ]  [1]
+    *[  factorial[-[ [n] [1] ]]  [n]  ]
+  ]
+]
+
+define[  eval[ [exp] [env] ]
+  analyze[exp].[env]
 ]
 ```
