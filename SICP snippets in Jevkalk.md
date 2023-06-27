@@ -9249,3 +9249,51 @@ letrec[
   fact[10]
 ]
 ```
+
+## 393
+
+```
+[
+  fn[  [n]
+    fn[  [fact]
+      fact[ [fact] [n] ]
+    ].[fn[  [ [ft] [k] ]
+      ?[
+        =[ [k] [1] ]  [1]
+        *[  [k]  ft[ [ft] -[[k][1]] ]  ]
+      ]
+    ]]
+  ].[10]
+]
+
+define[  f[x]
+  define[  even?[n]
+    ?[
+      =[ [n] [0] ]  [true]
+      odd?[-[ [n] [1] ]]
+    ]
+  ]
+  define[  odd?[n]
+    ?[
+      =[ [n] [0] ]  [false]
+      even?[-[ [n] [1] ]]
+    ]
+  ]
+  even?[x]
+]
+
+define[  f[x]
+  [
+    fn[  [ [even?] [odd?] ]
+      even?[ [even?] [odd?] [x] ]
+    ].[
+      fn[  [ [ev?] [od?] [n] ]
+        ?[  =[ [n] [0] ]  [true]  od?[ [<??>] [<??>] [<??>] ]  ]
+      ]
+      fn[  [ [ev?] [od?] [n] ]
+        ?[  =[ [n] [0] ]  [false]  ev?[ [<??>] [<??>] [<??>] ]  ]
+      ]
+    ]
+  ]
+]
+```
