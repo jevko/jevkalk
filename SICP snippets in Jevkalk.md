@@ -9352,3 +9352,117 @@ define[  analyze variable[exp]
   lambda[  [env]  lookup variable value[ [exp] [env] ]  ]
 ]
 ```
+
+## 396
+
+```
+define[  analyze assignment[exp]
+  let[
+    [var]  assignment variable[exp]
+    [vproc]  analyze[assignment value[exp]]
+    fun[  [env]
+      set variable value![ [var] vproc[env] [env] ]
+      ['ok]
+    ]
+  ]
+]
+
+define[  analyze definition[exp]
+  let[
+    [var]  definition variable[exp]
+    [vproc]  analyze[definition value[exp]]
+    fun[  [env]
+      define variable![ [var] vproc[env] [env] ]
+      ['ok]
+    ]
+  ]
+]
+
+define[  analyze if[exp]
+  let[
+    [pproc]  analyze[if predicate[exp]]
+    [cproc]  analyze[if consequent[exp]]
+    [aproc]  analyze[if alternative[exp]]
+    fun[  [env]
+      ?[
+        true?[pproc[env]]  cproc[env]
+        aproc[env]
+      ]
+    ]
+  ]
+]
+
+define[  analyze lambda[exp]
+  let[
+    [vars]  lambda parameters[exp]
+    [bproc]  analyze sequence[lambda body[exp]]
+    fun[  [env]  make procedure[ [vars] [bproc] [env] ]  ]
+  ]
+]
+```
+
+## 397
+
+```
+define[  analyze sequence[exps]
+  define[  sequentially[ [proc1] [proc2] ]
+    fun[  [env]  proc1[env]  proc2[env]  ]
+  ]
+  define[  loop[ [first proc] [rest procs] ]
+    ?[
+      null?[rest procs]  [first proc]
+      loop[
+        sequentially[ [first proc] car[rest procs] ]
+        cdr[rest procs]
+      ]
+    ]
+  ]
+  let[
+    [procs]  map[ [analyze] [exps] ]
+    ?[
+      null?[procs]  error[
+        ['Empty sequence -- ANALYZE]
+      ]
+      loop[
+        car[procs]
+        cdr[procs]
+      ]
+    ]
+  ]
+]
+
+define[  analyze application[exp]
+  let[
+    [fproc]  analyze[operator[exp]]
+    [aprocs]  map[ [analyze] operands[exp] ]
+    fun[  [env]
+      execute application[
+        fproc[env]
+        map[
+          fun[  [aproc]  aproc[env]  ]
+          [aprocs]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  execute application[ [proc] [args] ]
+  ?[
+    primitive procedure?[proc]  apply primitive procedure[ [proc] [args] ]
+    compound procedure?[proc]  [
+      procedure body[proc].[
+        extend environment[
+          procedure parameters[proc]
+          [args]
+          procedure environment[proc]
+        ]
+      ]
+    ]
+    error[
+      ['Unknown procedure type -- EXECUTE APPLICATION]
+      [proc]
+    ]
+  ]
+]
+```
