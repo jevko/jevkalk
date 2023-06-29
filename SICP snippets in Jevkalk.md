@@ -9466,3 +9466,26 @@ define[  execute application[ [proc] [args] ]
   ]
 ]
 ```
+
+## 398
+
+```
+define[  analyze sequence[exps]
+  define[  execute sequence[ [procs] [env] ]
+    ?[
+      null?[cdr[procs]]  [car[procs].[env]]
+      [
+        [car[procs].[env]]
+        execute sequence[ cdr[procs] [env] ]
+      ]
+    ]
+  ]
+  let[
+    [procs]  map[ [analyze] [exps] ]
+    ?[
+      null?[procs]  error['Empty sequence -- ANALYZE]
+      fun[  [env]  execute sequence[ [procs] [env] ]  ]
+    ]
+  ]
+]
+```
