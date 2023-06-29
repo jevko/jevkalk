@@ -9489,3 +9489,37 @@ define[  analyze sequence[exps]
   ]
 ]
 ```
+
+## 399
+
+```
+define[  try[ [a] [b] ]
+  ?[  =[ [a] [0] ]  [1]  [b]  ]
+]
+
+define[  unless[ [condition] [usual value] [exceptional value] ]
+  ?[
+    [condition]  [exceptional value]
+    [usual value]
+  ]
+]
+```
+
+## 400
+
+```
+unless[
+  =[ [b] [0] ]  /[ [a] [b] ]
+  [
+    display['exception: returning 0]
+    [0]
+  ]
+]
+
+define[  factorial[n]
+  unless[
+    =[ [n] [1] ]  *[ [n] factorial[-[[n][1]] ]  ]
+    [1]
+  ]
+]
+```
