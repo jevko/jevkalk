@@ -9523,3 +9523,19 @@ define[  factorial[n]
   ]
 ]
 ```
+
+## 402
+
+```
+[
+  application?[exp]  apply[
+    actual value[ operator[exp] [env] ]
+    operands[exp]
+    [env]
+  ]
+]
+
+define[  actual value[ [exp] [env] ]
+  force it[eval[ [exp] [env] ]]
+]
+```
