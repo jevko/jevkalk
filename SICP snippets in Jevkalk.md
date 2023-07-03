@@ -9635,3 +9635,32 @@ define[  try[ [a] [b] ]
 
 try[  [0]  /[ [1] [0] ]  ]
 ```
+
+## 405
+
+```
+define[  force it[obj]
+  ?[
+    thunk?[obj]  actual value[ thunk exp[obj] thunk env[obj] ]
+    [obj]
+  ]
+]
+
+define[  delay it[ [exp] [env] ]
+  list[ ['thunk] [exp] [env] ]
+]
+
+define[  thunk?[obj]
+  tagged list?[ [obj] ['thunk] ]
+]
+
+define[  thunk exp[thunk]  cadr[thunk]  ]
+
+define[  thunk env[thunk]  caddr[thunk]  ]
+
+define[  evaluated thunk?[obj]
+  tagged list?[ [obj] ['evaluated thunk] ]
+]
+
+define[  thunk value[evaluated thunk]  cadr[evaluated thunk]  ]
+```
