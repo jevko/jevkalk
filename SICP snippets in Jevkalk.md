@@ -9664,3 +9664,41 @@ define[  evaluated thunk?[obj]
 
 define[  thunk value[evaluated thunk]  cadr[evaluated thunk]  ]
 ```
+
+## 406
+
+```
+define[  force it[obj]
+  ?[
+    thunk?[obj]  let[
+      [result]  actual value[
+        thunk exp[obj]
+        thunk env[obj]
+      ]
+      [
+        set car![ [obj] ['evaluated thunk] ]
+        set car![ cdr[obj] [result] ]   replace exp with its value
+        set cdr![ cdr[obj] [nil] ]      forget unneeded env
+        [result]
+      ]
+    ]
+    evaluated thunk?[obj]  thunk value[obj]
+    [obj]
+  ]
+]
+
+define[  [count]  [0]  ]
+
+define[  id[x]
+  set![ [count] +[[count][1]] ]
+  [x]
+]
+
+define[  [w]  id[ id[10] ]  ]
+
+[count]
+
+[w]
+
+[count]
+```
