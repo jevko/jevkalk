@@ -9758,3 +9758,19 @@ define[  f[ [a] b[lazy] [c] d[lazy memo] ]
   ...
 ]
 ```
+
+## 409
+
+```
+define[  cons[ [x] [y] ]
+  fun[  [m]  m[ [x] [y] ]  ]
+]
+
+define[  car[z]
+  z[fun[  [ [p] [q] ]  [p]  ]]
+]
+
+define[  cdr[z]
+  z[fun[  [ [p] [q] ]  [q]  ]]
+]
+```
