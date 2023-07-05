@@ -9702,3 +9702,59 @@ define[  [w]  id[ id[10] ]  ]
 
 [count]
 ```
+
+## 407
+
+```
+define[  square[x]  *[ [x] [x] ]  ]
+
+square[ id[10] ]
+
+[count]
+
+define[  eval sequence[ [exps] [env] ]
+  ?[
+    last exp?[exps]  eval[ first exp[exps] [env] ]
+    [
+      actual value[ first exp[exps] [env] ]
+      eval sequence[ rest exps[exps] [env] ]
+    ]
+  ]
+]
+
+define[  for each[ [proc] [items] ]
+  ?[
+    null?[items]  ['done]
+    [
+      proc[car[items]]
+      for each[ [proc] cdr[items] ]
+    ]
+  ]
+]
+```
+
+## 408
+
+```
+for each[
+  fun[  [x]  newline[]  display[x]  ]
+  list[ [57] [321] [88] ]
+]
+
+define[  p1[x]
+  set![  [x]  cons[ [x] list[2] ]  ]
+  [x]
+]
+
+define[  p2[x]
+  define[  p[e]
+    [e]
+    [x]
+  ]
+  p[set![  [x]  cons[ [x] list[2] ]  ]]
+]
+
+define[  f[ [a] b[lazy] [c] d[lazy memo] ]
+  ...
+]
+```
