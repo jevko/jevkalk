@@ -9774,3 +9774,51 @@ define[  cdr[z]
   z[fun[  [ [p] [q] ]  [q]  ]]
 ]
 ```
+
+## 410
+
+```
+define[  list ref[ [items] [n] ]
+  ?[
+    =[ [n] [0] ]  car[items]
+    list ref[ cdr[items] -[[n][1]] ]
+  ]
+]
+
+define[  map[ [proc] [items] ]
+  ?[
+    null?[items]  [nil]
+    cons[
+      proc[car[items]]
+      map[ [proc] cdr[items] ]
+    ]
+  ]
+]
+
+define[  scale list[ [items] [factor] ]
+  map[
+    fun[  [x]  *[ [x] [factor] ]  ]
+    [items]
+  ]
+]
+
+define[  add lists[ [list1] [list2] ]
+  ?[
+    null?[list1]  [list2]
+    null?[list2]  [list1]
+    cons[
+      +[ car[list1] car[list2] ]
+      add lists[
+        cdr[list1]
+        cdr[list2]
+      ]
+    ]
+  ]
+]
+
+define[  [ones]  cons[ [1] [ones] ]  ]
+
+define[  [integers]  cons[ [1] add lists[[ones][integers]] ]  ]
+
+list ref[ [integers] [17] ]
+```
