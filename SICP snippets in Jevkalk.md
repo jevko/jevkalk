@@ -9849,3 +9849,45 @@ list ref[  solve[ fun[[x][x]] [1] [0.001] ]  [1000]  ]
 
 car[ list'[[a][b][c]] ]
 ```
+
+## 412
+
+```
+define[  prime sum pair[ [list1] [list2] ]
+  let[
+    [a]  an element of[list1]
+    [b]  an element of[list2]
+    [
+      require[prime?[ +[[a][b]] ]]
+      list[[a][b]]
+    ]
+  ]
+]
+```
+
+## 413
+
+```
+prime sum pair[  list'[ [1] [3] [5] [8] ]  list'[ [20] [35] [110] ]  ]
+```
+
+## 414
+
+```
+list[  amb[ [1] [2] [3] ]  amb[ ['a] ['b] ]  ]
+
+list[[1]['a]]  list[[1]['b]]  list[[2]['a]]  list[[2]['b]]  list[[3]['a]]  list[[3]['b]]
+
+define[  require[p]
+  ?[  not[p]  amb[]  ]
+]
+
+define[  an element of[items]
+  require[not[null?[items]]]
+  amb[  car[items]  an element of[ cdr[items] ]  ]
+]
+
+define[  an integer starting from[n]
+  amb[  [n]  an integer starting from[ +[[n][1]] ]  ]
+]
+```
