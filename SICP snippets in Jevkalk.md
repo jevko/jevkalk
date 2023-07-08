@@ -9891,3 +9891,29 @@ define[  an integer starting from[n]
   amb[  [n]  an integer starting from[ +[[n][1]] ]  ]
 ]
 ```
+
+## 417
+
+```
+prime sum pair[ list[[1][3][5][8]] list[[20][35][110]] ]
+
+[try again]
+
+prime sum pair[ list[[19][27][30]] list[[11][36][58]] ]
+
+define[  a pythagorean triple between[ [low] [high] ]
+  let[
+    [i]  an integer between[ [low] [high] ]
+    let[
+      [j]  an integer between[ [i] [high] ]
+      let[
+        [k]  an integer between[ [j] [high] ]
+        [
+          require[=[  +[ *[[i][i]] *[[j][j]] ]  *[ [k] [k] ]  ]]
+          list[ [i] [j] [k] ]
+        ]
+      ]
+    ]
+  ]
+]
+```
