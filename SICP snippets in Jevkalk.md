@@ -9985,4 +9985,12 @@ define[  multiple dwelling[]
     ]
   ]
 ]
+
+list[
+  list[ ['baker] [3] ]
+  list[ ['cooper] [2] ]
+  list[ ['fletcher] [4] ]
+  list[ ['miller] [5] ]
+  list[ ['smith] [1] ]
+]
 ```
