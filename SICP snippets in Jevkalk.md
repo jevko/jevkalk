@@ -9994,3 +9994,34 @@ list[
   list[ ['smith] [1] ]
 ]
 ```
+
+## 421
+
+```
+define[  [nouns]  list[ ['noun] ['student] ['professor] ['cat] ['class] ]  ]
+
+define[  [verbs]  list[ ['verb] ['studies] ['lectures] ['eats] ['sleeps] ]  ]
+
+define[  [articles]  list[ ['article] ['the] ['a] ]  ]
+
+sentence[
+  noun phrase[ article[the] noun[cat] ]
+  verb[eats]
+]
+
+define[  parse sentence[]
+  list[
+    ['sentence]
+    parse noun phrase[]
+    parse word[verbs]
+  ]
+]
+
+define[  parse noun phrase[]
+  list[
+    ['noun phrase]
+    parse word[articles]
+    parse word[nouns]
+  ]
+]
+```
