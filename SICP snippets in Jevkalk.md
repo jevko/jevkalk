@@ -9917,3 +9917,39 @@ define[  a pythagorean triple between[ [low] [high] ]
   ]
 ]
 ```
+
+## 418
+
+```
+define[  a pythagorean triple between[ [low] [high] ]
+  let[
+    [i]  an integer between[ [low] [high] ]
+    [hsq]  *[ [high] [high] ]
+    let[
+      [j]  an integer between[ [i] [high] ]
+      let[
+        [ksq]  +[ *[[i][i]] *[[j][j]] ]
+        [
+          require[>=[ [hsq] [ksq] ]]
+          let[
+            [k]  sqrt[ksq]
+            [
+              require[integer?[k]]
+              list[[i][j][k]]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  distinct?[items]
+  ?[
+    null?[items]  [true]
+    null?[cdr[items]]  [true]
+    member[ car[items] cdr[items] ]  [false]
+    distinct?[cdr[items]]
+  ]
+]
+```
