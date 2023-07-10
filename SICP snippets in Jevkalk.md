@@ -10296,8 +10296,61 @@ define[  analyze if[exp]
             aproc[ [env] [succeed] [fail2] ]
           ]
         ]
-        
+
         failure continuation for evaluating the predicate
+        [fail]
+      ]
+    ]
+  ]
+]
+```
+
+## 431
+
+```
+define[  analyze sequence[exps]
+  define[  sequentially[ [a] [b] ]
+    fun[  [ [env] [succeed] [fail] ]
+      a[
+        [env]
+        success continuation for calling a
+        fun[  [ [a value] [fail2] ]
+          b[ [env] [succeed] [fail2] ]
+        ]
+        failure continuation for calling a
+        [fail]
+      ]
+    ]
+  ]
+  define[  loop[ [first proc] [rest procs] ]
+    ?[
+      null?[rest procs]  [first proc]
+      loop[
+        sequentially[ [first proc] car[rest procs] ]
+        cdr[rest procs]
+      ]
+    ]
+  ]
+  let[
+    [procs]  map[ [analyze] [exps] ]
+    ?[
+      null?[procs]  error['Empty sequence -- ANALYZE]
+      loop[ car[procs] cdr[procs] ]
+    ]
+  ]
+]
+
+define[  analyze definition[exp]
+  let[
+    [var]  definition variable[exp]
+    [vproc]  analyze[definition value[exp]]
+    fun[  [ [env] [succeed] [fail] ]
+      vproc[
+        [env]
+        fun[  [ [val] [fail2] ]
+          define variable![ [var] [val] [env] ]
+          succeed[ ['ok] [fail2] ]
+        ]
         [fail]
       ]
     ]
