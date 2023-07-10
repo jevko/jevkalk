@@ -10116,3 +10116,125 @@ define[  parse noun phrase[]
   maybe extend[parse simple noun phrase[]]
 ]
 ```
+
+## 424
+
+```
+parse[list'[[the][student][with][the][cat][sleeps][in][the][class]]]
+
+sentence[
+  noun phrase[
+    simple noun phrase[ article[the] noun[student] ]
+    prep phrase[
+      prep[with]
+      simple noun phrase[
+        article[the]
+        noun[cat]
+      ]
+    ]
+  ]
+  verb phrase[
+    verb[sleeps]
+    prep phrase[
+      prep[in]
+      simple noun phrase[
+        article[the]
+        noun[class]
+      ]
+    ]
+  ]
+]
+
+parse[list'[[the][professor][lectures][to][the][student][with][the][cat]]]
+
+sentence[
+  simple noun phrase[ article[the] noun[professor] ]
+  verb phrase[
+    verb phrase[
+      verb[lectures]
+      prep phrase[
+        prep[to]
+        simple noun phrase[
+          article[the]
+          noun[student]
+        ]
+      ]
+    ]
+    prep phrase[
+      prep[with]
+      simple noun phrase[
+        article[the]
+        noun[cat]
+      ]
+    ]
+  ]
+]
+```
+
+## 425
+
+```
+sentence[
+  simple noun phrase[ article[the] noun[professor] ]
+  verb phrase[
+    verb[lectures]
+    prep phrase[
+      prep[to]
+      noun phrase[
+        simple noun phrase[
+          article[the]
+          noun[student]
+        ]
+        prep phrase[
+          prep[with]
+          simple noun phrase[
+            article[the]
+            noun[cat]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  parse verb phrase[]
+  amb[
+    parse word[verbs]
+    list[
+      ['verb phrase]
+      parse verb phrase[]
+      parse prepositional phrase[]
+    ]
+  ]
+]
+```
+
+## 428
+
+```
+define[  amb?[exp]  tagged list?[ [exp] ['amb] ]  ]
+
+define[  amb choices[exp]  cdr[exp]  ]
+
+[amb?[exp].[analyze amb[exp]]]
+```
+
+## 429
+
+```
+define[  ambeval[ [exp] [env] [succeed] [fail] ]
+  analyze[exp].[ [env] [succeed] [fail] ]
+]
+
+fun[  [ [env] [succeed] [fail] ]
+  ;;[succeed is fun[ [[value][fail]] ... ]]
+  ;;[fail is fun[ [] ... ]]
+  ...
+]
+
+ambeval[  [<exp>]
+  [the global environment]
+  fun[  [ [value] [fail] ]  [value]  ]
+  fun[  []  ['failed]  ]
+]
+```
