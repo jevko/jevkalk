@@ -10357,3 +10357,43 @@ define[  analyze definition[exp]
   ]
 ]
 ```
+
+## 432
+
+```
+define[  analyze assignment[exp]
+  let[
+    [var]  assignment variable[exp]
+    [vproc]  analyze[assignment value[exp]]
+    fun[  [ [env] [succeed] [fail] ]
+      vproc[
+
+        [env]
+
+        fun[  [ [val] [fail2] ]
+          let[
+            [old value]  lookup variable value[ [var] [env] ]
+            [
+              set variable value![ [var] [val] [env] ]
+              succeed[
+                ['ok]
+                fun[  []
+                  set variable value![
+                    [var]
+                    [old value]
+                    [env]
+                  ]
+                  fail2[]
+                ]
+              ]
+            ]
+          ]
+        ]
+
+        [fail]
+        
+      ]
+    ]
+  ]
+]
+```
