@@ -10238,3 +10238,69 @@ ambeval[  [<exp>]
   fun[  []  ['failed]  ]
 ]
 ```
+
+## 430
+
+```
+define[  analyze self-evaluating[exp]
+  fun[  [ [env] [succeed] [fail] ]
+    succeed[ [exp] [fail] ]
+  ]
+]
+
+define[  analyze quoted[exp]
+  let[
+    [qval]  text of quotation[exp]
+    fun[  [ [env] [succeed] [fail] ]
+      succeed[ [qval] [fail] ]
+    ]
+  ]
+]
+
+define[  analyze variable[exp]
+  fun[  [ [env] [succeed] [fail] ]
+    succeed[
+      lookup variable value[ [exp] [env] ]
+      [fail]
+    ]
+  ]
+]
+
+define[  analyze lambda[exp]
+  let[
+    [vars]  lambda parameters[exp]
+    [bproc]  analyze sequence[lambda body[exp]]
+    fun[  [ [env] [succeed] [fail] ]
+      succeed[
+        make procedure[ [vars] [bproc] [env] ]
+        [fail]
+      ]
+    ]
+  ]
+]
+
+define[  analyze if[exp]
+  let[
+    [pproc]  analyze[if predicate[exp]]
+    [cproc]  analyze[if consequent[exp]]
+    [aproc]  analyze[if alternative[exp]]
+    fun[  [ [env] [succeed] [fail] ]
+      pproc[
+        [env]
+
+        success continuation for evaluating the predicate
+        to obtain pred value
+        fun[  [ [pred value] [fail2] ]
+          ?[
+            true?[pred value]  cproc[ [env] [succeed] [fail2] ]
+            aproc[ [env] [succeed] [fail2] ]
+          ]
+        ]
+        
+        failure continuation for evaluating the predicate
+        [fail]
+      ]
+    ]
+  ]
+]
+```
