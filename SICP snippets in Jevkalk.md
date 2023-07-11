@@ -10370,14 +10370,14 @@ define[  analyze assignment[exp]
 
         [env]
 
-        fun[  [ [val] [fail2] ]
+        fun[  [ [val] [fail2] ]                                   *1*
           let[
             [old value]  lookup variable value[ [var] [env] ]
             [
               set variable value![ [var] [val] [env] ]
               succeed[
                 ['ok]
-                fun[  []
+                fun[  []                                          *2*
                   set variable value![
                     [var]
                     [old value]
@@ -10391,9 +10391,62 @@ define[  analyze assignment[exp]
         ]
 
         [fail]
-        
+
       ]
     ]
+  ]
+]
+```
+
+## 433
+
+```
+define[  analyze application[exp]
+  let[
+    [fproc]  analyze[operator[exp]]
+    [aprocs]  map[ [analyze] operands[exp] ]
+    fun[  [ [env] [succeed] [fail] ]
+      fproc[
+        [env]
+        fun[  [ [proc] [fail2] ]
+          get args[
+            [aprocs]
+            [env]
+            fun[  [ [args] [fail3] ]
+              execute application[
+                [proc] [args] [succeed] [fail3]
+              ]
+            ]
+          ]
+        ]
+        [fail]
+      ]
+    ]
+  ]
+]
+
+define[  get args[ [aprocs] [env] [succeed] [fail] ]
+  ?[
+    null?[aprocs]  succeed[ [nil] [fail] ]
+    [car[aprocs].[
+      [env]
+      success continuation for this aproc
+      fun[  [ [arg] [fail2] ]
+        get args[
+          cdr[aprocs]
+          [env]
+          success continuation for recursive call to get args
+          fun[  [ [args] [fail3] ]
+            succeed[
+              cons[ [arg] [args] ]
+              [fail3]
+            ]
+          ]
+          [fail2]
+        ]
+      ]
+      [fail]
+    ]]
   ]
 ]
 ```
