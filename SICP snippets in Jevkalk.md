@@ -10450,3 +10450,48 @@ define[  get args[ [aprocs] [env] [succeed] [fail] ]
   ]
 ]
 ```
+
+## 434
+
+```
+define[  execute application[ [proc] [args] [succeed] [fail] ]
+  ?[
+    primitive procedure?[proc]  succeed[
+      apply primitive procedure[ [proc] [args] ]
+      [fail]
+    ]
+    compound procedure?[proc]  [procedure body[proc].[
+      extend environment[
+        procedure parameters[proc]
+        [args]
+        procedure environment[proc]
+      ]
+      [succeed]
+      [fail]
+    ]]
+    error[
+      ['Unknown procedure type -- EXECUTE APPLICATION]
+      [proc]
+    ]
+  ]
+]
+
+define[  analyze amb[exp]
+  let[
+    [cprocs]  map[ [analyze] amb choices[exp] ]
+    fun[  [ [env] [succeed] [fail] ]
+      define[  try next[choices]
+        ?[
+          null?[choices]  fail[]
+          [car[choices].[
+            [env]
+            [succeed]
+            fun[  []  try next[cdr[choices]]  ]
+          ]]
+        ]
+      ]
+      try next[cprocs]
+    ]
+  ]
+]
+```
