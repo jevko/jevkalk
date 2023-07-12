@@ -10495,3 +10495,47 @@ define[  analyze amb[exp]
   ]
 ]
 ```
+
+## 435
+
+```
+define[  [input prompt]  [';;; Amb-Eval input:]  ]
+define[  [output prompt]  [';;; Amb-Eval value:]  ]
+
+define[  driver loop[]
+  define[  internal loop[try again]
+    prompt for input[input prompt]
+    let[
+      [input]  read[]
+      ?[
+        eq?[ [input] ['try again] ]  try again[]
+        [
+          newline[]
+          display[';;; Starting a new problem ']
+          ambeval[
+            [input]
+            [the global environment]
+            embeval success
+            fun[  [ [val] [next alternative] ]
+              announce output[output prompt]
+              user print[val]
+              internal loop[next alternative]
+            ]
+            ambeval failure
+            fun[  []
+              announce output[';;; There are no more values of]
+              user print[input]
+              driver loop[]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+  internal loop[fun[  []
+    newline[]
+    display[';;; There is no current problem]
+    driver loop[]
+  ]]
+]
+```
