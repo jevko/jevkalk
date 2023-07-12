@@ -10539,3 +10539,32 @@ define[  driver loop[]
   ]]
 ]
 ```
+
+## 436
+
+```
+define[  [count]  [0]  ]
+
+let[
+  [x]  an element of[list'[[a][b][c]]]
+  [y]  an element of[list'[[a][b][c]]]
+  [
+    permanent set![ [count] +[[count][1]] ]
+    require[not[eq?[ [x] [y] ]]]
+    list[ [x] [y] [count] ]
+  ]
+]
+
+[try again]
+
+if fail[
+  let[
+    [x]  an element of[list[[1][3][5]]]
+    [
+      require[even?[x]]
+      [x]
+    ]
+  ]
+  ['all odd]
+]
+```
