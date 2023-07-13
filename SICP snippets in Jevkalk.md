@@ -10621,3 +10621,25 @@ define[  analyze require[exp]
   ]
 ]
 ```
+
+## 439
+
+```
+define[  append[ [x] [y] ]
+  ?[
+    null?[x]  [y]
+    cons[
+      car[x]
+      append[ cdr[x] [y] ]
+    ]
+  ]
+]
+```
+
+## 441
+
+```
+address[  Bitdiddle[Ben]  Slumerville[ Ridge[Road] [10] ]  ]
+job[  Bitdiddle[Ben]  computer[wizard]  ]
+salary[  Bitdiddle[Ben]  [60000]  ]
+```
