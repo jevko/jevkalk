@@ -10568,3 +10568,56 @@ if fail[
   ['all odd]
 ]
 ```
+
+## 437
+
+```
+if fail[
+  let[
+    [x]  an element of[list[ [1] [3] [5] [8] ]]
+    [
+      require[even?[x]]
+      [x]
+    ]
+  ]
+  ['all odd]
+]
+
+let[
+  [pairs]  [nil]
+  if fail[
+    let[
+      [p]  prime sum pair[ list[[1][3][5][8]] list[[20][35][110]] ]
+      [
+        permanent set![ [pairs] cons[[p][pairs]] ]
+        amb[]
+      ]
+    ]
+    [pairs]
+  ]
+]
+
+define[  require?[exp]  tagged list?[ [exp] ['require] ]  ]
+
+define[  require predicate[exp]  cadr[exp]  ]
+
+[require?[exp].[analyze require[exp]]]
+
+define[  analyze require[exp]
+  let[
+    [pproc]  analyze[require predicate[exp]]
+    fun[  [ [env] [sicceed] [fail] ]
+      pproc[
+        [env]
+        fun[  [ [pred value] [fail2] ]
+          ?[
+            [<??>]  [<??>]
+            succeed[ ['ok] [fail2] ]
+          ]
+        ]
+        [fail]
+      ]
+    ]
+  ]
+]
+```
