@@ -10643,3 +10643,11 @@ address[  Bitdiddle[Ben]  Slumerville[ Ridge[Road] [10] ]  ]
 job[  Bitdiddle[Ben]  computer[wizard]  ]
 salary[  Bitdiddle[Ben]  [60000]  ]
 ```
+
+Or alternatively using list':
+
+```
+list'[  [address]  [ [Bitdiddle] [Ben] ]  [ [Slumerville] [[Ridge][Road]] [10] ]  ]
+list'[  [job]  [ [Bitdiddle] [Ben] ]  [ [computer] [wizard] ]  ]
+list'[  [salary]  [ [Bitdiddle] [Ben] ]  [60000]  ]
+```
