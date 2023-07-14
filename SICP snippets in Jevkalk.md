@@ -10686,3 +10686,29 @@ list'[  [job]         [ [Scrooge] [Eben] ]  [ [accounting] [chief] [accountant] 
 list'[  [salary]      [ [Scrooge] [Eben] ]  [75000]  ]
 list'[  [supervisor]  [ [Scrooge] [Eben] ]  [ [Warbucks] [Oliver] ]  ]
 ```
+
+## 443
+
+```
+list'[  [address]     [ [Cratchet] [Robert] ]  [ [Allston] [[N][Harvard][Street]] [16] ]  ]
+list'[  [job]         [ [Cratchet] [Robert] ]  [ [accounting] [scrivener] ]  ]
+list'[  [salary]      [ [Cratchet] [Robert] ]  [18000]  ]
+list'[  [supervisor]  [ [Cratchet] [Robert] ]  [ [Scrooge] [Eben] ]  ]
+
+list'[  [address]     [ [Aull] [DeWitt] ]  [ [Slumerville] [[Onion][Square]] [5] ]  ]
+list'[  [job]         [ [Aull] [DeWitt] ]  [ [administration] [secretary] ]  ]
+list'[  [salary]      [ [Aull] [DeWitt] ]  [25000]  ]
+list'[  [supervisor]  [ [Aull] [DeWitt] ]  [ [Warbucks] [Oliver] ]  ]
+
+list'[  [can do job]  [ [computer] [wizard] ]  [ [computer] [programmer] ]  ]
+list'[  [can do job]  [ [computer] [wizard] ]  [ [computer] [technician] ]  ]
+
+list'[  [can do job]  [ [computer] [programmer] ]  [ [computer] [programmer] [trainee] ]  ]
+
+list'[  [can do job]  [ [administration] [secretary] ]  [ [administration] [big] [wheel] ]  ]
+
+list'[  [job]  [?x]  [ [computer] [programmer] ] ]
+
+list'[  [job]  [ [Hacker] [Alyssa] [P] ]  [ [computer] [programmer] ]  ]
+list'[  [job]  [ [Fect] [Cy] [D] ]  [ [computer] [programmer] ]  ]
+```
