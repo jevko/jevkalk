@@ -10651,3 +10651,38 @@ list'[  [address]  [ [Bitdiddle] [Ben] ]  [ [Slumerville] [[Ridge][Road]] [10] ]
 list'[  [job]  [ [Bitdiddle] [Ben] ]  [ [computer] [wizard] ]  ]
 list'[  [salary]  [ [Bitdiddle] [Ben] ]  [60000]  ]
 ```
+
+## 442
+
+```
+list'[  [address]     [ [Hacker] [Alyssa] [P] ]  [ [Cambridge] [[Mass][Ave]] [78] ]  ]
+list'[  [job]         [ [Hacker] [Alyssa] [P] ]  [ [computer] [programmer] ]  ]
+list'[  [salary]      [ [Hacker] [Alyssa] [P] ]  [40000]  ]
+list'[  [supervisor]  [ [Hacker] [Alyssa] [P] ]  [ [Bitdiddle] [Ben] ]  ]
+
+list'[  [address]     [ [Fect] [Cy] [D] ]  [ [Cambridge] [[Ames][Street]] [3] ]  ]
+list'[  [job]         [ [Fect] [Cy] [D] ]  [ [computer] [programmer] ]  ]
+list'[  [salary]      [ [Fect] [Cy] [D] ]  [35000]  ]
+list'[  [supervisor]  [ [Fect] [Cy] [D] ]  [ [Bitdiddle] [Ben] ]  ]
+
+list'[  [address]     [ [Tweakit] [Lem] [E] ]  [ [Boston] [[Bay][State][Road]] [22] ]  ]
+list'[  [job]         [ [Tweakit] [Lem] [E] ]  [ [computer] [technician] ]  ]
+list'[  [salary]      [ [Tweakit] [Lem] [E] ]  [25000]  ]
+list'[  [supervisor]  [ [Tweakit] [Lem] [E] ]  [ [Bitdiddle] [Ben] ]  ]
+
+list'[  [address]     [ [Reasoner] [Louis] ]  [ [Slumerville] [[Pine][Tree][Road]] [80] ]  ]
+list'[  [job]         [ [Reasoner] [Louis] ]  [ [computer] [programmer] [trainee] ]  ]
+list'[  [salary]      [ [Reasoner] [Louis] ]  [30000]  ]
+list'[  [supervisor]  [ [Reasoner] [Louis] ]  [ [Hacker] [Alyssa] [P] ]  ]
+
+list'[  [supervisor]  [ [Bitdiddle] [Ben] ]  [ [Warbucks] [Oliver] ]  ]
+
+list'[  [address]     [ [Warbucks] [Oliver] ]  [ [Swellesley] [[Top][Head][Road]] ]  ]
+list'[  [job]         [ [Warbucks] [Oliver] ]  [ [administration] [big] [wheel] ]  ]
+list'[  [salary]      [ [Warbucks] [Oliver] ]  [150000]  ]
+
+list'[  [address]     [ [Scrooge] [Eben] ]  [ [Weston] [[Shady][Lane]] [10] ]  ]
+list'[  [job]         [ [Scrooge] [Eben] ]  [ [accounting] [chief] [accountant] ]  ]
+list'[  [salary]      [ [Scrooge] [Eben] ]  [75000]  ]
+list'[  [supervisor]  [ [Scrooge] [Eben] ]  [ [Warbucks] [Oliver] ]  ]
+```
