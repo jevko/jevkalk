@@ -10712,3 +10712,30 @@ list'[  [job]  [?x]  [ [computer] [programmer] ] ]
 list'[  [job]  [ [Hacker] [Alyssa] [P] ]  [ [computer] [programmer] ]  ]
 list'[  [job]  [ [Fect] [Cy] [D] ]  [ [computer] [programmer] ]  ]
 ```
+
+## 444
+
+```
+list'[ [adress] [?x] [?y] ]
+
+list'[ [supervisor] [?x] [?y] ]
+
+list[ [job] [?x] computer[?type] ]
+
+list'[  [job]  [ [Bitdiddle] [Ben] ]  [ [computer] [wizard] ]  ]
+list'[  [job]  [ [Hacker] [Alyssa] [P] ]  [ [computer] [programmer] ]  ]
+list'[  [job]  [ [Fect] [Cy] [D] ]  [ [computer] [programmer] ]  ]
+list'[  [job]  [ [Tweakit] [Lem] [E] ]  [ [computer] [technician] ]  ]
+
+list'[  [job]  [ [Reasoner] [Louis] ]  [ [computer] [programmer] [trainee] ]  ]
+```
+
+An alternative way of querying could be:
+
+```
+address[ [?x] [?y] ]
+
+supervisor[ [?x] [?y] ]
+
+job[ [?x] computer[?type] ]
+```
