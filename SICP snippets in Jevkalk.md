@@ -10739,3 +10739,17 @@ supervisor[ [?x] [?y] ]
 
 job[ [?x] computer[?type] ]
 ```
+
+## 445
+
+```
+list'[  [job]  [?x]  [ [computer] ...[?type] ]  ]
+
+list'[ [computer] ...[?type] ]
+
+list'[ [computer] [programmer] [trainee] ]
+
+list'[ [computer] [programmer] ]
+
+list'[ [computer] ]
+```
