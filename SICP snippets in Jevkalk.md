@@ -10753,3 +10753,29 @@ list'[ [computer] [programmer] ]
 
 list'[ [computer] ]
 ```
+
+## 446
+
+```
+and[
+  list'[  [job]  [?person]  [ [computer] [programmer] ]  ]
+  list'[  [address]  [?person]  [?where]  ]
+]
+
+and[
+  list'[  [job]  [ [Hacker] [Alyssa] [P] ]  [ [computer] [programmer] ]  ]
+  list'[  [address]  [ [Hacker] [Alyssa] [P] ]  [ [Cambridge] [[Mass][Ave]] ]  [78] ]
+]
+
+and[
+  list'[  [job]  [ [Fect] [Cy] [D] ]  [ [computer] [programmer] ]  ]
+  list'[  [address]  [ [Fect] [Cy] [D] ]  [ [Cambridge] [[Ames][Street]] ]  [3] ]
+]
+
+and[  [<query_1>]  [<query_2>]  [...]  [<query_n>]  ]
+
+or[
+  list'[  [supervisor]  [?x]  [ [Bitdiddle] [Ben] ]  ]
+  list'[  [supervisor]  [?x]  [ [Hacker] [Alyssa] [P] ]  ]
+]
+```
