@@ -10779,3 +10779,38 @@ or[
   list'[  [supervisor]  [?x]  [ [Hacker] [Alyssa] [P] ]  ]
 ]
 ```
+
+## 447
+
+```
+or[
+  list'[  [supervisor]  [ [Hacker] [Alyssa] [P] ]  [ [Bitdiddle] [Ben] ]  ]
+  list'[  [supervisor]  [ [Hacker] [Alyssa] [P] ]  [ [Hacker] [Alyssa] [P] ]  ]
+]
+
+or[
+  list'[  [supervisor]  [ [Fect] [Cy] [D] ]  [ [Bitdiddle] [Ben] ]  ]
+  list'[  [supervisor]  [ [Fect] [Cy] [D] ]  [ [Hacker] [Alyssa] [P] ]  ]
+]
+
+or[
+  list'[  [supervisor]  [ [Tweakit] [Lem] [E] ]  [ [Bitdiddle] [Ben] ]  ]
+  list'[  [supervisor]  [ [Tweakit] [Lem] [E] ]  [ [Hacker] [Alyssa] [P] ]  ]
+]
+
+or[
+  list'[  [supervisor]  [ [Reasoner] [Louis] ]  [ [Bitdiddle] [Ben] ]  ]
+  list'[  [supervisor]  [ [Reasoner] [Louis] ]  [ [Hacker] [Alyssa] [P] ]  ]
+]
+
+or[  [<query_1>]  [<query_2>]  [...]  [<query_n>]  ]
+
+and[
+  list'[  [supervisor]  [?x]  [ [Bitdiddle] [Ben] ]  ]
+  not[list'[ [job]  [?x]  [ [computer] [programmer] ]  ]]
+]
+
+not[<query_1>]
+
+list value[ [<predicate>] [<arg_1>] [...] [<arg_n>] ]
+```
