@@ -10814,3 +10814,22 @@ not[<query_1>]
 
 list value[ [<predicate>] [<arg_1>] [...] [<arg_n>] ]
 ```
+
+## 448
+
+```
+and[
+  list[ [salary] [?person] [?amount] ]
+  list value[ [>] [?amount] [30000] ]
+]
+
+rule[  lives near[ [?person 1] [?person 2] ]
+  and[
+    list'[ [address] [?person 1] [[?town]...[?rest 1]] ]
+    list'[ [address] [?person 2] [[?town]...[?rest 2]] ]
+    not[same[ [?person 1] [?person 2] ]]
+  ]
+]
+
+rule[  same[ [?x] [?x] ]  ]
+```
