@@ -10833,3 +10833,36 @@ rule[  lives near[ [?person 1] [?person 2] ]
 
 rule[  same[ [?x] [?x] ]  ]
 ```
+
+## 449
+
+```
+rule[  wheel[?person]
+  and[
+    list'[ [supervisor] [?middle manager] [?person] ]
+    list'[ [supervisor] [?x] [?middle manager] ]
+  ]
+]
+
+rule[ [<conclusion>] [<body>] ]
+
+lives near[ [?x] [[Bitdiddle][Ben]] ]
+
+lives near[  [ [Reasoner] [Louis] ]  [ [Bitdiddle] [Ben] ]  ]
+lives near[  [ [Aull] [DeWitt] ]  [ [Bitdiddle] [Ben] ]  ]
+
+and[
+  list'[ [job] [?x] [[computer][programmer]] ]
+  lives near[ [?x] [[Bitdiddle][Ben]] ]
+]
+
+rule[  outranked by[ [?staff person] [?boss] ]
+  or[
+    list'[ [supervisor] [?staff person] [?boss] ]
+    and[
+      list'[ [supervisor] [?staff person] [?middle manager] ]
+      outranked by[ [?middle manager] [?boss] ]
+    ]
+  ]
+]
+```
