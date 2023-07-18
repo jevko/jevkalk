@@ -10866,3 +10866,53 @@ rule[  outranked by[ [?staff person] [?boss] ]
   ]
 ]
 ```
+
+## 450
+
+```
+list'[  [meeting]  [accounting]  [ [Monday] [9am] ]  ]
+list'[  [meeting]  [administration]  [ [Monday] [10am] ]  ]
+list'[  [meeting]  [computer]  [ [Wednesday] [3pm] ]  ]
+list'[  [meeting]  [administration]  [ [Friday] [1pm] ]  ]
+
+list'[  [meeting]  [whole company]  [ [Wednesday] [4pm] ]  ]
+
+rule[  meeting time[ [?person] [?day and time] ]
+  [<rule body>]
+]
+```
+
+## 451
+
+```
+lives near[  [?person]  [ [Hacker] [Alyssa] [P] ]  ]
+
+lives near[  [ [Hacker] [Alyssa] [P] ]  [ [Fect] [Cy] [D] ]  ]
+lives near[  [ [Fect] [Cy] [D] ]  [ [Hacker] [Alyssa] [P] ]  ]
+
+append to form[ [x] [y] [z] ]
+
+rule[  append to form[ [nil] [?x] [?y] ]  ]
+
+rule[  append to form[ [[?u]...[?v]] [?y] [[?u]...[?z]] ]
+  append to form[ [?v] [?y] [?z] ]
+]
+```
+
+Likely things like:
+
+```
+list'[  [meeting]  [administration]  [ [Friday] [1pm] ]  ]
+```
+
+and other lists should have had the form:
+
+```
+meeting[  [administration]  [ [Friday] [1pm] ]  ]
+```
+
+That would be more consistent with the language in the book.
+
+As it stands, I have different syntax for rules defined by user (which are like functions) and data (which I considered to be plain lists).
+
+Confusion comes from the fact that unquoted lists here are used both to call functions (rules) and to store data.
