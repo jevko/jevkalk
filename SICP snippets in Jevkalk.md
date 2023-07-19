@@ -11016,7 +11016,7 @@ list'[  [?x]  [next to]  [1]  [in]  [ [2] [1] [3] [1] ]  ]
 
 Update: confusion continues.
 
-On second thought, the following would be more correct in line with the observation from 451:
+On second thought, the following would be more correct in line with the observation from [451](#451):
 
 ```
 rule[  ?x[ [next to] [?y] [in] [[?x][?y]...[?u]] ]  ]
@@ -11031,6 +11031,8 @@ rule[  ?x[ [next to] [?y] [in] [[?v]...[?z]] ]
 ```
 
 So `?x` here is the operator.
+
+The syntax of this logic language only behaves like Scheme in the outermost layer of queries. The compound "arguments" of the queries are not applications, as they would be in Scheme, but they are simple unevaluated lists.
 
 ## 453
 
