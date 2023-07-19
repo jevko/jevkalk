@@ -10652,6 +10652,14 @@ list'[  [job]  [ [Bitdiddle] [Ben] ]  [ [computer] [wizard] ]  ]
 list'[  [salary]  [ [Bitdiddle] [Ben] ]  [60000]  ]
 ```
 
+Update: in line with observation in [451](#451) this should actually be:
+
+```
+address[  [ [Bitdiddle] [Ben] ]  [ [Slumerville] [[Ridge][Road]] [10] ]  ]
+job[      [ [Bitdiddle] [Ben] ]  [ [computer] [wizard] ]  ]
+salary[   [ [Bitdiddle] [Ben] ]  [60000]  ]
+```
+
 ## 442
 
 ```
@@ -10687,7 +10695,45 @@ list'[  [salary]      [ [Scrooge] [Eben] ]  [75000]  ]
 list'[  [supervisor]  [ [Scrooge] [Eben] ]  [ [Warbucks] [Oliver] ]  ]
 ```
 
+Update: in line with observation in [451](#451) the above should actually be:
+
+```
+address[     [ [Hacker] [Alyssa] [P] ]  [ [Cambridge] [[Mass][Ave]] [78] ]  ]
+job[         [ [Hacker] [Alyssa] [P] ]  [ [computer] [programmer] ]  ]
+salary[      [ [Hacker] [Alyssa] [P] ]  [40000]  ]
+supervisor[  [ [Hacker] [Alyssa] [P] ]  [ [Bitdiddle] [Ben] ]  ]
+
+address[     [ [Fect] [Cy] [D] ]  [ [Cambridge] [[Ames][Street]] [3] ]  ]
+job[         [ [Fect] [Cy] [D] ]  [ [computer] [programmer] ]  ]
+salary[      [ [Fect] [Cy] [D] ]  [35000]  ]
+supervisor[  [ [Fect] [Cy] [D] ]  [ [Bitdiddle] [Ben] ]  ]
+
+address[     [ [Tweakit] [Lem] [E] ]  [ [Boston] [[Bay][State][Road]] [22] ]  ]
+job[         [ [Tweakit] [Lem] [E] ]  [ [computer] [technician] ]  ]
+salary[      [ [Tweakit] [Lem] [E] ]  [25000]  ]
+supervisor[  [ [Tweakit] [Lem] [E] ]  [ [Bitdiddle] [Ben] ]  ]
+
+address[     [ [Reasoner] [Louis] ]  [ [Slumerville] [[Pine][Tree][Road]] [80] ]  ]
+job[         [ [Reasoner] [Louis] ]  [ [computer] [programmer] [trainee] ]  ]
+salary[      [ [Reasoner] [Louis] ]  [30000]  ]
+supervisor[  [ [Reasoner] [Louis] ]  [ [Hacker] [Alyssa] [P] ]  ]
+
+supervisor[  [ [Bitdiddle] [Ben] ]  [ [Warbucks] [Oliver] ]  ]
+
+address[     [ [Warbucks] [Oliver] ]  [ [Swellesley] [[Top][Head][Road]] ]  ]
+job[         [ [Warbucks] [Oliver] ]  [ [administration] [big] [wheel] ]  ]
+salary[      [ [Warbucks] [Oliver] ]  [150000]  ]
+
+address[     [ [Scrooge] [Eben] ]  [ [Weston] [[Shady][Lane]] [10] ]  ]
+job[         [ [Scrooge] [Eben] ]  [ [accounting] [chief] [accountant] ]  ]
+salary[      [ [Scrooge] [Eben] ]  [75000]  ]
+supervisor[  [ [Scrooge] [Eben] ]  [ [Warbucks] [Oliver] ]  ]
+```
+
 ## 443
+
+<!-- todo -->
+Note: this should be updated line with observation in [451](#451).
 
 ```
 list'[  [address]     [ [Cratchet] [Robert] ]  [ [Allston] [[N][Harvard][Street]] [16] ]  ]
@@ -10714,6 +10760,9 @@ list'[  [job]  [ [Fect] [Cy] [D] ]  [ [computer] [programmer] ]  ]
 ```
 
 ## 444
+
+<!-- todo -->
+Note: this should be updated line with observation in [451](#451).
 
 ```
 list'[ [adress] [?x] [?y] ]
@@ -10742,6 +10791,9 @@ job[ [?x] computer[?type] ]
 
 ## 445
 
+<!-- todo -->
+Note: this should be updated line with observation in [451](#451).
+
 ```
 list'[  [job]  [?x]  [ [computer] ...[?type] ]  ]
 
@@ -10755,6 +10807,9 @@ list'[ [computer] ]
 ```
 
 ## 446
+
+<!-- todo -->
+Note: this should be updated line with observation in [451](#451).
 
 ```
 and[
@@ -10781,6 +10836,9 @@ or[
 ```
 
 ## 447
+
+<!-- todo -->
+Note: this should be updated line with observation in [451](#451).
 
 ```
 or[
@@ -10817,6 +10875,9 @@ list value[ [<predicate>] [<arg_1>] [...] [<arg_n>] ]
 
 ## 448
 
+<!-- todo -->
+Note: this should be updated line with observation in [451](#451).
+
 ```
 and[
   list[ [salary] [?person] [?amount] ]
@@ -10835,6 +10896,9 @@ rule[  same[ [?x] [?x] ]  ]
 ```
 
 ## 449
+
+<!-- todo -->
+Note: this should be updated line with observation in [451](#451).
 
 ```
 rule[  wheel[?person]
@@ -10868,6 +10932,9 @@ rule[  outranked by[ [?staff person] [?boss] ]
 ```
 
 ## 450
+
+<!-- todo -->
+Note: this should be updated line with observation in [451](#451).
 
 ```
 list'[  [meeting]  [accounting]  [ [Monday] [9am] ]  ]
