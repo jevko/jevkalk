@@ -10916,3 +10916,47 @@ That would be more consistent with the language in the book.
 As it stands, I have different syntax for rules defined by user (which are like functions) and data (which I considered to be plain lists).
 
 Confusion comes from the fact that unquoted lists here are used both to call functions (rules) and to store data.
+
+## 452
+
+```
+append to form[  [ [a] [b] ]  [ [c] [d] ]  [?z]  ]
+->
+append to form[  [ [a] [b] ]  [ [c] [d] ]  [ [a] [b] [c] [d] ]  ]
+
+append to form[  [ [a] [b] ]  [?y]  [ [a] [b] [c] [d] ]  ]
+->
+append to form[  [ [a] [b] ]  [ [c] [d] ]  [ [a] [b] [c] [d] ]  ]
+
+append to form[  [?x]  [?y]  [ [a] [b] [c] [d] ]  ]
+->
+append to form[  [nil]                [ [a] [b] [c] [d] ]  [ [a] [b] [c] [d] ]  ]
+append to form[  [a]                  [ [b] [c] [d] ]      [ [a] [b] [c] [d] ]  ]
+append to form[  [ [a] [b] ]          [ [c] [d] ]          [ [a] [b] [c] [d] ]  ]
+append to form[  [ [a] [b] [c] ]      [d]                  [ [a] [b] [c] [d] ]  ]
+append to form[  [ [a] [b] [c] [d] ]  [nil]                [ [a] [b] [c] [d] ]  ]
+
+rule[  [ [?x] [next to] [?y] [in] [[?x][?y]...[?u]] ]  ]
+
+rule[  [ [?x] [next to] [?y] [in] [[?v]...[?z]] ]
+  [ [?x] [next to] [?y] [in] [?z] ]
+]
+
+list'[  [?x]  [next to]  [?y]  [in]  [ [1] [[2][3]] [4] ]  ]
+
+list'[  [?x]  [next to]  [1]  [in]  [ [2] [1] [3] [1] ]  ]
+```
+
+## 453
+
+```
+son[ [Adam] [Cain] ]
+son[ [Cain] [Enoch] ]
+son[ [Enoch] [Irad] ]
+son[ [Irad] [Mehujael] ]
+son[ [Mehujael] [Methushael] ]
+son[ [Metushael] [Lamech] ]
+wife[ [Lamech] [Ada] ]
+son[ [Ada] [Jabal] ]
+son[ [Ada] [Jubal] ]
+```
