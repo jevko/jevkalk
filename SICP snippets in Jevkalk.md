@@ -10947,6 +10947,24 @@ list'[  [?x]  [next to]  [?y]  [in]  [ [1] [[2][3]] [4] ]  ]
 list'[  [?x]  [next to]  [1]  [in]  [ [2] [1] [3] [1] ]  ]
 ```
 
+Update: confusion continues.
+
+On second thought, the following would be more correct in line with the observation from 451:
+
+```
+rule[  ?x[ [next to] [?y] [in] [[?x][?y]...[?u]] ]  ]
+
+rule[  ?x[ [next to] [?y] [in] [[?v]...[?z]] ]
+  ?x[ [next to] [?y] [in] [?z] ]
+]
+
+?x[  [next to]  [?y]  [in]  [ [1] [[2][3]] [4] ]  ]
+
+?x[  [next to]  [1]  [in]  [ [2] [1] [3] [1] ]  ]
+```
+
+So `?x` here is the operator.
+
 ## 453
 
 ```
