@@ -11047,3 +11047,37 @@ wife[ [Lamech] [Ada] ]
 son[ [Ada] [Jabal] ]
 son[ [Ada] [Jubal] ]
 ```
+
+## 454
+
+```
+job[ [?x] [[computer][programmer]] ]
+```
+
+## 456
+
+```
+and[
+  can do job[  [?x]  [ [computer] [programmer] [trainee] ]  ]
+  job[ [?person] [?x] ]
+]
+
+can do job[  [?x]  [ [computer] [programmer] [trainee] ]  ]
+
+job[ [?person] [?x] ]
+```
+
+## 457
+
+```
+not[job[ [?x] [[computer][programmer]] ]]
+```
+
+## 458
+
+```
+and[
+  supervisor[ [?x] [?y] ]
+  not[job[ [?x] [[computer][programmer]] ]]
+]
+```
