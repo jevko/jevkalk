@@ -11081,3 +11081,31 @@ and[
   not[job[ [?x] [[computer][programmer]] ]]
 ]
 ```
+
+## 459
+
+```
+[?x] = a[ [?y] [c] ]
+[?x] = a[ [b] [?z] ]
+
+a[ [?y] [c] ] = a[ [b] [?z] ]
+
+[a] = [a], [?y] = [b], [c] = [?z]
+
+[?x] = a[ [b] [c] ]
+```
+
+## 460
+
+```
+lives near[ [?x] [[Hacker][Alyssa][P]] ]
+
+rule[
+  lives near[ [?person 1] [?person 2] ]
+  and[
+    address[ [?person 1] [[?town]...[?rest 1]] ]
+    address[ [?person 2] [[?town]...[?rest 2]] ]
+    not[same[ [?person 1] [?person 2] ]]
+  ]
+]
+```
