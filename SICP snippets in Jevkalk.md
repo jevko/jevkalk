@@ -11109,3 +11109,58 @@ rule[
   ]
 ]
 ```
+
+## 462
+
+```
+assert![job[  [ [Bitdiddle] [Ben] ]  [ [computer] [wizard] ]  ]]
+
+assert![rule[  wheel[?person]
+  and[
+    supervisor[ [?middle manager] [?person] ]
+    supervisor[ [?x] [?middle manager] ]
+  ]
+]]
+```
+
+## 463
+
+```
+and[
+  job[ [?x] [[computer][programmer]] ]
+  supervisor[ [?x] [?y] ]
+]
+
+and[
+  supervisor[ [?x] [?y] ]
+  job[ [?x] [[computer][programmer]] ]
+]
+```
+
+## 464
+
+```
+assert![married[ [Minnie] [Mickey] ]]
+
+married[ [Mickey] [?who] ]
+
+assert![rule[  married[ [?x] [?y] ]
+  married[ [?y] [?x] ]
+]]
+
+married[ [Mickey] [?who] ]
+```
+
+## 465
+
+```
+and[
+  supervisor[ [?x] [?y] ]
+  not[job[ [?x] [[computer][programmer]] ]]
+]
+
+and[
+  not[job[ [?x] [[computer][programmer]] ]]
+  supervisor[ [?x] [?y] ]
+]
+```
