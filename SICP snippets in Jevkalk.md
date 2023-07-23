@@ -11212,3 +11212,43 @@ accumulation function[
 define[  [input prompt]  [';;; Query input:]  ]
 define[  [output prompt]  [';;; Query results:]  ]
 ```
+
+## 469
+
+```
+define[  query driver loop[]
+  prompt for input[input prompt]
+  let[
+    [q]  query syntax process[read[]]
+    ?[
+      assertion to be added?[q]  [
+        add rule or assertion![
+          add assertion body[q]
+        ]
+        newline[]
+        display['Assertion added to data base.]
+        query driver loop[]
+      ]
+      [
+        newline[]
+        display[output prompt]
+        display stream[
+          stream map[
+            fun[  [frame]
+              instantiate[
+                [q]
+                [frame]
+                fun[  [ [v] [f] ]
+                  contract question mark[v]
+                ]
+              ]
+            ]
+            qeval[  [q]  singleton stream[nil]  ]
+          ]
+        ]
+        query driver loop[]
+      ]
+    ]
+  ]
+]
+```
