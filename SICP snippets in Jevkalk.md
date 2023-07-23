@@ -11164,3 +11164,51 @@ and[
   supervisor[ [?x] [?y] ]
 ]
 ```
+
+## 466
+
+```
+rule[  outranked by[ [?staff person] [?boss] ]
+  or[
+    supervisor[ [?staff person] [?boss] ]
+    and[
+      outranked by[ [?middle manager] [?boss] ]
+      supervisor[ [?staff person] [?middle manager] ]
+    ]
+  ]
+]
+
+outranked by[  [ [Bitdiddle] [Ben] ]  [?who]  ]
+```
+
+## 467
+
+```
+wheel[?who]
+
+wheel[[ [Warbucks] [Oliver] ]]
+wheel[[ [Bitdiddle] [Ben] ]]
+wheel[[ [Warbucks] [Oliver] ]]
+wheel[[ [Warbucks] [Oliver] ]]
+wheel[[ [Warbucks] [Oliver] ]]
+
+sum[
+  [?amount]
+  and[
+    job[  [?x]  [ [computer] [programmer] ]  ]
+    salary[  [?x]  [?amount]  ]
+  ]
+]
+
+accumulation function[
+  [<variable>]
+  [<query pattern>]
+]
+```
+
+## 468
+
+```
+define[  [input prompt]  [';;; Query input:]  ]
+define[  [output prompt]  [';;; Query results:]  ]
+```
