@@ -11252,3 +11252,49 @@ define[  query driver loop[]
   ]
 ]
 ```
+
+## 470
+
+```
+define[  instantiate[ [exp] [frame] [unbound var handler] ]
+  define[  copy[exp]
+    ?[
+      var?[exp]  let[
+        [binding]  binding in frame[ [exp] [frame] ]
+        ?[
+          [binding]  copy[binding value[binding]]
+          unbound var handler[ [exp] [frame] ]
+        ]
+      ]
+      pair?[exp]  cons[
+        copy[car[exp]]
+        copy[cdr[exp]]
+      ]
+      [exp]
+    ]
+  ]
+  copy[exp]
+]
+
+define[  qeval[ [query] [frame stream] ]
+  let[
+    [qproc]  get[ type[query] ['qeval] ]
+    ?[
+      [qproc]  qproc[ contents[query] [frame stream] ]
+      simple query[ [query] [frame stream] ]
+    ]
+  ]
+]
+
+define[  simple query[ [query pattern] [frame stream] ]
+  stream flatmap[
+    fun[  [frame]
+      stream append delayed[
+        find assertions[ [query pattern] [frame] ]
+        delay[apply rules[ [query pattern] [frame] ]]
+      ]
+    ]
+    [frame stream]
+  ]
+]
+```
