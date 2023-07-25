@@ -11298,3 +11298,37 @@ define[  simple query[ [query pattern] [frame stream] ]
   ]
 ]
 ```
+
+## 471
+
+```
+define[  conjoin[ [conjuncts] [frame stream] ]
+  ?[
+    empty conjunction?[conjuncts]  [frame stream]
+    conjoin[
+      rest conjuncts[conjuncts]
+      qeval[
+        first conjunct[conjuncts]
+        [frame stream]
+      ]
+    ]
+  ]
+]
+
+put[ ['and] ['qeval] [conjoin] ]
+
+define[  disjoin[ [disjuncts] [frame stream] ]
+  ?[
+    empty disjunction?[disjuncts]  [the empty stream]
+    interleave delayed[
+      qeval[ first disjunct[disjuncts] [frame stream] ]
+      delay[disjoin[
+        rest disjuncts[disjuncts]
+        [frame stream]
+      ]]
+    ]
+  ]
+]
+
+put[ ['or] ['qeval] [disjoin] ]
+```
