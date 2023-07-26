@@ -11397,3 +11397,45 @@ define[  find assertions[ [pattern] [frame] ]
   ]
 ]
 ```
+
+## 474
+
+```
+define[  check an assertion[ [assertion] [query pat] [query frame] ]
+  let[
+    [match result]  pattern match[ [query pat] [assertion] [query frame] ]
+    ?[
+      eq?[ [match result] ['failed] ]  [the empty stream]
+      singleton stream[match result]
+    ]
+  ]
+]
+
+define[  pattern match[ [pat] [dat] [frame] ]
+  ?[
+    eq?[ [frame] ['failed] ]  ['failed]
+    equal?[ [pat] [dat] ]  [frame]
+    var?[pat]  extend if consistent[ [pat] [dat] [frame] ]
+    and[ pair?[pat] pair?[dat] ]  pattern match[
+      cdr[pat]
+      cdr[dat]
+      pattern match[
+        car[pat]
+        car[dat]
+        [frame]
+      ]
+    ]
+    ['failed]
+  ]
+]
+
+define[  extend if consistent[ [var] [dat] [frame] ]
+  let[
+    [binding]  binding in frame[ [var] [frame] ]
+    ?[
+      [binding]  pattern match[ binding value[binding] [dat] [frame] ]
+      extend[ [var] [dat] [frame] ]
+    ]
+  ]
+]
+```
