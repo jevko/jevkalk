@@ -11514,3 +11514,89 @@ define[  unify match[ [p1] [p2] [frame] ]
   ]
 ]
 ```
+
+## 479
+
+```
+define[  extend if possible[ [var] [val] [frame] ]
+  let[
+    [binding]  binding in frame[ [var] [frame] ]
+    ?[
+      [binding]  unify match[
+        binding value[binding] [val] [frame]
+      ]
+      var?[val]  let[                                      ***
+        [binding]  binding in frame[ [val] [frame] ]
+        ?[
+          [binding]  unify match[
+            [var] binding value[binding] [frame]
+          ]
+          extend[ [var] [val] [frame] ]
+        ]
+      ]
+      depends on?[ [val] [var] [frame] ]  ['failed]        ***
+      extend[ [var] [val] [frame] ]
+    ]
+  ]
+]
+
+define[  depends on?[ [exp] [var] [frame] ]
+  define[  tree walk[e]
+    ?[
+      var?[e]  ?[
+        equal?[ [var] [e] ]  [true]
+        let[
+          [b]  binding in frame[ [e] [frame] ]
+          ?[
+            [b]  tree walk[binding value[b]]
+            [false]
+          ]
+        ]
+      ]
+      pair?[e]  or[
+        tree walk[car[e]]
+        tree walk[cdr[e]]
+      ]
+      [false]
+    ]
+  ]
+  tree walk[exp]
+]
+```
+
+## 480
+
+```
+define[  [THE ASSERTIONS]  [the empty stream]  ]
+
+define[  fetch assertions[ [pattern] [frame] ]
+  ?[
+    use index?[pattern]  get indexed assertions[pattern]
+    get all assertions[]
+  ]
+]
+
+define[  get all assertions[]  [THE ASSERTIONS]  ]
+
+define[  get indexed assertions[pattern]
+  get stream[ index key of[pattern] ['assertion stream] ]
+]
+
+define[  get stream[ [key1] [key2] ]
+  let[
+    [s]  get[ [key1] [key2] ]
+    ?[ [s] [s] [the empty stream] ]
+  ]
+]
+
+define[  [THE RULES]  [the empty stream]  ]
+
+define[  fetch rules[ [pattern] [frame] ]
+  ?[
+    use index?[pattern]  get indexed rules[pattern]
+    get all rules[]
+  ]
+]
+
+define[  get all rules[]  [THE RULES]  ]
+```
