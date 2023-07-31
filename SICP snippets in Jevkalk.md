@@ -11725,3 +11725,52 @@ define[  stream append delayed[ [s1] [delayed s2] ]
   ]
 ]
 ```
+
+## 483
+
+```
+define[  interleave delayed[ [s1] [delayed s2] ]
+  ?[
+    stream null?[s1]  force[delayed s2]
+    cons stream[
+      stream car[s1]
+      interleave delayed[
+        force[delayed s2]
+        delay[stream cdr[s1]]
+      ]
+    ]
+  ]
+]
+
+define[  stream flatmap[ [proc] [s] ]
+  flatten stream[stream map[ [proc] [s] ]]
+]
+
+define[  flatten stream[stream]
+  ?[
+    stream null?[stream]  [the empty stream]
+    interleave delayed[
+      stream car[stream]
+      delay[flatten stream[stream cdr[stream]]]
+    ]
+  ]
+]
+
+define[  singleton stream[x]
+  cons stream[ [x] [the empty stream] ]
+]
+
+define[  type[exp]
+  ?[
+    pair?[exp]  car[exp]
+    error[ ['Unknown expression TYPE] [exp] ]
+  ]
+]
+
+define[  contents[exp]
+  ?[
+    pair?[exp]  cdr[exp]
+    error[ ['Unknown expression CONTENTS] [exp] ]
+  ]
+]
+```
