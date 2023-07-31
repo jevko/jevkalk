@@ -11681,3 +11681,47 @@ define[  store rule in index[rule]
   ]
 ]
 ```
+
+## 482
+
+```
+define[  indexable?[pat]
+  or[
+    constant symbol?[car[pat]]
+    var?[car[pat]]
+  ]
+]
+
+define[  index key of[pat]
+  let[
+    [key]  car[pat]
+    ?[  var?[key]  ['?]  [key]  ]
+  ]
+]
+
+define[  use index?[pat]
+  constant symbol?[car[pat]]
+]
+
+define[  add assertion![assertion]
+  store assertion in index[assertion]
+  set![
+    [THE ASSERTIONS]
+    cons stream[ [assertion] [THE ASSERTIONS] ]
+  ]
+  ['ok]
+]
+
+define[  stream append delayed[ [s1] [delayed s2] ]
+  ?[
+    stream null?[s1]  force[delayed s2]
+    cons stream[
+      stream car[s1]
+      stream append delayed[
+        stream cdr[s1]
+        [delayed s2]
+      ]
+    ]
+  ]
+]
+```
