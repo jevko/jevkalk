@@ -11852,3 +11852,56 @@ define[  var?[exp]
 
 define[  constant symbol?[exp]  symbol?[exp]  ]
 ```
+
+## 486
+
+```
+define[  [rule counter]  [0]  ]
+
+define[  new rule application id[]
+  set![  [rule counter]  +[ [1] [rule counter] ]  ]
+  [rule counter]
+]
+
+define[  make new variable[ [var] [rule application id] ]
+  cons[  ['?]  cons[ [rule application id] cdr[var] ]  ]
+]
+
+define[  contract question mark[variable]
+  string->symbol[
+    string append[
+      ['?]
+      ?[
+        number?[cadr[variable]]  string append[
+          symbol->string[caddr[variable]]
+          ['-]
+          number->string[cadr[variable]]
+        ]
+        symbol->string[cadr[variable]]
+      ]
+    ]
+  ]
+]
+
+define[  make binding[ [variable] [value] ]
+  cons[ [variable] [value] ]
+]
+
+define[  binding variable[binding]
+  car[binding]
+]
+
+define[  binding value[binding]
+  cdr[binding]
+]
+
+define[  binding in frame[ [variable] [frame] ]
+  assoc[ [variable] [frame] ]
+]
+
+define[  extend[ [variable] [value] [frame] ]
+  cons[  make binding[ [variable] [value] ]  [frame] ]
+]
+```
+
+Note: overall I think that the distiction between strings and symbols is not exactly necessary. Just having immutable strings, the way JavaScript has had for most of its lifetime is enough for most purposes. Most if not all of the code in SICP would work the same way if the language used immutable strings instead of symbols. This would also obviate the need for the `string->symbol` and `symbol->string` conversion functions used on this page. I've been actually translating the code with the tacit assumption that symbols = strings for some time now.
