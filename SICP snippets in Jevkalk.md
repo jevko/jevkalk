@@ -11774,3 +11774,81 @@ define[  contents[exp]
   ]
 ]
 ```
+
+## 484
+
+```
+define[  assertion to be added?[exp]
+  eq?[ type[exp] ['assert!] ]
+]
+
+define[  add assertion body[exp]
+  car[contents[exp]]
+]
+
+define[  empty conjunction?[exps]  null?[exps]  ]
+define[  first conjunct[exps]  car[exps]  ]
+define[  rest conjuncts[exps]  cdr[exps]  ]
+
+define[  empty disjunction?[exps]  null?[exps]  ]
+define[  first disjunct[exps]  car[exps]  ]
+define[  rest disjuncts[exps]  cdr[exps]  ]
+
+define[  negated query[exps]  car[exps]  ]
+
+define[  predicate[exps]  car[exps]  ]
+define[  args[exps]  cdr[exps]  ]
+
+define[  rule?[statement]
+  tagged list?[ [statement] ['rule] ]
+]
+
+define[  conclusion[rule]  cadr[rule]  ]
+
+define[  rule body[rule]
+  ?[
+    null?[cddr[rule]]  list'[always true]
+    caddr[rule]
+  ]
+]
+```
+
+## 485
+
+```
+define[  query syntax process[exp]
+  map over symbols[ [expand question mark] [exp] ]
+]
+
+define[  map over symbols[ [proc] [exp] ]
+  ?[
+    pair?[exp]  cons[
+      map over symbols[ [proc] car[exp] ]
+      map over symbols[ [proc] cdr[exp] ]
+    ]
+    symbol?[exp]  proc[exp]
+    [exp]
+  ]
+]
+
+define[  expand question mark[symbol]
+  let[
+    [chars]  symbol->string[symbol]
+    ?[
+      string=?[ substring[[chars][0][1]] ['?] ]  list[
+        ['?]
+        string->symbol[
+          substring[  [chars]  [1]  string length[chars]  ]
+        ]
+      ]
+      [symbol]
+    ]
+  ]
+]
+
+define[  var?[exp]
+  tagged list?[ [exp] ['?] ]
+]
+
+define[  constant symbol?[exp]  symbol?[exp]  ]
+```
