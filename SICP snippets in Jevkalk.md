@@ -11905,3 +11905,81 @@ define[  extend[ [variable] [value] [frame] ]
 ```
 
 Note: overall I think that the distiction between strings and symbols is not exactly necessary. Just having immutable strings, the way JavaScript has had for most of its lifetime is enough for most purposes. Most if not all of the code in SICP would work the same way if the language used immutable strings instead of symbols. This would also obviate the need for the `string->symbol` and `symbol->string` conversion functions used on this page. I've been actually translating the code with the tacit assumption that symbols = strings for some time now.
+
+## 487
+
+```
+define[  simple query[ [query pattern] [frame stream] ]
+  stream flatmap[
+    fun[  [frame]
+      stream append[
+        find assertions[ [query pattern] [frame] ]
+        apply rules[ [query pattern] [frame] ]
+      ]
+    ]
+    [frame stream]
+  ]
+]
+
+define[  disjoin[ [disjuncts] [frame stream] ]
+  ?[
+    empty disjunction?[disjuncts]  [the empty stream]
+    interleave[
+      qeval[ first disjunct[disjuncts] [frame stream] ]
+      disjoin[ rest disjuncts[disjuncts] [frame stream] ]
+    ]
+  ]
+]
+
+define[  flatten stream[stream]
+  ?[
+    stream null?[stream]  [the empty stream]
+    interleave[
+      stream car[stream]
+      flatten stream[stream cdr[stream]]
+    ]
+  ]
+]
+
+define[  simple stream flatmap[ [proc] [s] ]
+  simple flatten[stream map[ [proc] [s] ]]
+]
+
+define[  simple flatten[stream]
+  stream map[
+    [??]
+    stream filter[ [??] [stream] ]
+  ]
+]
+```
+
+## 488
+
+```
+unique[job[ [?x] [[computer][wizard]] ]]
+
+unique[job[ [[Bitdiddle][Ben]] [[computer][wizard]] ]]
+
+unique[job[ [?x] [[computer][programmer]] ]]
+
+and[
+  job[ [?x] [?j] ]
+  unique[job[ [?anyone] [?j] ]]
+]
+
+put[ ['unique] ['qeval] [uniquely asserted] ]
+```
+
+## 489
+
+```
+define[  square[x]
+  *[ [x] [x] ]
+]
+
+define[  sum of squares[ [x] [y] ]
+  +[ square[x] square[y] ]
+]
+
+sum of squares[ [3] [4] ]
+```
