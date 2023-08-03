@@ -12137,3 +12137,51 @@ define[  sqrt[x]
   sqrt iter[1.0]
 ]
 ```
+
+## 503
+
+```
+[gcd 1]
+  test[ op[=] reg[b] const[0] ]
+  branch[label[after gcd 1]]
+  assign[ [t] op[rem] reg[a] reg[b] ]
+  assign[ [a] reg[b] ]
+  assign[ [b] reg[t] ]
+  goto[label[gcd 1]]
+[after gcd 1]
+  .
+  .
+  .
+[gcd 2]
+  test[ op[=] reg[d] const[0] ]
+  branch[label[after gcd 2]]
+  assign[ [s] op[rem] reg[c] reg[d] ]
+  assign[ [c] reg[d] ]
+  assign[ [d] reg[s] ]
+  goto[label[gcd 2]]
+[after gcd 2]
+```
+
+## 504
+
+```
+[gcd 1]
+  test[ op[=] reg[b] const[0] ]
+  branch[label[after gcd 1]]
+  assign[ [t] op[rem] reg[a] reg[b] ]
+  assign[ [a] reg[b] ]
+  assign[ [b] reg[t] ]
+  goto[label[gcd 1]]
+[after gcd 1]
+  .
+  .
+  .
+[gcd 2]
+  test[ op[=] reg[b] const[0] ]
+  branch[label[after gcd 2]]
+  assign[ [t] op[rem] reg[a] reg[b] ]
+  assign[ [a] reg[b] ]
+  assign[ [b] reg[t] ]
+  goto[label[gcd 2]]
+[after gcd 2]
+```
