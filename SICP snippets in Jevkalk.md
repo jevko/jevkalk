@@ -12065,3 +12065,75 @@ controller[
 [gcd done]
 ]
 ```
+
+## 499
+
+```
+perform[ op[print] reg[a] ]
+
+define[  remainder[ [n] [d] ]
+  ?[
+    <[ [n] [d] ]  [n]
+    remainder[  -[ [n] [d] ]  [d]  ]
+  ]
+]
+```
+
+## 500
+
+```
+controller[
+[gcd loop]
+  assign[ [a] op[read] ]
+  assign[ [b] op[read] ]
+[test b]
+  test[ op[=] reg[b] const[0] ]
+  branch[label[gcd done]]
+  assign[ [t] op[rem] reg[a] reg[b] ]
+  assign[ [a] reg[b] ]
+  assign[ [b] reg[t] ]
+  goto[label[test b]]
+[gcd done]
+  perform[ op[print] reg[a] ]
+  goto[label[gcd loop]]
+]
+
+assign[ [t] op[rem] reg[a] reg[b] ]
+```
+
+## 502
+
+```
+controller[
+[test b]
+  test[ op[=] reg[b] const[0] ]
+  branch[label[gcd done]]
+  assign[ [t] reg[a] ]
+[rem loop]
+  test[ op[<] reg[t] reg[b] ]
+  branch[label[rem done]]
+  assign[ [t] op[-] reg[t] reg[b] ]
+  goto[label[rem loop]]
+[rem done]
+  assign[ [a] reg[b] ]
+  assign[ [b] reg[t] ]
+  goto[label[test b]]
+[gcd done]
+]
+
+define[  sqrt[x]
+  define[  good enough?[guess]
+    <[  abs[-[ square[guess] [x] ]]  [0.001]  ]
+  ]
+  define[  improve[guess]
+    average[  [guess]  /[ [x] [guess] ]  ]
+  ]
+  define[  sqrt iter[guess]
+    ?[
+      good enough?[guess]  [guess]
+      sqrt iter[improve[guess]]
+    ]
+  ]
+  sqrt iter[1.0]
+]
+```
