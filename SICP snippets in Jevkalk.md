@@ -12266,3 +12266,40 @@ define[  gcd[ [a] [b] ]
   ]
 ]
 ```
+
+## 510
+
+```
+define[  fib[n]
+  ?[
+    <[ [n] [2] ]  [n]
+    +[
+      fib[-[ [n] [1] ]]
+      fib[-[ [n] [2] ]]
+    ]
+  ]
+]
+
+define[  expt[ [b] [n] ]
+  ?[
+    =[ [n] [0] ]  [1]
+    *[
+      [b]
+      expt[  [b]  -[ [n] [1] ]  ]
+    ]
+  ]
+]
+
+define[  expt[ [b] [n] ]
+  define[  expt iter[ [counter] [product] ]
+    ?[
+      =[ [counter] [0] ]  [product]
+      expt iter[
+        -[ [counter] [1] ]
+        *[ [b] [product] ]
+      ]
+    ]
+  ]
+  expt iter[ [n] [1] ]
+]
+```
