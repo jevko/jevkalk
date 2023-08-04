@@ -12241,3 +12241,28 @@ Here is the second call to gcd, with a different continuation.
   goto[label[gcd]]
 [after gcd 2]
 ```
+
+## 506
+
+```
+define[  factorial[n]
+  ?[
+    =[ [n] [1] ]  [1]
+    *[
+      factorial[-[ [n] [1] ]]
+      [n]
+    ]
+  ]
+]
+```
+
+## 507
+
+```
+define[  gcd[ [a] [b] ]
+  ?[
+    =[ [b] [0] ]  [a]
+    gcd[ [b] remainder[[a][b]] ]
+  ]
+]
+```
