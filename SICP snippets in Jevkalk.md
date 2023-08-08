@@ -12368,6 +12368,34 @@ controller[
 ]
 ```
 
+## 513
+
+```
+assign[ [<register name>] reg[<register name>] ]
+
+assign[ [<register name>] const[<constant value>] ]
+
+assign[ [<register name>] op[<operation name>] [<input_1>] ... [<input_n>] ]
+
+perform[ op[<operation name>] [<input_1>] ... [<input_n>] ]
+
+test[ op[<operation name>] [<input_1>] ... [<input_n>] ]
+
+branch[label[<label name>]]
+
+goto[label[<label name>]]
+
+assign[ [<register name>] label[<label name>] ]
+
+goto[reg[<register name>]]
+
+save[<register name>]
+
+restore[<register name>]
+```
+
+General note: one thing differentiates assembly-like low-level languages from high-level languages like Lisp/Scheme is that syntax tree depth is limited and very low (flat) in the low-level languages while in high-level languages we deal with ~arbitrary trees.
+
 ##
 
 ```
