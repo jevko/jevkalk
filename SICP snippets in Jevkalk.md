@@ -12425,6 +12425,143 @@ define[  [gcd machine]
 ]
 ```
 
+## 515
+
+```
+set register contents![ [gcd machine] ['a] [206] ]
+
+set register contents![ [gcd machine] ['b] [40] ]
+
+start[gcd machine]
+
+get register contents[ [gcd machine] ['a] ]
+```
+
+## 516
+
+```
+define[  make machine[ [register names] [ops] [controller text] ]
+  let[
+    [machine]  make new machine[]
+    [
+      for each[
+        fun[  [register name]
+          machine['allocate register].[register name]
+        ]
+        [register names]
+      ]
+      machine['install operations].[ops]
+      machine['install instruction sequence].[assemble[ [controller text] [machine] ]]
+      [machine]
+    ]
+  ]
+]
+
+define[  make register[name]
+  let[
+    [contents]  ['*unassigned*]
+    [
+      define[  dispatch[message]
+        ?[
+          eq?[ [message] ['get] ]  [contents]
+          eq?[ [message] ['set] ]  fun[  [value]
+            set![ [contents] [value] ]
+          ]
+          error[
+            ['Unknown request -- REGISTER]
+            [message]
+          ]
+        ]
+      ]
+      [dispatch]
+    ]
+  ]
+]
+
+define[  get contents[register]
+  register['get]
+]
+
+define[  set contents![ [register] [value] ]
+  register['set].[value]
+]
+```
+
+## 517
+
+```
+define[  make stack[]
+  let[
+    [s]  [nil]
+    [
+      define[  push[x]
+        set![  [s]  cons[ [x] [s] ]  ]
+      ]
+      define[  pop[]
+        ?[
+          null?[s]  error['Empty stack -- POP]
+          let[
+            [top]  car[s]
+            [
+              set![ [s] cdr[s] ]
+              [top]
+            ]
+          ]
+        ]
+      ]
+      define[  initialize[]
+        set![ [s] [nil] ]
+        ['done]
+      ]
+      define[  dispatch[message]
+        ?[
+          eq?[ [message] ['push] ]  [push]
+          eq?[ [message] ['pop] ]  pop[]
+          eq?[ [message] ['initialize] ]  initialize[]
+          error[
+            ['Unknown request -- STACK]
+            [message]
+          ]
+        ]
+      ]
+      [dispatch]
+    ]
+  ]
+]
+
+define[  pop[stack]
+  stack['pop]
+]
+
+define[  push[ [stack] [value] ]
+  stack['push].[value]
+]
+```
+
+## 518
+
+```
+define[  start[machine]
+  machine['start]
+]
+
+define[  get register contents[ [machine] [register name] ]
+  get contents[get register[ [machine] [register name] ]]
+]
+
+define[  set register contents![ [machine] [register name] [value] ]
+  set contents![
+    get register[ [machine] [register name] ]
+    [value]
+  ]
+  ['done]
+]
+
+define[  get register[ [machine] [reg name] ]
+  machine['get register].[reg name]
+]
+```
+
 ##
 
 ```
