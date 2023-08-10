@@ -12562,6 +12562,89 @@ define[  get register[ [machine] [reg name] ]
 ]
 ```
 
+## 519
+
+```
+define[  make new machine[]
+  let[
+    [pc]  make register['pc]
+    [flag]  make register['flag]
+    [stack]  make stack[]
+    [the instruction sequence]  [nil]
+    let[
+      [the ops]  list[
+        list[  ['initialize stack]  fun[ [] stack['initialize] ]  ]
+      ]
+      [register table]  list[
+        list[ ['pc] [pc] ]  list[ ['flag] [flag] ]
+      ]
+      [
+        define[  allocate register[name]
+          ?[
+            assoc[ [name] [register table] ]  error[
+              ['Multiply defined register: ']
+              [name]
+            ]
+            set![
+              [register table]
+              cons[
+                list[ [name] make register[name] ]
+                [register table]
+              ]
+            ]
+          ]
+          ['register allocated]
+        ]
+        define[  lookup register[name]
+          let[
+            [val]  assoc[ [name] [register table] ]
+            ?[
+              [val]  cadr[val]
+              error[ ['Unknown register: '] [name] ]
+            ]
+          ]
+        ]
+        define[  execute[]
+          let[
+            [insts]  get contents[pc]
+            ?[
+              null?[insts]  ['done]
+              [
+                instruction execution proc[car[insts]].[]
+                execute[]
+              ]
+            ]
+          ]
+        ]
+        define[  dispatch[message]
+          ?[
+            eq?[ [message] ['start] ]  [
+              set contents![ [pc] [the instruction sequence] ]
+              execute[]
+            ]
+            eq?[ [message] ['install instruction sequence] ]  fun[  [seq]
+              set![ [the instruction sequence] [seq] ]
+            ]
+            eq?[ [message] ['allocate register] ]  [allocate register]
+            eq?[ [message] ['get register] ]  [lookup register]
+            eq?[ [message] ['install operations] ]  fun[  [ops]
+              set![ [the ops] append[[the ops][ops]] ]
+            ]
+            eq?[ [message] ['stack] ]  [stack]
+            eq?[ [message] ['operations] ]  [the ops]
+            error[
+              ['Unknown request -- MACHINE]
+              [message]
+            ]
+          ]
+        ]
+        [dispatch]
+      ]
+    ]
+  ]
+]
+```
+
 ##
 
 ```
