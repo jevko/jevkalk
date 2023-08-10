@@ -12745,9 +12745,84 @@ define[  assemble[ [controller text] [machine] ]
 ]
 ```
 
-##
+## 522
 
 ```
+define[  update insts![ [insts] [labels] [machine] ]
+  let[
+    [pc]  get register[ [machine] ['pc] ]
+    [flag]  get register[ [machine] ['flag] ]
+    [stack]  machine['stack]
+    [ops]  machine['operations]
+    for each[
+      fun[  [inst]
+        set instruction execution proc![
+          [inst]
+          make execution procedure[
+            instruction text[inst]
+            [labels]
+            [machine]
+            [pc]
+            [flag]
+            [stack]
+            [ops]
+          ]
+        ]
+      ]
+    ]
+    [insts]
+  ]
+]
+
+define[  make instruction[text]
+  cons[ [text] [nil] ]
+]
+
+define[  instruction text[inst]
+  car[inst]
+]
+
+define[  instruction execution proc[inst]
+  cdr[inst]
+]
+
+define[  set instruction execution proc![ [inst] [proc] ]
+  set cdr![ [inst] [proc] ]
+]
+
+define[  make label entry[ [label name] [insts] ]
+  cons[ [label name] [insts] ]
+]
+
+define[  lookup label[ [labels] [label name] ]
+  let[
+    [val]  assoc[ [label name] [labels] ]
+    ?[
+      [val]  cdr[val]
+      error[
+        ['Undefined label -- ASSEMBLE]
+        [label name]
+      ]
+    ]
+  ]
+]
+```
+
+## 523
+
+```
+[start]
+  goto[label[here]]
+[here]
+  assign[ [a] const[3] ]
+  goto[label[there]]
+[here]
+  assign[ [a] const[4] ]
+  goto[label[there]]
+[there]
+
+
+
 define[
   make execution procedure[ [inst] [labels] [machine] [pc] [flag] [stack] [ops] ]
   ?[
