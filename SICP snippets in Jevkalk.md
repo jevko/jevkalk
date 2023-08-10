@@ -12645,6 +12645,106 @@ define[  make new machine[]
 ]
 ```
 
+## 520
+
+```
+define[  assemble[ [controller text] [machine] ]
+  extract labels[
+    [controller text]
+    fun[  [ [insts] [labels] ]
+      update insts![ [insts] [labels] [machine] ]
+      [insts]
+    ]
+  ]
+]
+```
+
+## 521
+
+```
+define[  extract labels[ [text] [receive] ]
+  ?[
+    null?[text]  receive[ [nil] [nil] ]
+    extract labels[
+      cdr[text]
+      fun[  [ [insts] [labels] ]
+        let[
+          [next inst]  car[text]
+          ?[
+            symbol?[next inst]  receive[
+              [insts]
+              cons[
+                make label entry[
+                  [next inst]
+                  [insts]
+                ]
+                [labels]
+              ]
+            ]
+            receive[
+              cons[
+                make instruction[next inst]
+                [insts]
+              ]
+              [labels]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  extract labels[ [text] ]
+  ?[
+    null?[text]  cons[ [nil] [nil] ]
+    let[
+      [result]  extract labels[cdr[text]]
+      let[
+        [insts]  car[result]
+        [labels]  cdr[result]
+        let[
+          [next inst]  car[text]
+          ?[
+            symbol?[next inst]  cons[
+              [insts]
+              cons[
+                make label entry[
+                  [next inst]
+                  [insts]
+                ]
+                [labels]
+              ]
+            ]
+            cons[
+              cons[
+                make instruction[next inst]
+                [insts]
+              ]
+              [labels]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  assemble[ [controller text] [machine] ]
+  let[
+    [result]  extract labels[controller text]
+    let[
+      [insts]  car[result]
+      [labels]  cdr[result]
+      [
+        update insts![ [insts] [labels] [machine] ]
+        [insts]
+      ]
+    ]
+  ]
+]
+```
+
 ##
 
 ```
