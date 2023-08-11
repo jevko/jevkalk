@@ -12904,3 +12904,134 @@ define[  test condition[test instruction]
   cdr[test instruction]
 ]
 ```
+
+## 526
+
+```
+define[  make branch[ [inst] [machine] [labels] [flags] [pc] ]
+  let[
+    [dest]  branch dest[inst]
+    ?[
+      label exp?[dest]  let[
+        [insts]  lookup label[ [labels] label exp label[dest] ]
+        fun[  []
+          ?[
+            get contents[flag]  set contents![ [pc] [insts] ]
+            advance pc[pc]
+          ]
+        ]
+      ]
+      error[ ['Bad BRANCH instruction -- ASSEMBLE] [inst] ]
+    ]
+  ]
+]
+
+define[  branch dest[branch instruction]
+  cadr[branch instruction]
+]
+
+define[  make goto[ [inst] [machine] [labels] [pc] ]
+  let[
+    [dest]  goto dest[inst]
+    ?[
+      label exp?[dest]  let[
+        [insts]  lookup label[
+          [labels]
+          label exp label[dest]
+        ]
+        fun[  []  set contents![ [pc] [insts] ]  ]
+      ]
+      register exp?[dest]  let[
+        [reg]  get register[
+          [machine]
+          register exp reg[dest]
+        ]
+        fun[  []  set contents![ [pc] get contents[reg] ]  ]
+      ]
+      error[ ['Bad GOTO instruction -- ASSEMBLE] [inst] ]
+    ]
+  ]
+]
+
+define[  goto dest[goto instruction]
+  cadr[goto instruction]
+]
+
+define[  make save[ [inst] [machine] [stack] [pc] ]
+  let[
+    [reg]  get register[
+      [machine]
+      stack inst reg name[inst]
+    ]
+    fun[  []
+      push[ [stack] get contents[reg] ]
+      advance pc[pc]
+    ]
+  ]
+]
+```
+
+## 527
+
+```
+define[  make restore[ [inst] [machine] [stack] [pc] ]
+  let[
+    [reg]  get register[
+      [machine]
+      stack inst reg name[inst]
+    ]
+    fun[  []
+      set contents![ [reg] pop[stack] ]
+      advance pc[pc]
+    ]
+  ]
+]
+
+define[  stack inst reg name[stack instruction]
+  cadr[stack instruction]
+]
+
+define[  make perform[ [inst] [machine] [labels] [operations] [pc] ]
+  let[
+    [action]  perform action[inst]
+    ?[
+      operation exp?[action]  let[
+        [action proc]  make operation exp[
+          [action] [machine] [labels] [operations]
+        ]
+        fun[  []
+          action proc[]
+          advance pc[pc]
+        ]
+      ]
+      error[ ['Bad PERFORM instruction -- ASSEMBLE] [inst] ]
+    ]
+  ]
+]
+
+define[  perform action[inst]  cdr[inst]  ]
+
+define[  make primitive exp[ [exp] [machine] [labels] ]
+  ?[
+    constant exp?[exp]  let[
+      [c]  constant exp value[exp]
+      lambda[  []  [c]  ]
+    ]
+    label exp?[exp]  let[
+      [insts]  lookup label[
+        [labels]
+        label exp label[exp]
+      ]
+      fun[  []  [insts]  ]
+    ]
+    register exp?[exp]  let[
+      [r]  get register[
+        [machine]
+        register exp reg[exp]
+      ]
+      fun[  []  get contents[r]  ]
+    ]
+    error[ ['Unknown expression type -- ASSEMBLE] [exp] ]
+  ]
+]
+```
