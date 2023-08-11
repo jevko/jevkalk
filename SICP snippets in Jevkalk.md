@@ -12841,3 +12841,66 @@ define[
   ]
 ]
 ```
+
+## 524
+
+```
+define[  make assign[ [inst] [machine] [labels] [operations] [pc] ]
+  let[
+    [target]  get register[ [machine] assign reg name[inst] ]
+    [value exp]  assign value exp[inst]
+    let[
+      [value proc]  ?[
+        operation exp?[value exp]  make operation exp[
+          [value exp] [machine] [labels] [operations]
+        ]
+        make primitive exp[
+          car[value exp] [machine] [labels]
+        ]
+      ]
+      fun[  []                                    execution procedure for assign
+        set contents![ [target] value proc[] ]
+        advance pc[pc]
+      ]
+    ]
+  ]
+]
+
+define[  assign reg name[assign instruction]
+  cadr[assign instruction]
+]
+
+define[  assign value exp[assign instruction]
+  cddr[assign instruction]
+]
+```
+
+## 525
+
+```
+define[  advance pc[pc]
+  set contents![ [pc] cdr[get contents[pc]] ]
+]
+
+define[  make test[ [inst] [machine] [labels] [operations] [flag] [pc] ]
+  let[
+    [condition]  test condition[inst]
+    ?[
+      operation exp?[condition]  let[
+        [condition proc]  make operation exp[
+          [condition] [machine] [labels] [operations]
+        ]
+        fun[  []
+          set contents![ [flag] condition proc[] ]
+          advance pc[pc]
+        ]
+      ]
+      error[ ['Bad TEST instruction -- ASSEMBLE] [inst] ]
+    ]
+  ]
+]
+
+define[  test condition[test instruction]
+  cdr[test instruction]
+]
+```
