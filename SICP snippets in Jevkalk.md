@@ -13035,3 +13035,52 @@ define[  make primitive exp[ [exp] [machine] [labels] ]
   ]
 ]
 ```
+
+## 528
+
+```
+define[  register exp?[exp]  tagged list?[ [exp] ['reg] ]  ]
+
+define[  register exp reg[exp]  cadr[exp]  ]
+
+define[  constant exp?[exp]  tagged list?[ [exp] ['const] ]  ]
+
+define[  constant exp value[exp]  cadr[exp]  ]
+
+define[  label exp?[exp]  tagged list?[ [exp] ['label] ]  ]
+
+define[  label exp label[exp]  cadr[exp]  ]
+
+define[  make operation exp[ [exp] [machine] [labels] [operations] ]
+  let[
+    [op]  lookup prim[ operation exp op[exp] [operations] ]
+    [aprocs]  map[
+      fun[  [e]
+        make primitive exp[ [e] [machine] [labels] ]
+      ]
+      operation exp operands[exp]
+    ]
+    fun[  []
+      apply[
+        [op]
+        map[
+          fun[  [p]  p[]  ]
+          [aprocs]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  operation exp?[exp]
+  and[  pair?[exp]  tagged list?[ car[exp] ['op] ]  ]
+]
+
+define[  operation exp op[operation exp]
+  cadr[car[operation exp]]
+]
+
+define[  operation exp operands[operation exp]
+  cdr[operation exp]
+]
+```
