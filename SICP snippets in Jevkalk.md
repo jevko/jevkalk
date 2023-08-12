@@ -13084,3 +13084,33 @@ define[  operation exp operands[operation exp]
   cdr[operation exp]
 ]
 ```
+
+## 529
+
+```
+define[  lookup prim[ [symbol] [operations] ]
+  let[
+    [val]  assoc[ [symbol] [operations] ]
+    ?[
+      [val]  cadr[val]
+      error[ ['Unknown operation -- ASSEMBLE] [symbol] ]
+    ]
+  ]
+]
+
+save[y]
+save[x]
+restore[y]
+
+restore[y]
+
+restore[y]
+
+restore[y]
+```
+
+## 530
+
+```
+
+```
