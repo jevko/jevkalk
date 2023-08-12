@@ -13112,5 +13112,14 @@ restore[y]
 ## 530
 
 ```
-
+list[
+  list[
+    ['initialize stack]
+    fun[  []  stack['initialize]  ]
+  ]
+  list[
+    ['print stack statistics]
+    fun[  []  stack['print statistics]  ]
+  ]
+]
 ```
