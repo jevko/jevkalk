@@ -13186,3 +13186,17 @@ define[  make stack[]
   ]
 ]
 ```
+
+## 533
+
+```
+set breakpoint[ [<machine>] [<label>] [<n>] ]
+
+set breakpoint[ [gcd machine] ['test b] [4] ]
+
+proceed machine[ [<machine>] ]
+
+cancel breakpoint[ [<machine>] [<label>] [<n>] ]
+
+cancel all breakpoints[<machine>]
+```
