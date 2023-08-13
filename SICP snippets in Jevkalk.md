@@ -13200,3 +13200,11 @@ cancel breakpoint[ [<machine>] [<label>] [<n>] ]
 
 cancel all breakpoints[<machine>]
 ```
+
+## 534
+
+```
+vector ref[ [<vector>] [<n>] ]
+
+vector set![ [<vector>] [<n>] [<value>] ]
+```
