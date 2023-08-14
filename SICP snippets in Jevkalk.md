@@ -13231,3 +13231,61 @@ perform[ op[vector set!] reg[the cars] reg[<reg_1>] reg[<reg_2>] ]
 
 perform[ op[vector set!] reg[the cdrs] reg[<reg_1>] reg[<reg_2>] ]
 ```
+
+## 538
+
+```
+assign[ [<reg_1>] op[cons] reg[<reg_2>] reg[<reg_3>] ]
+
+perform[ op[vector set!] reg[the cars] reg[free] reg[<reg_2>] ]
+perform[ op[vector set!] reg[the cdrs] reg[free] reg[<reg_3>] ]
+assign[ [<reg_1>] reg[free] ]
+assign[ [free] op[+] reg[free] const[1] ]
+
+op[eq?] reg[<reg_1>] reg[<reg_2>]
+
+assign[ [the stack] op[cons] reg[<reg>] reg[the stack] ]
+
+assign[ [<reg>] op[car] reg[the stack] ]
+assign[ [the stack] op[cdr] reg[the stack] ]
+```
+
+## 539
+
+```
+assign[ [the stack] const[nil] ]
+
+define[ [x] cons[[1][2]] ]
+define[ [y] list[[x][x]] ]
+
+define[  count leaves[tree]
+  ?[
+    null?[tree]  [0]
+    not[pair?[tree]]  [1]
+    +[
+      count leaves[car[tree]]
+      count leaves[cdr[tree]]
+    ]
+  ]
+]
+
+define[  count leaves[tree]
+  define[  count iter[ [tree] [n] ]
+    ?[
+      null?[tree]  [n]
+      not[pair?[tree]]  +[ [n] [1] ]
+      count iter[
+        cdr[tree]
+        count iter[ car[tree] [n] ]
+      ]
+    ]
+  ]
+  count iter[ [tree] [0] ]
+]
+```
+
+## 540
+
+```
+accumulate[  [+]  [0]  filter[ [odd?] enumerate interval[[0][n]] ]  ]
+```
