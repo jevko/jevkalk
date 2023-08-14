@@ -13208,3 +13208,26 @@ vector ref[ [<vector>] [<n>] ]
 
 vector set![ [<vector>] [<n>] [<value>] ]
 ```
+
+## 537
+
+```
+assign[ [<reg_1>] op[car] reg[<reg_2>] ]
+
+assign[ [<reg_1>] op[cdr] reg[<reg_2>] ]
+
+
+assign[ [<reg_1>] op[vector ref] reg[the cars] reg[<reg_2>] ]
+
+assign[ [<reg_1>] op[vector ref] reg[the cdrs] reg[<reg_2>] ]
+
+
+perform[ op[set car!] reg[<reg_1>] reg[<reg_2>] ]
+
+perform[ op[set cdr!] reg[<reg_1>] reg[<reg_2>] ]
+
+
+perform[ op[vector set!] reg[the cars] reg[<reg_1>] reg[<reg_2>] ]
+
+perform[ op[vector set!] reg[the cdrs] reg[<reg_1>] reg[<reg_2>] ]
+```
