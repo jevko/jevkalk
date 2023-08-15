@@ -13289,3 +13289,39 @@ define[  count leaves[tree]
 ```
 accumulate[  [+]  [0]  filter[ [odd?] enumerate interval[[0][n]] ]  ]
 ```
+
+## 544
+
+```
+[begin garbage collection]
+  assign[ [free] const[0] ]
+  assign[ [scan] const[0] ]
+  assign[ [old] reg[root] ]
+  assign[ [relocate continue] label[reassign root] ]
+  goto[label[relocate old result in new]]
+[reassign root]
+  assign[ [root] reg[new] ]
+  goto[label[gc loop]]
+
+[gc loop]
+  test[ op[=] reg[scan] reg[free] ]
+  branch[label[gc flip]]
+  assign[ [old] op[vector ref] reg[new cars] reg[scan] ]
+  assign[ [relocate continue] label[update car] ]
+  goto[label[relocate old result in new]]
+```
+
+## 545
+
+```
+[update car]
+  perform[ op[vector set!] reg[new cars] reg[scan] reg[new] ]
+  assign[ [old] op[vector ref] reg[new cdrs] reg[scan] ]
+  assign[ [relocate continue] label[update cdr] ]
+  goto[label[relocate old result in new]]
+
+[update cdr]
+  perform[ op[vector set!] reg[new cdrs] reg[scan] reg[new] ]
+  assign[ [scan] op[+] reg[scan] const[1] ]
+  goto[label[gc loop]]
+```
