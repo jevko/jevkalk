@@ -13361,3 +13361,47 @@ accumulate[  [+]  [0]  filter[ [odd?] enumerate interval[[0][n]] ]  ]
   assign[ [the cars] reg[new cars] ]
   assign[ [new cars] reg[temp] ]
 ```
+
+## 549
+
+```
+[eval dispatch]
+  test[ op[self evaluating?] reg[exp] ]
+  branch[label[ev self eval]]
+  test[ op[variable?] reg[exp] ]
+  branch[label[ev variable]]
+  test[ op[quoted?] reg[exp] ]
+  branch[label[ev quoted]]
+  test[ op[assignment?] reg[exp] ]
+  branch[label[ev assignment]]
+  test[ op[definition?] reg[exp] ]
+  branch[label[ev definition]]
+  test[ op[if?] reg[exp] ]
+  branch[label[ev if]]
+  test[ op[lambda?] reg[exp] ]
+  branch[label[ev lambda]]
+  test[ op[begin?] reg[exp] ]
+  branch[label[ev begin]]
+  test[ op[application?] reg[exp] ]
+  branch[label[ev application]]
+  goto[label[unknown expression type]]
+```
+
+## 550
+
+```
+[ev self eval]
+  assign[ [val] reg[exp] ]
+  goto[reg[continue]]
+[ev variable]
+  assign[ [val] op[lookup variable value] reg[exp] reg[env] ]
+  goto[reg[continue]]
+[ev quoted]
+  assign[ [val] op[text of quotation] reg[exp] ]
+  goto[reg[continue]]
+[ev lambda]
+  assign[ [unev] op[lambda parameters] reg[exp] ]
+  assign[ [exp] op[lambda body] reg[exp] ]
+  assign[ [val] op[make procedure] reg[unev] reg[exp] reg[env] ]
+  goto[reg[continue]]
+```
