@@ -13325,3 +13325,39 @@ accumulate[  [+]  [0]  filter[ [odd?] enumerate interval[[0][n]] ]  ]
   assign[ [scan] op[+] reg[scan] const[1] ]
   goto[label[gc loop]]
 ```
+
+## 546
+
+```
+[relocate old result in new]
+  test[ op[pointer to pair?] reg[old] ]
+  branch[label[pair]]
+  assign[ [new] reg[old] ]
+  goto[reg[relocate continue]]
+[pair]
+  assign[ [oldcr] op[vector ref] reg[the cars] reg[old] ]
+  test[ op[broken heart?] reg[oldcr] ]
+  branch[label[already moved]]
+  assign[ [new] reg[free] ]                                new location for pair
+  Update free pointer.
+  assign[ [free] op[+] reg[free] const[1] ]
+  Copy the car and cdr to new memory.
+  perform[ op[vector set!] reg[new cars] reg[new] reg[oldcr] ]
+  assign[ [oldcr] op[vector ref] reg[the cdrs] reg[old] ]
+  perform[ op[vector set!] reg[new cdrs] reg[new] reg[oldcr] ]
+  Construct the broken heart.
+  perform[ op[vector set!] reg[the cars] reg[old] const[broken heart] ]
+  perform[ op[vector set!] reg[the cdrs] reg[old] reg[new] ]
+  goto[reg[relocate continue]]
+[already moved]
+  assign[ [new] op[vector ref] reg[the cdrs] reg[old] ]
+  goto[reg[relocate continue]]
+
+[gc flip]
+  assign[ [temp] reg[the cdrs] ]
+  assign[ [the cdrs] reg[new cdrs] ]
+  assign[ [new cdrs] reg[temp] ]
+  assign[ [temp] reg[the cars] ]
+  assign[ [the cars] reg[new cars] ]
+  assign[ [new cars] reg[temp] ]
+```
