@@ -13580,3 +13580,46 @@ define[  count[n]
   test[ op[true?] reg[val] ]
   branch[label[ev if consequent]]
 ```
+
+## 559
+
+```
+[ev if alternative]
+  assign[ [exp] op[if alternative] reg[exp] ]
+  goto[label[eval dispatch]]
+[ev if consequent]
+  assign[ [exp] op[if consequent] reg[exp] ]
+  goto[label[eval dispatch]]
+
+[ev assignment]
+  assign[ [unev] op[assignment variable] reg[exp] ]
+  save[unev]                                       save variable for later
+  assign[ [exp] op[assignment value] reg[exp] ]
+  save[env]
+  save[continue]
+  assign[ [continue] label[ev assignment 1] ]
+  goto[label[eval dispatch]]                       evaluate the assignment value
+[ev assignment 1]
+  restore[continue]
+  restore[env]
+  restore[unev]
+  perform[ op[set variable value!] reg[unev] reg[val] reg[env] ]
+  assign[ [val] const[ok] ]
+  goto[reg[continue]]
+
+[ev definition]
+  assign[ [unev] op[definition variable] reg[exp] ]
+  save[unev]                                       save variable for later
+  assign[ [exp] op[definition value] reg[exp] ]
+  save[env]
+  save[continue]
+  assign[ [continue] label[ev definition 1] ]
+  goto[label[eval dispatch]]                       evaluate the definition value
+[ev definition 1]
+  restore[continue]
+  restore[env]
+  restore[unev]
+  perform[ op[define variable!] reg[unev] reg[val] reg[env] ]
+  assign[ [val] const[ok] ]
+  goto[reg[continue]]
+```
