@@ -13504,3 +13504,79 @@ define[  last operand?[ops]
   save[continue]
   goto[label[ev sequence]]
 ```
+
+## 556
+
+```
+[ev sequence]
+  assign[ [exp] op[first exp] reg[unev] ]
+  test[ op[last exp?] reg[unev] ]
+  branch[label[ev sequence last exp]]
+  save[unev]
+  save[env]
+  assign[ [continue] label[ev sequence continue] ]
+  goto[label[eval dispatch]]
+[ev sequence continue]
+  restore[env]
+  restore[unev]
+  assign[ [unev] op[rest exps] reg[unev] ]
+  goto[label[ev sequence]]
+[ev sequence last exp]
+  restore[continue]
+  goto[label[eval dispatch]]
+
+define[  sqrt iter[ [guess] [x] ]
+  ?[
+    good enough?[ [guess] [x] ]  [guess]
+    sqrt iter[ improve[[guess][x]] [x] ]
+  ]
+]
+```
+
+## 557
+
+```
+[ev sequence]
+  test[ op[no more exps?] reg[unev] ]
+  branch[label[ev sequence end]]
+  assign[ [exp] op[first exp] reg[unev] ]
+  save[unev]
+  save[env]
+  assign[ [continue] label[ev sequence continue] ]
+  goto[label[eval dispatch]]
+[ev sequence continue]
+  restore[env]
+  restore[unev]
+  assign[ [unev] op[rest exps] reg[unev] ]
+  goto[label[ev sequence]]
+[ev sequence end]
+  restore[continue]
+  goto[reg[continue]]
+
+define[  no more exps?[seq] null?[seq] ]
+```
+
+## 558
+
+```
+define[  count[n]
+  newline[]
+  display[n]
+  count[+[ [n] [1] ]]
+]
+
+[ev if]
+  save[exp]                                  save expression for later
+  save[env]
+  save[continue]
+  assign[ [continue] label[ev if decide] ]
+  assign[ [exp] op[if predicate] reg[exp] ]
+  goto[label[eval dispatch]]                 evaluate the predicate
+
+[ev if decide]
+  restore[continue]
+  restore[env]
+  restore[exp]
+  test[ op[true?] reg[val] ]
+  branch[label[ev if consequent]]
+```
