@@ -13658,3 +13658,100 @@ define[  [the global environment]  setup environment[]  ]
 
 define[  get global environment[]  [the global environment]  ]
 ```
+
+## 562
+
+```
+define[  [eceval]
+  make machine[
+    list'[ [exp] [env] [val] [proc] [argl] [continue] [unev] ]
+    [eceval operations]
+    list'[
+      [read eval print loop]
+        <entire machine controller as given above>
+    ]
+  ]
+]
+
+define[  [eceval operations]
+  list[
+    list[ ['self evaluating?] [self evaluating] ]
+    <complete list of operations for eceval machine>
+  ]
+]
+
+define[  [the global environment]  setup environment[]  ]
+
+start[eceval]
+
+define[  append[ [x] [y] ]
+  ?[
+    null?[x]  [y]
+    cons[
+      car[x]
+      append[ cdr[x] [y] ]
+    ]
+  ]
+]
+
+append[ list'[[a][b][c]] list'[[d][e][f]] ]
+```
+
+## 563
+
+```
+[print result]
+  perform[op[print stack statistics]]        added instruction
+  perform[ op[announce output] const[';;; EC-Eval value:] ]
+  ...  same as before
+
+define[  factorial[n]
+  ?[
+    =[ [n] [1] ]  [1]
+    *[  factorial[-[ [n] [1] ]]  [n]  ]
+  ]
+]
+
+factorial[5]
+```
+
+## 564
+
+```
+define[  factorial[n]
+  define[  iter[ [product] [counter] ]
+    ?[
+      >[ [counter] [n] ]  [product]
+      iter[
+        *[ [counter] [product] ]
+        +[ [counter] [1] ]
+      ]
+    ]
+  ]
+  iter[ [1] [1] ]
+]
+
+define[  factorial[n]
+  ?[
+    =[ [n] [1] ]  [1]
+    *[  factorial[-[ [n] [1] ]]  [n]  ]
+  ]
+]
+```
+
+## 565
+
+```
+define[  fib[n]
+  ?[
+    <[ [n] [2] ]  [n]
+    +[  fib[-[ [n] [1] ]]  fib[-[ [n] [2] ]]  ]
+  ]
+]
+```
+
+## 569
+
+```
+assign[ [proc] op[lookup variable value] const[f] reg[env] ]
+```
