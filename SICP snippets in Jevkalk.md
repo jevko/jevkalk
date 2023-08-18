@@ -13755,3 +13755,368 @@ define[  fib[n]
 ```
 assign[ [proc] op[lookup variable value] const[f] reg[env] ]
 ```
+
+## 570
+
+```
+define[  compile[ [exp] [target] [linkage] ]
+  ?[
+    self evaluating?[exp]  compile self evaluating[ [exp] [target] [linkage] ]
+    quoted?[exp]  compile quoted[ [exp] [target] [linkage] ]
+    variable?[exp]  compile variable[ [exp] [target] [linkage] ]
+    assignment?[exp]  compile assignment[ [exp] [target] [linkage] ]
+    definition?[exp]  compile definition[ [exp] [target] [linkage] ]
+    if?[exp]  compile if[ [exp] [target] [linkage] ]
+    lambda?[exp]  compile lambda[ [exp] [target] [linkage] ]
+    begin?[exp]  compile sequence[
+      begin actions[exp]
+      [target]
+      [linkage]
+    ]
+    cond?[exp]  compile[ cond->if[exp] [target] [linkage] ]
+    application?[exp]  compile application[ [exp] [target] [linkage] ]
+    error[ ['Unknown expression type -- COMPILE] [exp] ]
+  ]
+]
+```
+
+## 571
+
+```
+assign[ [val] const[5] ]
+
+assign[ [val] const[5] ]
+goto[reg[continue]]
+```
+
+## 572
+
+```
+append instruction sequences[ [<seq_1>] [<seq_2>] ]
+
+<seq_1>
+<seq_2>
+
+preserving[  list[ [<reg_1>] [<reg_2>] ]  [<seq_1>]  [<seq_2>]  ]
+
+<seq_1>
+<seq_2>
+
+save[<reg_1>]
+<seq_1>
+restore[<reg_1>]
+<seq_2>
+
+save[<reg_2>]
+<seq_1>
+restore[<reg_2>]
+<seq_2>
+
+save[<reg_2>]
+save[<reg_1>]
+<seq_1>
+restore[<reg_1>]
+restore[<reg_2>]
+<seq_2>
+```
+
+## 573
+
+```
+define[  make instruction sequence[ [needs] [modifies] [statements] ]
+  list[ [needs] [modifies] [statements] ]
+]
+
+make instruction sequence[
+  list'[ [env] [continue] ]
+  list'[val]
+  '[
+    assign[ [val] op[lookup variable value] const[x] reg[env] ]
+    goto[reg[continue]]
+  ]
+]
+```
+
+## 574
+
+```
+define[  empty instruction sequence[]
+  make instruction sequence[ [nil] [nil] [nil] ]
+]
+
+f[ ['x] ['y] ]
+
+[f[].[ ['x] ['y] ]]
+
+f[ g['x] [y] ]
+
+f[ g['x] ['y] ]
+```
+
+## 575
+
+```
+define[  compile linkage[linkage]
+  ?[
+    eq?[ [linkage] ['return] ]  make instruction[
+      list'[continue] 
+      [nil]
+      '[goto[reg[continue]]]
+    ]
+    eq?[ [linkage] ['next] ]  empty instruction sequence[]
+    make instruction sequence[
+      [nil]
+      [nil]
+      '[goto[label[$[linkage]]]]
+    ]
+  ]
+]
+
+define[  end with linkage[ [linkage] [instruction sequence] ]
+  preserving[
+    list'[continue]
+    [instruction sequence]
+    compile linkage[linkage]
+  ]
+]
+
+define[  compile self evaluating[ [exp] [target] [linkage] ]
+  end with linkage[
+    [linkage]
+    make instruction sequence[
+      [nil]
+      list[target]
+      '[
+        assign[ $[target] const[$[exp]] ]
+      ]
+    ]
+  ]
+]
+```
+
+Using `$[xyz]` as backquote `,xyz`. Just riffing here.
+
+## 576
+
+```
+define[  compile quoted[ [exp] [target] [linkage] ]
+  end with linkage[
+    [linkage]
+    make instruction sequence[
+      [nil]
+      list[target]
+      '[
+        assign[ $[target] const[$[text of quotation[exp]]] ]
+      ]
+    ]
+  ]
+]
+
+define[  compile variable[ [exp] [target] [linkage] ]
+  end with linkage[
+    [linkage]
+    make instruction sequence[
+      list'[env]
+      list[target]
+      '[
+        assign[
+          $[target]
+          op[lookup variable value]
+          const[$[exp]]
+          reg[env]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  compile assignment[ [exp] [target] [linkage] ]
+  let[
+    [var]  assignment variable[exp]
+    [get value code]  compile[
+      compile[ assignment value[exp] ['val] ['next] ]
+    ]
+    end with linkage[
+      [linkage]
+      preserving[
+        list'[env]
+        [get value code]
+        make instruction sequence[
+          list'[ [env] [val] ]
+          list[target]
+          '[
+            perform[
+              op[set variable value!]
+              const[$[var]]
+              reg[val]
+              reg[env]
+            ]
+            assign[ $[target] const[ok] ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+```
+
+## 577
+
+```
+define[  compile definition[ [exp] [target] [linkage] ]
+  let[
+    [var]  definition variable[exp]
+    [get value code]  compile[ definition value[exp] ['val] ['next] ]
+    end with linkage[
+      [linkage]
+      preserving[
+        list'[env]
+        [get value code]
+        make instruction sequence[
+          list'[ [env] [val] ]
+          list[target]
+          '[
+            perform[
+              op[define variable!]
+              const[$[var]]
+              reg[val]
+              reg[env]
+            ]
+            assign[ $[target] const[ok] ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+  <compilation of predicate, target val, linkage next>
+  test[ op[false?] reg[val] ]
+  branch[label[false branch]]
+[true branch]
+  <compilation of consequent with given target and given linkage or after if>
+[false branch]
+  <compilation of alternative with given target and linkage>
+[after if]
+```
+
+## 578
+
+```
+define[  compile if[ [exp] [target] [linkage] ]
+  let[
+    [t branch]  make label['true branch]
+    [f branch]  make label['false branch]
+    [after if]  make label['after if]
+    let[
+      [consequent linkage]  if[ eq?[[linkage]['next]] [after if] [linkage] ]
+      let[
+        [p code]  compile[ if predicate[exp] ['val] ['next] ]
+        [c code]  compile[ if consequent[exp] [target] [consequent linkage] ]
+        [a code]  compile[ if alternative[exp] [target] [linkage] ]
+        preserving[
+          list'[ [env] [continue] ]
+          [p code]
+          append instruction sequences[
+            make instruction sequence[
+              list'[val]
+              [nil]
+              '[
+                test[ op[false?] reg[val] ]
+                branch[label[$[f branch]]]
+              ]
+            ]
+            parallel instruction sequences[
+              append instruction sequences[ [t branch] [c code] ]
+              append instruction sequences[ [f branch] [a code] ]
+            ]
+            [after if]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  [label counter]  [0]  ]
+
+define[  new label number[]
+  set![ [label counter] +[[1][label counter]] ]
+  [label counter]
+]
+
+define[  make label[name]
+  string->symbol[
+    string append[
+      symbol->string[name]
+      number->string[new label number[]]
+    ]
+  ]
+]
+```
+
+## 579
+
+```
+define[  compile sequence[ [seq] [target] [linkage] ]
+  ?[
+    last exp?[seq]  compile[ first exp[seq] [target] [linkage] ]
+    preserving[
+      list'[ [env] [continue] ]
+      compile[ first exp[seq] [target] ['next] ]
+      compile sequence[ rest exps[seq] [target] [linkage] ]
+    ]
+  ]
+]
+```
+
+## 580
+
+```
+define[  compile lambda[ [exp] [target] [linkage] ]
+  let[
+    [proc entry]  make label['entry]
+    [after lambda]  make label['after lambda]
+    let[
+      [lambda linkage]  ?[ eq?[[linkage]['next]] [after lambda] [linkage] ]
+      append instruction sequences[
+        tack on instruction sequence[
+          end with linkage[
+            [lambda linkage]
+            make instruction seqeunce[
+              list'[env]
+              list[target]
+              '[
+                assign[
+                  $[target]
+                  op[make compiled procedure]
+                  label[$[proc entry]]
+                  reg[env]
+                ]
+              ]
+            ]
+          ]
+          compile lambda body[ [exp] [proc entry] ]
+        ]
+        [after lambda]
+      ]
+    ]
+  ]
+]
+
+define[  make compiled procedure[ [entry] [env] ]
+  list[ ['compiled procedure] [entry] [env] ]
+]
+
+define[  compiled procedure?[proc]
+  tagged list?[ [proc] ['compiled procedure] ]
+]
+
+define[  compiled procedure entry[c proc]
+  cadr[c proc]
+]
+
+define[  compiled procedure env[c proc]
+  caddr[c proc]
+]
+```
