@@ -14120,3 +14120,74 @@ define[  compiled procedure env[c proc]
   caddr[c proc]
 ]
 ```
+
+## 581
+
+```
+define[  compile lambda body[ [exp] [proc entry] ]
+  let[
+    [formals]  lambda parameters[exp]
+    append instruction sequences[
+      make instruction sequence[
+        list'[ [env] [proc] [argl] ]
+        list'[env]
+        '[
+          $[proc entry]
+            assign[ [env] op[compiled procedure env] reg[proc] ]
+            assign[
+              [env]
+              op[extend environment]
+              const[$[formals]]
+              reg[argl]
+              reg[env]
+            ]
+        ]
+      ]
+      compile sequence[ lambda body[exp] ['val] ['return] ]
+    ]
+  ]
+]
+```
+
+## 582
+
+```
+define[  compile application[ [exp] [target] [linkage] ]
+  let[
+    [proc code]  compile[ operator[exp] ['proc] ['next] ]
+    [operand codes]  map[
+      fun[  [operand]
+        compile[ [operand] ['val] ['next] ]
+      ]
+      operands[exp]
+    ]
+    preserving[
+      list'[ [env] [continue] ]
+      [proc code]
+      preserving[
+        list'[ [proc] [continue] ]
+        construct arglist[operand codes]
+        compile procedure call[ [target] [linkage] ]
+      ]
+    ]
+  ]
+]
+
+<compilation of last operand, targeted to val>
+assign[ [argl] op[list] reg[val] ]
+<compilation of next operand, targeted to val>
+assign[ [argl] op[cons] reg[val] reg[argl] ]
+...
+<compilation of first operand, targeted to val>
+assign[ [argl] op[cons] reg[val] reg[argl] ]
+
+assign[ [argl] const[nil] ]
+```
+
+Or perhaps the last line should be something like:
+
+```
+assign[ [argl] nil[] ]
+```
+
+To distinguish `nil` from the string/symbol `"nil"`.
