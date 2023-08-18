@@ -14191,3 +14191,145 @@ assign[ [argl] nil[] ]
 ```
 
 To distinguish `nil` from the string/symbol `"nil"`.
+
+## 583
+
+```
+define[  construct arglist[operand codes]
+  let[
+    [operand codes]  reverse[operand codes]
+    ?[
+      null?[operand codes]  make instruction sequence[
+        list'[]
+        list'[argl]
+        '[
+          assign[ [argl] nil[] ]
+        ]
+      ]
+      let[
+        [code to get last arg]  append instruction sequences[
+          car[operand codes]
+          make instruction sequence[
+            list'[val]
+            list'[argl]
+            '[
+              assign[ [argl] op[list] reg[val] ]
+            ]
+          ]
+        ]
+        ?[
+          null?[cdr[operand codes]]  [code to get last arg]
+          preserving[
+            list'[env]
+            [code to get last arg]
+            code to get rest args[cdr[operand codes]]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+define[  code to get rest args[operand codes]
+  let[
+    [code for next arg]  preserving[
+      list'[argl]
+      car[operand codes]
+      make instruction sequence[
+        list'[ [val] [argl] ]
+        list'[argl]
+        '[
+          assign[ [argl] op[cons] reg[val] reg[argl] ]
+        ]
+      ]
+    ]
+    ?[
+      null?[cdr[operand codes]]  [code for next arg]
+      preserving[
+        list'[env]
+        [code for next arg]
+        code to get rest args[cdr[operand codes]]
+      ]
+    ]
+  ]
+]
+```
+
+## 584
+
+```
+  test[ op[primitive procedure?] reg[proc] ]
+  branch[label[primitive branch]]
+[compiled branch]
+  <code to apply compiled procedure with given target and appropriate linkage>
+[primitive branch]
+  assign[
+    [<target>]
+    op[apply primitive procedure]
+    reg[proc]
+    reg[argl]
+  ]
+  <linkage>
+[after call]
+
+define[  compile procedure call[ [target] [linkage] ]
+  let[
+    [primitive branch]  make label['primitive branch]
+    [compiled branch]  make label['compiled branch]
+    [after call]  make label['after call]
+    let[
+      [compiled linkage]  ?[ eq?[[linkage]['next]] [after call] [linkage] ]
+      append instruction sequences[
+        make instruction sequence[
+          list'[proc]
+          list'[]
+          '[
+            test[ op[primitive procedure?] reg[proc] ]
+            branch[label[$[primitive branch]]]
+          ]
+        ]
+        parallel instruction sequences[
+          append instruction sequences[
+            [compiled branch]
+            compile proc appl[ [target] [compiled linkage] ]
+          ]
+          append instruction sequences[
+            [primitive branch]
+            end with linkage[
+              [linkage]
+              make instruction sequence[
+                list'[ [proc] [argl] ]
+                list[target]
+                '[
+                  assign[ $[target] op[apply primitive procedure] reg[proc] reg[argl] ]
+                ]
+              ]
+            ]
+          ]
+        ]
+        [after call]
+      ]
+    ]
+  ]
+]
+```
+
+## 585
+
+```
+  assign[ [continue] label[proc return] ]
+  assign[ [val] op[compiled procedure entry] reg[proc] ]
+  goto[reg[val]]
+[proc return]
+  assign[ [<target>] reg[val] ]                    included if target is not val
+  goto[label[<linkage>]]                           linkage code
+
+  save[continue]
+  assign[ [continue] label[proc return]]
+  assign[ [val] op[compiled procedure entry] reg[proc] ]
+  goto[reg[val]]
+[proc return]
+  assign[ [<target>] reg[val] ]                    included if target is not val
+  restore[continue]
+  goto[reg[continue]]                              linkage code
+```
