@@ -14530,3 +14530,138 @@ define[  tack on instruction sequence[ [seq] [body seq] ]
   ]
 ]
 ```
+
+## 591
+
+```
+define[  parallel instruction sequences[ [seq1] [seq2] ]
+  make instruction sequence[
+    list union[
+      registers needed[seq1]
+      registers needed[seq2]
+    ]
+    list union[
+      registers modified[seq1]
+      registers modified[seq2]
+    ]
+    append[ statements[seq1] statements[seq2] ]
+  ]
+]
+
+compile[
+  '[
+    define[  factorial[n]
+      ?[
+        =[ [n] [1] ]  [1]
+        *[  factorial[-[ [n] [1] ]]  [n]  ]
+      ]
+    ]
+  ]
+  ['val]
+  ['next]
+]
+
+<save env if modified by code to compute value>
+<compilation of definition value, target val, linkage next>
+<restore env if saved above>
+perform[
+  op[define variable!]
+  const[factorial]
+  reg[val]
+  reg[env]
+]
+assign[ [val] const[ok] ]
+```
+
+## 592
+
+```
+  assign[ [val] op[make compiled procedure] label[entry2] reg[env] ]
+  goto[label[after lambda1]]
+[entry2]
+  assign[ [env] op[compiled procedure env] reg[proc] ]
+  assign[ [env] op[extend environment]
+    const[list[n]]
+    reg[argl]
+    reg[env]
+  ]
+  <compilation of procedure body>
+[after lambda 1]
+  perform[ op[define variable!]
+    const[factorial]
+    reg[val]
+    reg[env]
+  ]
+  assign[ [val] const[ok] ]
+
+?[
+  =[ [n] [1] ]  [1]
+  *[  factorial[-[ [n] [1] ]]  [n]  ]
+]
+```
+
+Note: translated `(const (n))` to `const[list[n]]`. Perhaps that's not the best representation. 
+
+## 593
+
+```
+  <save continue, env if modified by predicate and needed by branches>
+  <compilation of predicate, target val, linkage next>
+  <restore continue, env if saved above>
+  test[ op[false?] reg[val] ]
+  branch[label[false branch4]]
+[true branch5]
+  <compilation of true branch, target val, linkage return>
+[false branch4]
+  <compilation of false branch, target val, linkage return>
+[after if3]
+
+  assign[ [proc] op[lookup variable value] const[=] reg[env] ]
+  assign[ [val] const[1] ]
+  assign[ [argl] op[list] reg[val] ]
+  assign[ [val] op[lookup variable value] const[n] reg[env] ]
+  assign[ [argl] op[cons] reg[val] reg[argl] ]
+  test[ op[primitive procedure?] reg[proc] ]
+  branch[label[primitive branch17]]
+[compiled branch16]
+  assign[ [continue] label[after call15] ]
+  assign[ [val] op[compiled procedure entry] reg[proc] ]
+  goto[reg[val]]
+[primitive branch17]
+  assign[ [val] op[apply primitive procedure] reg[proc] reg[argl] ]
+[after call15]
+```
+
+## 594
+
+```
+  assign[ [val] const[1] ]
+  goto[reg[continue]]
+
+define[  factorial alt[n]
+  ?[
+    =[ [n] [1] ]  [1]
+    *[  [n]  factorial alt[-[ [n] [1] ]]  ]
+  ]
+]
+
+define[  factorial[n]
+  define[  iter[ [product] [counter] ]
+    ?[
+      >[ [counter] [n] ]  [product]
+      iter[
+        *[ [counter] [product] ]
+        +[ [counter] [1] ]
+      ]
+    ]
+  ]
+  iter[ [1] [1] ]
+]
+```
+
+## 595
+
+```
+assign[ [val] op[lookup variable value] const[a] reg[env] ]
+assign[ [val] op[+] reg[val] const[1] ]
+```
