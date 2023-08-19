@@ -14333,3 +14333,77 @@ define[  compile procedure call[ [target] [linkage] ]
   restore[continue]
   goto[reg[continue]]                              linkage code
 ```
+
+## 586
+
+```
+<set up continue for linkage>
+assign[ [val] op[compiled procedure entry] reg[proc] ]
+goto[reg[val]]
+
+assign[ [continue] label[<linkage>] ]
+assign[ [val] op[compiled procedure entry] reg[proc] ]
+goto[reg[val]]
+
+assign[ [val] op[compiled procedure entry] reg[proc] ]
+goto[reg[val]]
+```
+
+## 587
+
+```
+define[  compile proc appl[ [target] [linkage] ]
+  ?[
+    and[ 
+      eq?[ [target] [val] ] 
+      not[eq?[ [linkage] ['return] ]] 
+    ]  make instruction sequence[
+      list'[proc]
+      [all regs]
+      '[
+        assign[ [continue] label[$[linkage]] ]
+        assign[ [val] op[compiled procedure entry] reg[proc] ]
+        goto[reg[val]]
+      ]
+    ]
+    and[
+      not[eq?[ [target] ['val] ]]
+      not[eq?[ [linkage] ['return] ]]
+    ]  let[
+      [proc return]  make label['proc return]
+      make instruction sequence[
+        list'[proc]
+        [all regs]
+        '[
+          assign[ [continue] label[$[proc return]] ]
+          assign[ [val] op[compiled procedure entry] reg[proc] ]
+          goto[reg[val]]
+          $[proc return]
+          assign[ $[target] reg[val] ]
+          goto[label[$[linkage]]]
+        ]
+      ]
+    ]
+    and[
+      eq?[ [target] ['val] ]
+      eq?[ [linkage] ['return] ]
+    ]  make instruction sequence[
+      list'[ [proc] [continue] ]
+      [all regs]
+      '[
+        assign[ [val] op[compiled procedure entry] reg[proc] ]
+        goto[reg[val]]
+      ]
+    ]
+    and[
+      not[eq?[ [target] [val] ]]
+      eq?[ [linkage] ['return] ]
+    ]  error[
+      ['return linkage, target not val -- COMPILE]
+      [target]
+    ]
+  ]
+]
+
+define[  [all regs]  list'[ [env] [proc] [val] [argl] [continue] ]  ]
+```
