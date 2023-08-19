@@ -14407,3 +14407,126 @@ define[  compile proc appl[ [target] [linkage] ]
 
 define[  [all regs]  list'[ [env] [proc] [val] [argl] [continue] ]  ]
 ```
+
+## 588
+
+```
+define[  registers needed[s]
+  ?[  symbol?[s]  [nil]  car[s]  ]
+]
+
+define[  registers modified[s]
+  ?[  symbol?[s]  [nil]  cadr[s]  ]
+]
+
+define[  statements[s]
+  ?[  symbol?[s]  list[s]  caddr[s]  ]
+]
+
+define[  needs register?[ [seq] [reg] ]
+  memq[ [reg] registers needed[seq] ]
+]
+
+define[  modifies register?[ [seq] [reg] ]
+  memq[ [reg] registers modified[seq] ]
+]
+```
+
+## 589
+
+```
+define[  append instruction sequences[...[seqs]]
+  define[  append 2 sequences[ [seq1] [seq2] ]
+    make instruction sequence[
+      list union[
+        registers needed[seq1]
+        list difference[
+          registers needed[seq2]
+          registers modified[seq1]
+        ]
+      ]
+      list union[
+        registers modified[seq1]
+        registers modified[seq2]
+      ]
+      append[ statements[seq1] statements[seq2] ]
+    ]
+  ]
+  define[  append seq list[seqs]
+    ?[
+      null?[seqs]  empty instruction sequence[]
+      append 2 sequences[
+        car[seqs]
+        append seq list[cdr[seqs]]
+      ]
+    ]
+  ]
+  append seq list[seqs]
+]
+
+define[  list union[ [s1] [s2] ]
+  ?[
+    null?[s1]  [s2]
+    memq[ car[s1] [s2] ]  list union[ cdr[s1] [s2] ]
+    cons[  
+      car[s1]  
+      list union[ cdr[s1] [s2] ]  
+    ]
+  ]
+]
+
+define[  list difference[ [s1] [s2] ]
+  null?[s1]  [nil]
+  memq[ car[s1] [s2] ]  list difference[ cdr[s1] [s2] ]
+  cons[
+    car[s1]
+    list difference[ cdr[s1] [s2] ]
+  ]
+]
+```
+
+## 590
+
+```
+define[  preserving[ [regs] [seq1] [seq2] ]
+  ?[
+    null?[regs]  append instruction sequences[ [seq1] [seq2] ]
+    let[
+      [first reg]  car[regs]
+      ?[
+        and[
+          needs register?[ [seq2] [first reg] ]
+          modifies register?[ [seq1] [first reg] ]
+        ]  preserving[
+          cdr[regs]
+          make instruction sequence[
+            list union[
+              list[first reg]
+              registers needed[seq1]
+            ]
+            list difference[
+              registers modified[seq1]
+              list[first reg]
+            ]
+            append[
+              '[save[$[first reg]]]
+              statements[seq1]
+              '[restore[$[first reg]]]
+            ]
+          ]
+          [seq2]
+        ]
+        preserving[ cdr[regs] [seq1] [seq2] ]
+      ]
+    ]
+  ]
+]
+
+define[  tack on instruction sequence[ [seq] [body seq] ]
+  make instruction sequence[
+    registers needed[seq]
+    registers modified[seq]
+    append[ statements[seq] statements[body seq] ]
+  ]
+]
+```
