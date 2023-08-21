@@ -14962,3 +14962,73 @@ define[  user print[object]
   ]
 ]
 ```
+
+## 606
+
+```
+define[  compile and go[expression]
+  let[
+    [instructions]  assemble[
+      statements[
+        compile[ [expression] ['val] ['return] ]
+        [eceval]
+      ]
+    ]
+    [
+      set![ [the global environment] setup environment[] ]
+      set register contents![ [eceval] ['val] [instructions] ]
+      set register contents![ [eceval] ['flag] [true] ]
+      start[eceval]
+    ]
+  ]
+]
+
+compile and go[
+  '[
+    define[  factorial[n]
+      ?[
+        =[ [n] [1] ]  [1]
+        *[  factorial[-[ [n] [1] ]]  [n]  ]
+      ]
+    ]
+  ]
+]
+
+factorial[5]
+```
+
+## 609
+
+```
+define[  fib[n]
+  ?[
+    <[ [n] [2] ]  [n]
+    +[
+      fib[-[ [n] [1] ]]
+      fib[-[ [n] [2] ]]
+    ]
+  ]
+]
+
+  assign[ [compapp] label[compound apply] ]
+  branch[label[external entry]]              branches if flag is set
+[read eval print loop]
+  ...
+```
+
+## 610
+
+```
+compile and run[
+  '[
+    define[  factorial[n]
+      ?[
+        =[ [n] [1] ]  [1]
+        *[  factorial[-[ [n] [1] ]]  [n]  ]
+      ]
+    ]
+  ]
+]
+
+factorial[5]
+```
