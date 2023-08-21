@@ -14811,3 +14811,154 @@ assign the procedure to the variable factorial
 [primitive branch22]
   assign[ [val] op[apply primitive procedure] reg[proc] reg[argl] ]
 ```
+
+## 599
+
+```
+[after call20]
+  assign[ [argl] op[list] reg[val] ]
+  restore[env]
+  assign[ [val] op[lookup variable value] const[x] reg[env] ]
+  assign[ [argl] op[cons] reg[val] reg[argl] ]
+  restore[proc]
+  restore[continue]
+  test[ op[primitive procedure?] reg[proc] ]
+  branch[label[primitive branc25]]
+[compiled branch24]
+  assign[ [val] op[compiled procedure entry] reg[proc] ]
+  goto[reg[val]]
+[primitive branch25]
+  assign[ [val] op[apply primitive procedure] reg[proc] reg[argl] ]
+  goto[reg[continue]]
+[after call23]
+[after lambda15]
+  perform[ op[define variable!] const[f] reg[val] reg[env] ]
+  assign[ [val] const[ok] ]
+```
+
+## 600
+
+```
+let[
+  [x]  [3]
+  [y]  [4]
+  fun[  [ [a] [b] [c] [d] [e] ]
+    let[
+      [y]  *[ [a] [b] [x] ]
+      [z]  +[ [c] [d] [x] ]
+      *[ [x] [y] [z] ]
+    ]
+  ]
+]
+
+fun[  [ [x] [y] ]
+  fun[  [ [a] [b] [c] [d] [e] ]
+    fun[  [ [y] [z] ]
+      *[ [x] [y] [z] ]
+    ].[
+      *[ [a] [b] [x] ]
+      *[ [c] [d] [x] ]
+    ]
+  ]
+].[ [3] [4] ]
+```
+
+## 601
+
+```
+fun[  [ [x] [y] ]
+  fun[  [ [a] [b] [c] [d] [e] ]
+    fun[  [ [y] [z] ]
+      [<e1>]
+    ].[
+      [<e2>]
+      *[ [c] [d] [x] ]
+    ]
+  ]
+].[ [3] [4] ]
+```
+
+## 602
+
+```
+find variable[  ['c]  list'[ [[y][z]] [[a][b][c][d][e]] [[x][y]] ]  ]
+
+find variable[  ['x]  list'[ [[y][z]] [[a][b][c][d][e]] [[x][y]] ]  ]
+
+find variable[  ['w]  list'[ [[y][z]] [[a][b][c][d][e]] [[x][y]] ]  ]
+
+```
+
+## 603
+
+```
+fun[  [ [+] [*] [a] [b] [x] [y] ]
+  +[  *[ [a] [x] ]  *[ [b] [y] ]  ]
+]
+```
+
+## 604
+
+```
+compile and go[
+  '[
+    define[  factorial[n]
+      ?[
+        =[ [n] [1] ]  [1]
+        *[  factorial[-[ [n] [1] ]]  [n]  ]
+      ]
+    ]
+  ]
+]
+
+factorial[5]
+
+
+[apply dispatch]
+  test[ op[primitive procedure?] reg[proc] ]
+  branch[label[primitive apply]]
+  test[ op[compound procedure?] reg[proc] ]
+  branch[label[compound apply]]
+  test[ op[compiled procedure?] reg[proc] ]
+  branch[label[compiled apply]]
+  goto[label[unknown procedure type]]
+
+[compiled apply]
+  restore[continue]
+  assign[ [val] op[compiled procedure entry] reg[proc] ]
+  goto[reg[val]]
+```
+
+## 605
+
+```
+  branch[label[external entry]]       branches if flag is set
+[read eval print loop]
+  perform[op[initialize stack]]
+  ...
+
+[external entry]
+  perform[op[initialize stack]]
+  assign[ [env] op[get global environment] ]
+  assign[ [continue] label[print result] ]
+  goto[reg[val]]
+
+define[  start eceval[]
+  set![ [the global environment] setup environment[] ]
+  set register contents![ [eceval] ['flag] [false] ]
+  start[eceval]
+]
+
+define[  user print[object]
+  ?[
+    compound procedure?[object]  display[list[
+      ['compound procedure]
+      procedure parameters[object]
+      procedure body[object]
+      ['<procedure env>]
+    ]]
+    compiled procedure?[object]  display['<compiled procedure>]
+    display[object]
+  ]
+]
+```
