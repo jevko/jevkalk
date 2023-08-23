@@ -34,7 +34,7 @@
   ]
 ]
 
-bind [[size][2]]
+define [[size][2]]
 ```
 
 ## page 8
@@ -44,13 +44,13 @@ bind [[size][2]]
 
 * [[5][size]]
 
-bind [[pi][3.14159]]
+define [[pi][3.14159]]
 
-bind [[radius][10]]
+define [[radius][10]]
 
 * [[pi] * [[radius][radius]]]
 
-bind [[circumference] * [[2][pi][radius]]]
+define [[circumference] * [[2][pi][radius]]]
 
 [circumference]
 ```
@@ -67,7 +67,7 @@ bind [[circumference] * [[2][pi][radius]]]
 ## page 12
 
 ```
-bind [[square] fun [[x] * [[x][x]]]]
+define [[square] fun [[x] * [[x][x]]]]
 ```
 
 ## page 13
@@ -81,13 +81,13 @@ square [square [3]]
 
 + [square [x] square [y]]
 
-bind [[sum of squares] fun [[[x][y]]
+define [[sum of squares] fun [[[x][y]]
   + [square [x] square [y]]
 ]]
 
 sum of squares [[3][4]]
 
-bind [[f] fun [[a]
+define [[f] fun [[a]
   sum of squares [+ [[a][1]] * [[a][2]]]
 ]]
 
@@ -131,7 +131,7 @@ sum of squares [+ [[5][1]] * [[5][2]]]
 ## page 17
 
 ```
-bind [[abs] fun [[x]
+define [[abs] fun [[x]
   ? [
     > [[x][0]] [x]
     = [[x][0]] [0]
@@ -154,7 +154,7 @@ bind [[abs] fun [[x]
 ## page 18
 
 ```
-bind [[abs] fun [[x]
+define [[abs] fun [[x]
   ? [
     < [[x][0]] - [x]
     [x]
@@ -177,11 +177,11 @@ and [> [[x][5]] < [[x][10]]]
 ## page 20
 
 ```
-bind [[>=] fun [[[x][y]]
+define [[>=] fun [[[x][y]]
   or [> [[x][y]] = [[x][y]]]
 ]]
 
-bind [[>=] fun [[[x][y]]
+define [[>=] fun [[[x][y]]
   not [< [[x][y]]]
 ]]
 ```
@@ -199,9 +199,9 @@ bind [[>=] fun [[[x][y]]
 
 + [* [[2][4]] - [[4][6]]]
 
-bind [[a][3]]
+define [[a][3]]
 
-bind [[b] + [[a][1]]]
+define [[b] + [[a][1]]]
 
 + [[a][b] * [[a][b]]]
 
@@ -232,7 +232,7 @@ bind [[b] + [[a][1]]]
 <!-- ex. 1.4 -->
 
 ```
-bind [[a plus abs b] fun [[[a][b]] 
+define [[a plus abs b] fun [[[a][b]] 
   apply [
     ? [
       > [[b][0]] [+]
@@ -247,9 +247,9 @@ bind [[a plus abs b] fun [[[a][b]]
 <!-- ex. 1.5 -->
 
 ```
-bind [[p] p []]
+define [[p] p []]
 
-bind [[test] fun [[[x][y]]
+define [[test] fun [[[x][y]]
   ? [
     = [[x][0]] [0]
     [y]
@@ -262,18 +262,18 @@ test [[0] p []]
 ## page 23
 
 ```
-bind [[sqrt iter] fun [[[guess][x]]
+define [[sqrt iter] fun [[[guess][x]]
   ? [
     good enough? [[guess][x]] [guess]
     sqrt iter [improve [[guess][x]] [x]]
   ]
 ]]
 
-bind [[improve] fun [[[guess][x]]
+define [[improve] fun [[[guess][x]]
   average [[guess] / [[x][guess]]]
 ]]
 
-bind [[average] fun [[[x][y]]
+define [[average] fun [[[x][y]]
   / [+ [[x][y]] [2]]
 ]]
 ```
@@ -281,11 +281,11 @@ bind [[average] fun [[[x][y]]
 ## page 24
 
 ```
-bind [[good enough?] fun [[[guess][x]]
+define [[good enough?] fun [[[guess][x]]
   < [abs [- [square [guess] [x]]] [0.001]]
 ]]
 
-bind [[sqrt] fun [[x]
+define [[sqrt] fun [[x]
   sqrt iter [[1.0][x]]
 ]]
 
@@ -301,7 +301,7 @@ square [sqrt [1000]]
 ## page 25
 
 ```
-bind [[new if] fun [[
+define [[new if] fun [[
   [predicate]
   [then clause]
   [else clause]
@@ -316,7 +316,7 @@ new if [= [[2][3]] [0] [5]]
 
 new if [= [[1][1]] [0] [5]]
 
-bind [[sqrt iter] fun [[[guess][x]]
+define [[sqrt iter] fun [[[guess][x]]
   new if [good enough? [[guess][x]]
     [guess]
     sqrt iter [improve [[guess][x]] [x]]
@@ -327,15 +327,15 @@ bind [[sqrt iter] fun [[[guess][x]]
 ## page 27
 
 ```
-bind [[square] fun [[x]
+define [[square] fun [[x]
   * [[x][x]]
 ]]
 
-bind [[square] fun [[x]
+define [[square] fun [[x]
   exp [double [log [x]]]
 ]]
 
-bind [[double] fun [[x]
+define [[double] fun [[x]
   + [[x][x]]
 ]]
 ```
@@ -343,15 +343,15 @@ bind [[double] fun [[x]
 ## page 28
 
 ```
-bind [[square] fun [[x]
+define [[square] fun [[x]
   * [[x][x]]
 ]]
 
-bind [[square] fun [[y]
+define [[square] fun [[y]
   * [[y][y]]
 ]]
 
-bind [[good enough?] fun [[[guess][x]]
+define [[good enough?] fun [[[guess][x]]
   < [abs [- [square [guess] [x]]] [0.001]]
 ]]
 ```
@@ -359,7 +359,7 @@ bind [[good enough?] fun [[[guess][x]]
 ## page 29
 
 ```
-bind [[sqrt] fun [[x]
+define [[sqrt] fun [[x]
   sqrt iter [[1.0][x]]
 ]]
 ```
