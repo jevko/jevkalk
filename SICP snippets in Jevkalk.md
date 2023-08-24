@@ -1,5 +1,13 @@
 # SICP snippets in Jevkalk
 
+2023-08-24 note: Here I have translated all code snippets from the Wizard Book aka SICP (specifically "Structure and Interpretation of Computer Programs", Second Edition, 1996, by Harold Abelson and Gerald Jay Sussman with Julie Sussman.) to a semi-imaginary programming language based on Jevko.
+
+The basis for the language was the one implemented in this repository (Jevkalk). As I went along with the translation, I designed/sketched out the necessary syntax and features, adding comments where appropriate.
+
+This was an exercise in programming language design and a daily meditative practice for me. It took me just over half a year, starting in February 2023, ending in August. I have translated page-by-page, aiming for at least one page per day.
+
+All sections in this document correspond exactly to the numbered pages in the book.
+
 ## page 6
 
 ```
