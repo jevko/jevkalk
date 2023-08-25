@@ -127,7 +127,7 @@ sum of squares [+ [[5][1]] * [[5][2]]]
 
 + [square [+ [[5][1]]] square [* [[5][2]]]]
 
-+ [* [+ [[5][1]] + [[5][1]]] * [* [[5][2]]] * [[5][2]]]]
++ [* [+ [[5][1]] + [[5][1]]] * [* [[5][2]]] * [[5][2]]]
 
 + [* [[6][6]] * [[10][10]]]
 
@@ -371,8 +371,6 @@ define [[sqrt] fun [[x]
   sqrt iter [[1.0][x]]
 ]]
 ```
-
-At this point I'll introduce `define` to make it easier to manually type. Defining `define` in Jevkalk is easy: `define` is easy to define.
 
 ```
 define [sqrt iter [[guess][x]]
