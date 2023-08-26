@@ -15038,3 +15038,19 @@ compile and run[
 
 factorial[5]
 ```
+
+## Outro
+
+So what have we learned?
+
+Some points:
+
+* We can have a minimal Lisp-like language that supports identifiers with spaces.
+* We can use spacing and style to alleviate bracket fatigue.
+* Having additional syntax like `f[x].[y]` is very handy. It should probably be highly integrated, i.e. `f[x].[y]` should be one expression in the language, rather than two.
+* Sometimes it might be useful to use `[.]` to refer to the result of the previous expression in a block. This obviates the need for pipeline operators, etc.
+* Symbols are not strictly necessary -- immutable strings can supplant them.
+* Seemingly small tweaks in syntax can have unforseen consequences.
+* Lots of things in Lisps are there only because of tradition.
+* ...
+* SICP is great!
